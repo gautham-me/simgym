@@ -71,6 +71,9 @@
       display: flex;
       gap: 0;
       overflow-x: auto;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
     nav a {
       display: inline-block;
@@ -384,6 +387,32 @@
       margin: 0;
     }
 
+    /* ── Phase goal callout ── */
+    .phase-goal {
+      background: var(--cream);
+      border: 1px solid var(--olive);
+      border-left: 4px solid var(--olive);
+      border-radius: 0 6px 6px 0;
+      padding: 20px 24px;
+      margin-bottom: 32px;
+    }
+    .phase-goal .goal-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 8px;
+    }
+    .phase-goal .goal-text {
+      font-family: 'EB Garamond', serif;
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--forest);
+      line-height: 1.4;
+      margin: 0;
+    }
+
     /* ── Footer ── */
     footer {
       background: var(--forest);
@@ -470,7 +499,10 @@
       <span class="phase-title">The MVP Sandbox</span>
       <span class="phase-timeline">Months 1–3</span>
     </div>
-    <p><strong>Goal:</strong> Prove core value to 1–3 design partners, secure YC funding, and establish PMF through manual, high-value concierge onboarding.</p>
+    <div class="phase-goal">
+      <div class="goal-label">Phase Goal</div>
+      <p class="goal-text">Build the gym for each design partner, run simulations against their real workloads, and generate concrete improved prompts and skill patches they can ship — the minimum needed to prove the core loop works.</p>
+    </div>
 
     <h3>The "Turn Off Your Brain" Intake</h3>
     <p>Customers provide exactly three static assets — no live database access, no proprietary code exposure:</p>
@@ -527,7 +559,10 @@
       <span class="phase-title">Prompt Registry &amp; CI/CD Integration</span>
       <span class="phase-timeline">Months 4–7</span>
     </div>
-    <p><strong>Goal:</strong> Transition from a manual testing tool to an inescapable part of the daily developer workflow.</p>
+    <div class="phase-goal">
+      <div class="goal-label">Phase Goal</div>
+      <p class="goal-text">Automatically push generated prompt and skill improvements through the customer's CI pipeline — so the best-case experience is a developer opens a PR and SimGym closes it: a hands-free improvement loop.</p>
+    </div>
 
     <h3>Centralized Prompt Hub</h3>
     <ul>
@@ -557,7 +592,10 @@
       <span class="phase-title">Trace Ingestion &amp; The Shadow Loop</span>
       <span class="phase-timeline">Months 8+</span>
     </div>
-    <p><strong>Goal:</strong> Own the production data layer and create an automated, self-sustaining simulation flywheel.</p>
+    <div class="phase-goal">
+      <div class="goal-label">Phase Goal</div>
+      <p class="goal-text">Ingest live production traces so SimGym can run the customer's real workloads on a schedule — keeping the auto-tuning loop running continuously without any manual intervention.</p>
+    </div>
 
     <h3>Zero-Latency Trace SDK</h3>
     <p>A lightweight, OpenTelemetry-compliant SDK installed in the customer's production environment. Asynchronously streams live agent trajectories — prompt, tool inputs, observations, final output — to the platform's Trace Store without blocking the live user request.</p>
