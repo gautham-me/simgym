@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SimGym — Pricing Framework</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --forest:  #2d4a2b;
+      --sage:    #7d8471;
+      --olive:   #a4ac86;
+      --ivory:   #faf9f6;
+      --cream:   #f0ede6;
+      --ink:     #1c2b1b;
+      --amber:   #c47c2b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--ivory);
+      color: var(--ink);
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    header {
+      background: var(--forest);
+      color: var(--ivory);
+      padding: 64px 48px 52px;
+      position: relative;
+      overflow: hidden;
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--olive), var(--sage), var(--forest));
+    }
+    header .eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 16px;
+    }
+    header h1 {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 700;
+      line-height: 1.15;
+      max-width: 680px;
+    }
+    header p.tagline {
+      margin-top: 16px;
+      font-size: 17px;
+      color: var(--olive);
+      max-width: 600px;
+    }
+
+    nav {
+      background: var(--cream);
+      border-bottom: 1px solid var(--olive);
+      padding: 0 48px;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+    }
+    nav a {
+      display: inline-block;
+      padding: 14px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: var(--sage);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    nav a:hover { color: var(--forest); border-bottom-color: var(--forest); }
+
+    main {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 64px 48px 120px;
+    }
+
+    section { margin-bottom: 88px; }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-family: 'EB Garamond', serif;
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--forest);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--olive);
+    }
+
+    h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--forest);
+      margin: 28px 0 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    p { margin-bottom: 14px; max-width: 740px; }
+
+    .table-wrap { overflow-x: auto; margin: 20px 0 28px; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    thead tr { background: var(--forest); color: var(--ivory); }
+    thead th { padding: 10px 14px; text-align: left; font-weight: 600; letter-spacing: 0.4px; }
+    tbody tr { border-bottom: 1px solid var(--cream); }
+    tbody tr:nth-child(even) { background: var(--cream); }
+    tbody td { padding: 10px 14px; vertical-align: top; }
+
+    ul, ol { padding-left: 20px; margin-bottom: 16px; max-width: 740px; }
+    li { margin-bottom: 7px; }
+
+    .callout {
+      background: var(--cream);
+      border-left: 4px solid var(--forest);
+      padding: 18px 22px;
+      margin: 20px 0 28px;
+      border-radius: 0 4px 4px 0;
+      max-width: 740px;
+    }
+    .callout strong {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--forest);
+      margin-bottom: 6px;
+    }
+    .callout p { margin-bottom: 0; font-size: 15px; }
+
+    .callout.amber { border-left-color: var(--amber); }
+    .callout.amber strong { color: var(--amber); }
+
+    .tier-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 24px 0 32px;
+    }
+
+    .tier-card {
+      background: var(--cream);
+      border: 1px solid var(--olive);
+      border-radius: 6px;
+      padding: 22px 20px;
+    }
+
+    .tier-card.highlight {
+      border-color: var(--forest);
+      background: var(--forest);
+      color: var(--ivory);
+    }
+
+    .tier-card .tier-name {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 6px;
+    }
+    .tier-card.highlight .tier-name { color: var(--olive); }
+
+    .tier-card .tier-price {
+      font-family: 'EB Garamond', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--forest);
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+    .tier-card.highlight .tier-price { color: var(--ivory); }
+
+    .tier-card .tier-period {
+      font-size: 12px;
+      color: var(--sage);
+      margin-bottom: 14px;
+    }
+    .tier-card.highlight .tier-period { color: var(--olive); }
+
+    .tier-card .tier-segment {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--forest);
+      margin-bottom: 8px;
+    }
+    .tier-card.highlight .tier-segment { color: var(--ivory); }
+
+    .tier-card ul {
+      font-size: 13px;
+      padding-left: 16px;
+      color: var(--sage);
+    }
+    .tier-card.highlight ul { color: var(--olive); }
+    .tier-card li { margin-bottom: 4px; }
+
+    .number-big {
+      font-family: 'EB Garamond', serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--forest);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin: 20px 0 28px;
+    }
+
+    .stat-card {
+      background: var(--cream);
+      border: 1px solid var(--olive);
+      border-radius: 6px;
+      padding: 18px 16px;
+    }
+
+    .stat-card .stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 4px;
+    }
+
+    .stat-card .stat-value {
+      font-family: 'EB Garamond', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--forest);
+      line-height: 1.1;
+    }
+
+    .stat-card .stat-note {
+      font-size: 12px;
+      color: var(--sage);
+      margin-top: 4px;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 3px;
+      margin-right: 4px;
+    }
+    .badge.plg { background: var(--olive); color: var(--ink); }
+    .badge.sales { background: var(--forest); color: var(--ivory); }
+    .badge.hybrid { background: var(--amber); color: var(--ivory); }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--olive);
+      margin: 40px 0;
+    }
+
+    blockquote {
+      border-left: 3px solid var(--olive);
+      margin: 20px 0 28px;
+      padding: 4px 20px;
+      color: var(--sage);
+      font-style: italic;
+      font-size: 15px;
+      max-width: 680px;
+    }
+
+    footer {
+      background: var(--cream);
+      border-top: 1px solid var(--olive);
+      padding: 32px 48px;
+      font-size: 13px;
+      color: var(--sage);
+      text-align: center;
+    }
+
+    .sources {
+      font-size: 13px;
+      color: var(--sage);
+    }
+    .sources a { color: var(--sage); }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">SimGym · Pricing Strategy</div>
+  <h1>Pricing Framework</h1>
+  <p class="tagline">A research-grounded model for design partners and early customers — built from first principles, not inherited numbers.</p>
+</header>
+
+<nav>
+  <a href="#premise">Premises</a>
+  <a href="#value-metric">Value Metric</a>
+  <a href="#economic-value">Economic Value</a>
+  <a href="#competitive">Competitive Landscape</a>
+  <a href="#segments">Segments &amp; WTP</a>
+  <a href="#motion">PLG vs. Sales</a>
+  <a href="#tiers">Tiers</a>
+  <a href="#design-partners">Design Partners</a>
+  <a href="#experiments">What to Test</a>
+</nav>
+
+<main>
+
+  <!-- ─── PREMISES ─── -->
+  <section id="premise">
+    <div class="section-label">Foundation</div>
+    <h2>Four Premises Before Any Number</h2>
+
+    <p>These are the structural facts that should constrain every pricing decision. Get these wrong and the number doesn't matter.</p>
+
+    <h3>1. SimGym is infrastructure, not software</h3>
+    <p>The mental model for buyers is Datadog, LaunchDarkly, or Sentry — not a SaaS tool like Notion or Linear. Infrastructure tools get priced on <strong>what they protect</strong> (compute, features, errors, agents), not on who uses them. Per-seat pricing is wrong for this category because there are only 2–5 AI engineers per company, which caps your ACV at a level that doesn't reflect the value delivered. Sentry doesn't charge per developer who reads error logs. Datadog doesn't charge per engineer who looks at dashboards.</p>
+
+    <h3>2. The buyer is different from the user</h3>
+    <p>The <strong>user</strong> is the AI engineer running simulations daily. The <strong>buyer</strong> is the CTO or VP Eng who cares about prevented incidents and engineering velocity. Your pricing must justify itself to the buyer in their language (cost of incidents, engineering leverage, reliability SLAs), not the user's language (test coverage, simulation runs). This split matters enormously for packaging: free tier is for users; paid tiers must speak to buyers.</p>
+
+    <h3>3. You are in the "insurance" category of developer tooling</h3>
+    <p>Nobody wants to pay for insurance. They pay because the cost of not having it is catastrophic and visible. Your pricing experiments must surface this — pricing SimGym without making the economic case for the cost of <em>not</em> having it will consistently anchor customers to low numbers.</p>
+
+    <h3>4. Early pricing sets category expectations you'll live with for years</h3>
+    <p>Underpricing early-stage deals is very hard to undo. Enterprise buyers remember what they paid. Design partners become your references and case studies — the price they paid sets market expectations. Price for the value the product will deliver at maturity, not for the MVP you have today.</p>
+  </section>
+
+  <!-- ─── VALUE METRIC ─── -->
+  <section id="value-metric">
+    <div class="section-label">Dimension 1</div>
+    <h2>The Right Value Metric</h2>
+
+    <p>The value metric is the unit your price scales on. It must be: (a) correlated with the value customers receive, (b) easy to understand, (c) growing as customers get more value, and (d) not punishing customers for getting more use out of the product.</p>
+
+    <p>Research across 500+ B2B SaaS companies shows that companies that correctly identify their core value metric see 10–20% faster revenue growth compared to arbitrary or convenience-based metrics. Hybrid models (base fee + usage) are now used by 61% of SaaS companies and deliver the highest median NRR (~105%).</p>
+
+    <h3>Options Evaluated</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Metric</th><th>Correlation with Value</th><th>Verdict</th><th>Why</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Per seat</strong> (AI engineers)</td>
+            <td>Low</td>
+            <td>❌ Wrong</td>
+            <td>Only 2–5 engineers per company. Caps ACV at $10–15k regardless of agent footprint. Infrastructure tools don't charge per viewer.</td>
+          </tr>
+          <tr>
+            <td><strong>Per simulation run</strong></td>
+            <td>Medium</td>
+            <td>⚠️ Risky</td>
+            <td>Correlates with usage but creates perverse incentive — customers run fewer simulations to control costs, which is the opposite of what you want. Creates volatile revenue.</td>
+          </tr>
+          <tr>
+            <td><strong>Per agent under coverage</strong></td>
+            <td>High</td>
+            <td>✅ Strong</td>
+            <td>Scales with product complexity. More agents = more risk surface = more value from SimGym. Customers understand it. Grows naturally as they build more agents. Analogous to Datadog's "per host."</td>
+          </tr>
+          <tr>
+            <td><strong>Flat per workspace / company</strong></td>
+            <td>Low–Medium</td>
+            <td>⚠️ Early only</td>
+            <td>Simple for pilots and design partners. Leaves money on the table as customers scale. Fine as a starting point but not a durable model.</td>
+          </tr>
+          <tr>
+            <td><strong>Outcome-based</strong> (% of incidents prevented)</td>
+            <td>Very High</td>
+            <td>⚠️ Premature</td>
+            <td>Theoretically ideal, practically impossible to audit at this stage. Customers won't trust the measurement. Revisit at $3–5M ARR when you have the data to make it credible.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <strong>Recommendation</strong>
+      <p><strong>Primary metric: number of production agents under active simulation coverage.</strong> Secondary mechanism: simulation run volume as an overage or tier gate (not the primary driver). This mirrors how Datadog (hosts), LaunchDarkly (flags/MAUs), and Sentry (error events) structure their value metrics in developer infrastructure.</p>
+    </div>
+
+    <p>Practically, "agents under coverage" means: agent pipelines actively instrumented and running through SimGym's simulation environment. A company with 3 customer-facing AI agents counts as 3. This number grows naturally as they build their product — which is exactly when they're also raising their next round and have budget.</p>
+  </section>
+
+  <!-- ─── ECONOMIC VALUE ─── -->
+  <section id="economic-value">
+    <div class="section-label">Dimension 2</div>
+    <h2>What is SimGym Actually Worth?</h2>
+
+    <p>The right price is anchored to the economic value delivered, not the cost to build. This section quantifies the value in the buyer's terms so pricing feels fair, not arbitrary.</p>
+
+    <h3>The Cost of a Production Agent Incident</h3>
+    <p>When an LLM agent misbehaves in production, the costs stack across three categories:</p>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-label">Engineering time to debug</div>
+        <div class="stat-value">$15k–$40k</div>
+        <div class="stat-note">2–3 engineers × 3–5 days at $200–300k/yr fully-loaded</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Customer churn / SLA penalty</div>
+        <div class="stat-value">$20k–$200k</div>
+        <div class="stat-note">1–3 churned accounts or SLA credits at typical ACV</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Incident management</div>
+        <div class="stat-value">$5k–$25k</div>
+        <div class="stat-note">Postmortems, rollbacks, stakeholder communication</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total per major incident</div>
+        <div class="stat-value">$40k–$265k</div>
+        <div class="stat-note">Conservative range for Series A/B AI company</div>
+      </div>
+    </div>
+
+    <p>For context: the average cost to hire, ramp, and replace a failed sales hire is $115k–$200k (3–5x base salary when including lost pipeline). A bad GTM or quota design decision is similarly costly. AI agent incidents sit in the same damage range.</p>
+
+    <h3>SimGym Catching One Incident Per Quarter</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Company Stage</th><th>Incidents SimGym Prevents / yr</th><th>Economic Value Delivered</th><th>Fair Price at 5% Value Capture</th><th>Fair Price at 10% Value Capture</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Series A (3–5 agents)</td>
+            <td>2–4 meaningful catches</td>
+            <td>$80k–$400k</td>
+            <td>$4k–$20k</td>
+            <td>$8k–$40k</td>
+          </tr>
+          <tr>
+            <td>Series B (8–20 agents)</td>
+            <td>4–10 meaningful catches</td>
+            <td>$200k–$1.5M</td>
+            <td>$10k–$75k</td>
+            <td>$20k–$150k</td>
+          </tr>
+          <tr>
+            <td>Mid-market (20–50 agents)</td>
+            <td>10–20 meaningful catches</td>
+            <td>$500k–$5M</td>
+            <td>$25k–$250k</td>
+            <td>$50k–$500k</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout amber">
+      <strong>Key Insight</strong>
+      <p>At 5% value capture, a Series A company with 3 agents should be paying $4k–$20k/yr. At 10%, $8k–$40k/yr. The existing market intuition around $12k/yr for early customers is at the low end of what's justifiable — not the high end. Mid-market pricing at $50k–$150k/yr is grounded in the same math.</p>
+    </div>
+
+    <h3>The Comparison Frame That Works With Buyers</h3>
+    <p>When a buyer hesitates on price, the right frame is: <em>"What did your last production incident cost you in engineering time and customer trust?"</em> Not: <em>"Here's what you get for $X."</em> Infrastructure tools sell on avoided cost, not feature lists.</p>
+
+    <p>78.3% of sales reps missed quota in 2025 — not because reps were underperforming, but because quota was set wrong. Poor quota design alone costs a mid-market company $500k–$2M/yr in revenue predictability, over-compensation, and rep turnover. The economic stakes of GTM simulation are just as large as agent simulation.</p>
+  </section>
+
+  <!-- ─── COMPETITIVE LANDSCAPE ─── -->
+  <section id="competitive">
+    <div class="section-label">Dimension 3</div>
+    <h2>Competitive Landscape Pricing</h2>
+
+    <p>No direct competitor exists for "agent simulation CI/CD platform" yet. Pricing must be calibrated against adjacent categories that compete for the same budget and buyer attention.</p>
+
+    <h3>Developer Infrastructure / Observability</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Tool</th><th>Category</th><th>Value Metric</th><th>Early-Stage Price</th><th>Mid-Market ACV</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Datadog</td>
+            <td>Observability</td>
+            <td>Hosts + data volume</td>
+            <td>$15–30k/yr</td>
+            <td>$50–300k</td>
+          </tr>
+          <tr>
+            <td>LaunchDarkly</td>
+            <td>Feature flags</td>
+            <td>MAUs / contexts</td>
+            <td>$0 (free tier) → $20k/yr</td>
+            <td>$40–150k</td>
+          </tr>
+          <tr>
+            <td>Sentry</td>
+            <td>Error monitoring</td>
+            <td>Errors per month</td>
+            <td>$0 → $8–20k/yr</td>
+            <td>$25–100k</td>
+          </tr>
+          <tr>
+            <td>W&amp;B (Weights &amp; Biases)</td>
+            <td>ML experiment tracking</td>
+            <td>Per seat (Teams)</td>
+            <td>$0 → $8–20k/yr</td>
+            <td>Negotiated</td>
+          </tr>
+          <tr>
+            <td>Braintrust</td>
+            <td>AI eval / logging</td>
+            <td>Logs + evals</td>
+            <td>$0 (usage-based)</td>
+            <td>$25–75k</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>GTM Planning / Revenue Intelligence</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Tool</th><th>Category</th><th>Value Metric</th><th>Early-Stage Price</th><th>Mid-Market ACV</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Clari</td>
+            <td>Revenue forecasting</td>
+            <td>Per seat (AE/manager)</td>
+            <td>Not accessible (min ~$50k)</td>
+            <td>$100–300k</td>
+          </tr>
+          <tr>
+            <td>Gong</td>
+            <td>Revenue intelligence</td>
+            <td>Per seat + platform fee</td>
+            <td>Not accessible for &lt;25 seats</td>
+            <td>$85–250k (often &gt;$150k)</td>
+          </tr>
+          <tr>
+            <td>Fullcast</td>
+            <td>Territory/quota planning</td>
+            <td>Per seat + modules</td>
+            <td>~$30–50k minimum</td>
+            <td>$50–150k</td>
+          </tr>
+          <tr>
+            <td>Pigment</td>
+            <td>FP&amp;A / planning</td>
+            <td>Platform + seats + complexity</td>
+            <td>Not accessible (enterprise-only)</td>
+            <td>$300–600k (incl. implementation)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>AI Sales Simulation / Coaching</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Tool</th><th>Value Metric</th><th>Pricing</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Second Nature</td>
+            <td>Per seat (sales reps)</td>
+            <td>$30–40/seat/month; minimum ~$20k/yr annual deals</td>
+          </tr>
+          <tr>
+            <td>Awarathon</td>
+            <td>Per seat</td>
+            <td>Starts ~$10/seat/month; enterprise custom</td>
+          </tr>
+          <tr>
+            <td>Quantified AI</td>
+            <td>Per seat / enterprise</td>
+            <td>Custom; targets regulated industries</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <strong>What this tells you</strong>
+      <p>The developer infrastructure tools that SimGym competes with for budget and attention (Datadog, LaunchDarkly, Braintrust) have established that $20–50k/yr for Series A/B companies and $50–150k/yr for mid-market is <strong>normal and expected</strong>. The GTM planning tools (Clari, Gong, Pigment) are dramatically more expensive and mostly inaccessible to early-stage companies — which creates an opening for SimGym to own the startup/Series A/B segment that Gong won't touch.</p>
+    </div>
+  </section>
+
+  <!-- ─── SEGMENTS ─── -->
+  <section id="segments">
+    <div class="section-label">Dimension 4</div>
+    <h2>Segments &amp; Willingness to Pay</h2>
+
+    <p>Two distinct customer segments with meaningfully different budgets, buying processes, and value propositions.</p>
+
+    <h3>Segment 1: AI-Native Startups (Seed → Series B)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Attribute</th><th>Detail</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Headcount</td><td>15–200 engineers; 2–8 dedicated AI engineers</td></tr>
+          <tr><td>Production agents</td><td>1–15 agents shipped to real users</td></tr>
+          <tr><td>Budget for infra tools</td><td>$10k–$50k/yr per strategic tool; RevOps budget is ~3% of GTM spend ($60k–$300k total tech stack)</td></tr>
+          <tr><td>Budget authority</td><td>CTO or VP Eng; decisions under $10k often skip procurement entirely</td></tr>
+          <tr><td>WTP signal</td><td>Already paying Datadog ($15–40k), LaunchDarkly ($10–30k), potentially Braintrust/W&amp;B ($10–25k)</td></tr>
+          <tr><td>Buy cycle</td><td>2–6 weeks from first contact to signed contract</td></tr>
+          <tr><td>Preferred motion</td><td>Self-serve or low-touch; skeptical of mandatory sales calls</td></tr>
+          <tr><td>Expansion trigger</td><td>Shipping more agents; raising next round; first major production incident</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>WTP range for this segment: $15k–$40k/yr</strong> for a production-grade simulation coverage tool. This is anchored by what they already pay for comparable infrastructure and the economic value of incidents prevented at their scale.</p>
+
+    <h3>Segment 2: Mid-Market Tech Companies</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Attribute</th><th>Detail</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Headcount</td><td>200–2,000 employees; 10–50+ AI engineers</td></tr>
+          <tr><td>Production agents</td><td>15–100+ agents across multiple products/teams</td></tr>
+          <tr><td>Budget for infra tools</td><td>$50k–$300k/yr per strategic platform; existing Datadog, Gong, etc. contracts</td></tr>
+          <tr><td>Budget authority</td><td>VP Engineering, sometimes CTO; procurement involved over $50k</td></tr>
+          <tr><td>WTP signal</td><td>Mid-market ACVs for RevOps/planning tools are $25–75k; for observability, $50–300k</td></tr>
+          <tr><td>Buy cycle</td><td>60–120 days; multiple stakeholders</td></tr>
+          <tr><td>Preferred motion</td><td>Sales-led; wants a named rep, SLA, and procurement-friendly terms</td></tr>
+          <tr><td>Expansion trigger</td><td>New product lines with agents; compliance/SOC 2 requirement; board-level AI reliability mandate</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>WTP range for this segment: $50k–$150k/yr</strong> for an enterprise-grade simulation and reliability platform. This is anchored by competitive tools (Gong minimum ACV ~$85k, Fullcast minimum ~$50k) and the incident cost math at their scale.</p>
+  </section>
+
+  <!-- ─── MOTION ─── -->
+  <section id="motion">
+    <div class="section-label">Dimension 5</div>
+    <h2>PLG vs. Sales-Led: How They Interlock</h2>
+
+    <p>You've correctly identified this as a hybrid motion. The PLG layer generates product-qualified leads that your sales team converts upmarket — not two separate businesses, one funnel with two stages.</p>
+
+    <h3>PLG Benchmarks That Apply</h3>
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-label">Free → Paid conversion (freemium)</div>
+        <div class="stat-value">1–4%</div>
+        <div class="stat-note">Broad market average for B2B freemium</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Free → Paid conversion (free trial)</div>
+        <div class="stat-value">15–30%</div>
+        <div class="stat-note">Time-limited trial with clear unlock moment</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">PQL → Paid conversion vs. MQL</div>
+        <div class="stat-value">3× higher</div>
+        <div class="stat-note">Product-qualified leads outperform marketing leads</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Companies planning to invest more in PLG</div>
+        <div class="stat-value">91%</div>
+        <div class="stat-note">Of companies already using PLG; 47% plan to double</div>
+      </div>
+    </div>
+
+    <h3>What PLG Means for SimGym Specifically</h3>
+    <p>SimGym's PLG motion has one structural challenge: the "aha moment" requires catching a real regression, which takes time. This is not a 2-minute demo product. That makes a <strong>time-limited free trial more effective than a freemium free tier</strong> — because free trials have a defined evaluation window and a natural conversion point, while freemium can linger indefinitely without urgency.</p>
+
+    <div class="callout">
+      <strong>PLG Design Recommendation</strong>
+      <p>Offer a <strong>14-day free trial with full access</strong> (not a feature-limited free tier). The goal is to get them connected, run their first simulation, and — ideally — catch something. If SimGym catches a real issue in the trial, that is the conversion event. Add a "catch report" email that fires when something is flagged: that email, with the description of what would have happened, is your best conversion driver.</p>
+    </div>
+
+    <h3>The PLG → Sales Hand-off</h3>
+    <p>43% of SaaS companies now use hybrid models. The pattern that works: PLG self-serve for individual engineers at Seed/Series A companies (ACV under $25k); sales-assisted or sales-led for Series B+ and mid-market (ACV $25k+). The product creates demand; the sales team captures expansion.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Trigger</th><th>Action</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Engineer signs up, runs first simulation</td><td>Automated onboarding sequence; no sales touch</td></tr>
+          <tr><td>Reaches agent limit on free tier</td><td>In-app upgrade prompt; self-serve billing</td></tr>
+          <tr><td>Company has &gt;10 employees + reached agent limit</td><td>PQL flag; sales reaches out (not cold — warm, with context)</td></tr>
+          <tr><td>Company raises Series B or above</td><td>Proactive expansion outreach; upgrade to Growth tier</td></tr>
+          <tr><td>Company has 20+ agents or 200+ employees</td><td>Hand to AE for enterprise motion</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ─── TIERS ─── -->
+  <section id="tiers">
+    <div class="section-label">Dimension 6</div>
+    <h2>Proposed Tier Structure</h2>
+
+    <p>Four tiers across two motions. The value metric is <strong>agents under active simulation coverage</strong>. Tiers gate on: number of agents, simulation run volume, support level, and compliance/enterprise features.</p>
+
+    <div class="tier-grid">
+
+      <div class="tier-card">
+        <div class="tier-name">Scout</div>
+        <div class="tier-price">Free</div>
+        <div class="tier-period">14-day trial · then $0 limited</div>
+        <div class="tier-segment">Seed / pre-Series A</div>
+        <ul>
+          <li>Up to 2 agents</li>
+          <li>500 simulation runs / mo</li>
+          <li>Community support</li>
+          <li>Catch reports via email</li>
+          <li>No credit card required</li>
+        </ul>
+        <p style="font-size:12px; color:var(--sage); margin-top:12px;">Purpose: acquisition, word-of-mouth, PQL generation. The 14-day trial gives full access; the ongoing free tier is a hook for engineers evaluating pre-budget.</p>
+      </div>
+
+      <div class="tier-card highlight">
+        <div class="tier-name">Team</div>
+        <div class="tier-price">$1,800/mo</div>
+        <div class="tier-period">$21,600/yr billed annually</div>
+        <div class="tier-segment">Series A / early Series B</div>
+        <ul>
+          <li>Up to 10 agents</li>
+          <li>5,000 simulation runs / mo</li>
+          <li>Slack support (4h response)</li>
+          <li>Weekly regression reports</li>
+          <li>CI/CD integrations</li>
+          <li>Overage: $150/agent/mo</li>
+        </ul>
+        <p style="font-size:12px; color:var(--olive); margin-top:12px;">Self-serve upgrade. This is the primary PLG conversion target. ACV of ~$22k sits below most procurement thresholds.</p>
+      </div>
+
+      <div class="tier-card">
+        <div class="tier-name">Scale</div>
+        <div class="tier-price">$4,200/mo</div>
+        <div class="tier-period">$50,400/yr billed annually</div>
+        <div class="tier-segment">Series B / Series C</div>
+        <ul>
+          <li>Up to 30 agents</li>
+          <li>Unlimited standard runs</li>
+          <li>Dedicated CSM</li>
+          <li>Priority support (1h SLA)</li>
+          <li>SSO / SAML</li>
+          <li>Custom simulation scenarios</li>
+          <li>Quarterly business reviews</li>
+        </ul>
+        <p style="font-size:12px; color:var(--sage); margin-top:12px;">Sales-assisted. AE-managed. This is where PLG hand-offs land when PQL score triggers outreach.</p>
+      </div>
+
+      <div class="tier-card">
+        <div class="tier-name">Enterprise</div>
+        <div class="tier-price">Custom</div>
+        <div class="tier-period">$80k–$200k/yr range · annual contract</div>
+        <div class="tier-segment">Mid-Market</div>
+        <ul>
+          <li>Unlimited agents</li>
+          <li>Custom run volumes</li>
+          <li>Dedicated AE + TAM</li>
+          <li>4h SLA, 24/7 P1</li>
+          <li>SOC 2 / compliance docs</li>
+          <li>On-prem / VPC deploy</li>
+          <li>Custom SLA</li>
+          <li>Executive sponsor</li>
+        </ul>
+        <p style="font-size:12px; color:var(--sage); margin-top:12px;">Fully sales-led. Multi-stakeholder. 60–120 day cycle. Start scoping here at 200+ employee companies with 20+ agents.</p>
+      </div>
+
+    </div>
+
+    <h3>Rationale for These Numbers</h3>
+    <ul>
+      <li><strong>Team at $21.6k/yr</strong> is below most procurement thresholds (~$25k), enabling a CTO to sign without a 6-week vendor review. It's anchored at ~10% of the economic value of 2–3 prevented incidents at a Series A company ($80–200k/yr). Comparable dev infra tools (LaunchDarkly, Sentry) land here for this segment.</li>
+      <li><strong>Scale at $50.4k/yr</strong> sits in the established mid-market range for developer infrastructure tools. It's ~5% value capture on a Series B company preventing $1M+/yr in incidents. It creates a strong upgrade path from Team (2.3x price jump for 3x agents).</li>
+      <li><strong>Enterprise at $80–200k/yr</strong> is below Gong ($85k minimum) and Clari ($100k+), but comparable to Fullcast and Datadog in this segment. The range is wide because mid-market deals have high variance — don't anchor the floor too low or you'll lose credibility in negotiations.</li>
+      <li><strong>The gap between Scout and Team is intentional</strong> — $0 to $21.6k forces a deliberate decision. No $199/mo plan that kills sales momentum.</li>
+    </ul>
+
+    <h3>What Gates Each Tier</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Feature</th><th>Scout</th><th>Team</th><th>Scale</th><th>Enterprise</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Production agents covered</td><td>2</td><td>10</td><td>30</td><td>Unlimited</td></tr>
+          <tr><td>Simulation runs / month</td><td>500</td><td>5,000</td><td>Unlimited</td><td>Unlimited + custom</td></tr>
+          <tr><td>CI/CD integration</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+          <tr><td>Regression catch reports</td><td>Email only</td><td>Email + Slack</td><td>Custom delivery</td><td>Custom delivery</td></tr>
+          <tr><td>Custom simulation scenarios</td><td>—</td><td>Limited</td><td>✓</td><td>✓ + co-built</td></tr>
+          <tr><td>SSO / SAML</td><td>—</td><td>—</td><td>✓</td><td>✓</td></tr>
+          <tr><td>Dedicated CSM</td><td>—</td><td>—</td><td>✓</td><td>✓ + TAM</td></tr>
+          <tr><td>SLA</td><td>—</td><td>4h business hours</td><td>1h / 99.9%</td><td>Custom / 24×7 P1</td></tr>
+          <tr><td>Compliance docs (SOC 2)</td><td>—</td><td>—</td><td>On request</td><td>Included</td></tr>
+          <tr><td>VPC / on-prem deploy</td><td>—</td><td>—</td><td>—</td><td>✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ─── DESIGN PARTNERS ─── -->
+  <section id="design-partners">
+    <div class="section-label">Dimension 7</div>
+    <h2>Design Partner Pricing</h2>
+
+    <p>Design partners are a distinct deal structure — they're not just early customers, they're co-builders. The pricing logic is different: they're paying for access, influence, and a locked rate, not just product access.</p>
+
+    <h3>Core Principles</h3>
+    <ul>
+      <li><strong>Always charge.</strong> Free pilots convert at under 10% (Heavybit). Paid pilots convert at 40–70%+ when properly structured. Sierra (First Round-backed) charged 10–20% of total ACV upfront and achieved 100% pilot-to-paid conversion. Strella ran 12 paid pilots and converted all 12 — yielding $1.6M ARR in year 1.</li>
+      <li><strong>The pilot fee must be below the "needs approval" threshold.</strong> At Series A/B companies, the CTO or VP Eng can spend $10k without a procurement review. Keep the pilot fee under this threshold to remove a decision gate.</li>
+      <li><strong>The annual price must have a visible and credible future list price above it.</strong> The discount only has value if the future price is believable. Commit to your roadmap pricing in writing.</li>
+    </ul>
+
+    <h3>Design Partner Deal Structure</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Element</th><th>Early-Stage Partner (Series A/B)</th><th>Mid-Market Partner</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Pilot fee (upfront)</td><td><strong>$6,000–$8,000</strong></td><td><strong>$12,000–$18,000</strong></td></tr>
+          <tr><td>Pilot duration</td><td>60 days</td><td>60–90 days</td></tr>
+          <tr><td>Applied toward annual?</td><td>Yes — 100% credited against Year 1</td><td>Yes — 100% credited against Year 1</td></tr>
+          <tr><td>Annual contract (design partner locked rate)</td><td><strong>$22,000/yr</strong></td><td><strong>$55,000–$75,000/yr</strong></td></tr>
+          <tr><td>Future list price (commit in writing)</td><td>"We plan to price Team at $25k+/yr. Your rate is locked forever."</td><td>"We plan to price Scale at $75k+/yr. Your rate is locked."</td></tr>
+          <tr><td>Contract length</td><td>Annual, auto-renew</td><td>Annual (option for multi-year at 10% discount)</td></tr>
+          <tr><td>Max design partners at this rate</td><td>5–8 (after that, retire this tier)</td><td>3–5</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <strong>Why $6–8k pilot fee (not $4–5k)</strong>
+      <p>Research shows pilot fees at 15–25% of target ACV optimize conversion. At a $22k annual target, 25% = $5.5k; 33% = $7.3k. The $6–8k range is in the sweet spot — high enough to signal commitment (and qualify out tire-kickers), low enough that a CTO can approve it without a formal vendor review cycle. The pilot fee going 100% toward Year 1 makes the net cost of the annual feel like $14–16k, not $22k — which lowers the psychological barrier at contract time.</p>
+    </div>
+
+    <h3>What You're Trading in This Deal</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>You Give</th><th>They Give</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Locked rate for life (significant discount vs. list)</td><td>Serious engagement: named champion, integration ownership, bi-weekly calls</td></tr>
+          <tr><td>White-glove onboarding (founder-led)</td><td>Honest negative feedback — not polite responses</td></tr>
+          <tr><td>Roadmap influence: commit to build 1 thing they need</td><td>Reference rights (even anonymized counts)</td></tr>
+          <tr><td>Private Slack channel with &lt;4h response SLA</td><td>Willingness to participate in case study / testimonial</td></tr>
+          <tr><td>Access to early features before GA</td><td>Introductions to 2–3 other companies facing same problem</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>The Day 45 Conversion Conversation</h3>
+    <p>Surface this at Day 45, not Day 60. By then you should have at least one documented catch to anchor the renewal on. The script:</p>
+
+    <blockquote>
+      "We're two weeks from the end of the pilot. We caught [specific regression] — which would have affected [X users for Y hours, or cost $Z to debug]. Based on that, what does the path look like to move to the annual contract? Anyone else we need to loop in?"
+    </blockquote>
+
+    <p>Never allow open-ended extensions. Extensions without a new fee signal a soft no — 60–90% of indefinitely extended pilots never convert (McKinsey data). Force the decision. If they need more time, charge for it.</p>
+  </section>
+
+  <!-- ─── EXPERIMENTS ─── -->
+  <section id="experiments">
+    <div class="section-label">Dimension 8</div>
+    <h2>What to Test and In What Order</h2>
+
+    <p>You don't have enough data yet to know if these numbers are right. Here's how to sequence your experiments.</p>
+
+    <h3>Phase 0: Design Partners (First 90 days)</h3>
+    <p><span class="badge sales">Sales-led</span> Test with 3–5 companies.</p>
+    <ul>
+      <li><strong>Hypothesis to test:</strong> Will a Series A/B AI engineering team pay $6–8k upfront for a 60-day pilot, and convert at $22k/yr annual?</li>
+      <li><strong>Success metric:</strong> 2+ paid pilots signed; 1+ converted to annual before Day 60.</li>
+      <li><strong>What to vary:</strong> Try $5k pilot fee with one company, $8k with another. Watch for objection patterns — are they objecting to the fee, the timeline, or the value metric?</li>
+      <li><strong>Falsification criteria:</strong> If 3+ prospects walk at the pilot fee, you have a price signal. If they walk at the annual, you have a value signal.</li>
+    </ul>
+
+    <h3>Phase 1: Tier Validation (Months 3–9)</h3>
+    <p><span class="badge hybrid">Hybrid</span> After 2+ paid annual contracts signed.</p>
+    <ul>
+      <li><strong>Hypothesis to test:</strong> Does the Team tier ($21.6k/yr, up to 10 agents) convert self-serve from free trial?</li>
+      <li><strong>Success metric:</strong> 15–30% free trial → paid conversion within 30 days of trial expiry (this is the benchmark for time-limited free trials).</li>
+      <li><strong>What to watch:</strong> Where do free users hit limits? If they're hitting the run limit before the agent limit, the tiers are calibrated wrong. Adjust accordingly.</li>
+      <li><strong>PQL definition:</strong> Any company that connects 2+ agents AND runs 200+ simulations in the trial window — that company's CTO gets a personal outreach from you, not an automated email.</li>
+    </ul>
+
+    <h3>Phase 2: Mid-Market Pricing (Months 9–18)</h3>
+    <p><span class="badge sales">Sales-led</span> Once you have 5–10 annual customers.</p>
+    <ul>
+      <li><strong>Hypothesis to test:</strong> Can you land a mid-market deal at $75–100k/yr with a 60-day enterprise evaluation?</li>
+      <li><strong>Success metric:</strong> 1 Enterprise contract signed before month 18.</li>
+      <li><strong>What to vary:</strong> Try entering at $50k floor with one prospect, $80k with another. Watch: do they negotiate on price, or on features/terms? Price objections = wrong number. Feature objections = right number, wrong product.</li>
+    </ul>
+
+    <h3>Pricing Variables to Monitor Constantly</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Signal</th><th>What It Tells You</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Close rate at current prices</td><td>Under 20%: price too high OR value not demonstrated. Over 60%: price too low.</td></tr>
+          <tr><td>Time to first objection in pilot</td><td>Immediate price pushback = wrong segment. Late objections = implementation friction, not price.</td></tr>
+          <tr><td>Where customers churn / don't renew</td><td>Churn at renewal = value not delivered. Churn at team tier = wrong packaging.</td></tr>
+          <tr><td>What customers upgrade for</td><td>Upgrading for agent count = metric is right. Upgrading for support = you're underselling the support tier.</td></tr>
+          <tr><td>NRR / expansion rate</td><td>Healthy: 110%+. This is more important than ACV at early stage.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <strong>The Most Important Early Pricing Signal</strong>
+      <p>Watch the ratio of "what they budgeted" to "what you asked." If every customer comes in with a $12k budget and you're asking $22k, you need to either adjust price or adjust who you're targeting. If they come in with a $50k budget and you're asking $22k, you're leaving money on the table and giving them no incentive to take you seriously as an enterprise vendor. The delta between their budget and your ask is your most honest pricing data.</p>
+    </div>
+
+    <h3>One Rule for Design Partners</h3>
+    <p>Cap design partners at 5–8 per tier. After that, retire the design partner rate and move to list price. Design partner pricing exists to validate the model and generate references — it is not a permanent segment. Commit to a sunset date for the design partner rate in every contract you sign.</p>
+
+  </section>
+
+  <hr class="divider" />
+
+  <section>
+    <div class="section-label">Summary</div>
+    <h2>The Framework in One View</h2>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Tier</th><th>Motion</th><th>Price</th><th>Value Metric</th><th>Target Segment</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Scout</td>
+            <td><span class="badge plg">PLG</span></td>
+            <td>Free (14-day full trial)</td>
+            <td>Up to 2 agents, 500 runs/mo</td>
+            <td>Seed / individual engineers</td>
+          </tr>
+          <tr>
+            <td>Team</td>
+            <td><span class="badge plg">PLG</span> self-serve</td>
+            <td>$21,600/yr ($1,800/mo)</td>
+            <td>Up to 10 agents, 5k runs/mo</td>
+            <td>Series A/B, &lt;10 agents</td>
+          </tr>
+          <tr>
+            <td>Scale</td>
+            <td><span class="badge hybrid">Hybrid</span> sales-assisted</td>
+            <td>$50,400/yr ($4,200/mo)</td>
+            <td>Up to 30 agents, unlimited runs</td>
+            <td>Series B/C, 10–30 agents</td>
+          </tr>
+          <tr>
+            <td>Enterprise</td>
+            <td><span class="badge sales">Sales-led</span></td>
+            <td>$80k–$200k/yr (custom)</td>
+            <td>Unlimited agents + custom</td>
+            <td>Mid-market, 200+ employees</td>
+          </tr>
+          <tr>
+            <td>Design Partner</td>
+            <td><span class="badge sales">Sales-led</span> pilot</td>
+            <td>$6–8k pilot → $22k/yr locked</td>
+            <td>Same as Team (up to 10 agents)</td>
+            <td>First 5–8 paying customers</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>Value metric:</strong> Number of production agents under active simulation coverage. Secondary: simulation run volume as a tier gate (not a price driver).</p>
+    <p><strong>GTM motion:</strong> PLG via 14-day free trial for Seed/Series A. Sales-led for Series B+ and mid-market. PQL triggers (2+ agents connected + high run volume) hand off to AE outreach.</p>
+    <p><strong>Economic anchor:</strong> A single prevented production agent incident at a Series A company is worth $40k–$265k. SimGym at $22k/yr represents 8–55% value capture on one incident — a defensible and understandable ROI story for any CTO.</p>
+
+  </section>
+
+  <section class="sources">
+    <div class="section-label">Research Sources</div>
+    <h2>Sources</h2>
+    <ul>
+      <li><a href="https://www.flexera.com/blog/saas-management/from-seats-to-consumption-why-saas-pricing-has-entered-its-hybrid-era/">Flexera: From seats to consumption — hybrid pricing era</a></li>
+      <li><a href="https://softwarepricing.com/blog/saas-pricing-models/">SoftwarePricing: SaaS Pricing Models — Per-Seat, Usage, Hybrid</a></li>
+      <li><a href="https://productled.com/blog/product-led-growth-benchmarks">ProductLed: PLG Benchmarks — free-to-paid conversion rates, ACV data</a></li>
+      <li><a href="https://www.intelligentconversations.com/blog/ceo-sales-guide/the-true-cost-of-a-bad-sales-hire-in-2026-and-how-to-stop-repeating-it">Intelligent Conversations: True Cost of a Bad Sales Hire</a></li>
+      <li><a href="https://www.oliv.ai/blog/clari-pricing">Oliv.ai: Clari Pricing 2025 — $400+/user reality</a></li>
+      <li><a href="https://oliv.ai/blog/gong-io-pricing">Oliv.ai: Gong Pricing Calculator — per-user costs, platform fees</a></li>
+      <li><a href="https://www.vendr.com/marketplace/pigment">Vendr: Pigment Software Pricing 2026</a></li>
+      <li><a href="https://www.quotapath.com/blog/saas-sales-reps-missed-quota/">QuotaPath: 57% of SaaS Sales Reps Missed Quota Q2 2025</a></li>
+      <li><a href="https://salesfit.ai/blog/sales-quota-attainment-benchmarks-2025">SalesFit: Quota Attainment Benchmarks 2025</a></li>
+      <li><a href="https://garuda.substack.com/p/design-partner">Garuda: Running a Successful Design Partner Program</a></li>
+      <li><a href="https://dowhatmatter.com/guides/pilot-pricing-seed-saas">DoWhatMatter: Pilot Pricing for Seed-Stage SaaS</a></li>
+      <li><a href="https://www.saastr.com/dear-saastr-what-incentives-are-given-to-design-partners-and-other-super-early-customers/">SaaStr: Design Partner Incentives and Pricing</a></li>
+      <li><a href="https://blog.segment8.com/posts/plg-sales-hybrid-model/">Segment8: PLG vs Sales-Led Hybrid Models</a></li>
+      <li><a href="https://www.squad4.io/blog/stop-guessing-revops-budget-definitive-guide">Squad4: RevOps Budget Benchmarks — 3% of GTM spend</a></li>
+      <li><a href="https://www.getmonetizely.com/blogs/the-2026-guide-to-saas-ai-and-agentic-pricing-models">Monetizely: 2026 Guide to SaaS, AI, and Agentic Pricing Models</a></li>
+      <li><a href="https://www.g2.com/products/awarathon/pricing">G2: Awarathon Pricing 2025</a></li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  SimGym · Pricing Framework · June 2026 · Internal
+</footer>
+
+</body>
+</html>
