@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SimGym — Product Specification</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --forest:  #2d4a2b;
+      --sage:    #7d8471;
+      --olive:   #a4ac86;
+      --ivory:   #faf9f6;
+      --cream:   #f0ede6;
+      --ink:     #1c2b1b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--ivory);
+      color: var(--ink);
+      font-family: 'Source Sans 3', 'FreeSans', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--forest);
+      color: var(--ivory);
+      padding: 64px 48px 52px;
+      position: relative;
+      overflow: hidden;
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--olive), var(--sage), var(--forest));
+    }
+    header .eyebrow {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 16px;
+    }
+    header h1 {
+      font-family: 'EB Garamond', 'FreeSerif', serif;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 700;
+      line-height: 1.15;
+      max-width: 680px;
+    }
+    header p.tagline {
+      margin-top: 16px;
+      font-size: 17px;
+      color: var(--olive);
+      max-width: 560px;
+    }
+
+    /* ── Nav pills ── */
+    nav {
+      background: var(--cream);
+      border-bottom: 1px solid var(--olive);
+      padding: 0 48px;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+    }
+    nav a {
+      display: inline-block;
+      padding: 14px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: var(--sage);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    nav a:hover {
+      color: var(--forest);
+      border-bottom-color: var(--forest);
+    }
+
+    /* ── Layout ── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 64px 48px 120px;
+    }
+
+    /* ── Section ── */
+    section {
+      margin-bottom: 72px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-family: 'EB Garamond', 'FreeSerif', serif;
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--forest);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--olive);
+    }
+
+    h3 {
+      font-family: 'EB Garamond', 'FreeSerif', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--forest);
+      margin: 36px 0 12px;
+    }
+
+    p { margin-bottom: 14px; }
+
+    /* ── KPI callout ── */
+    .kpi-box {
+      background: var(--forest);
+      color: var(--ivory);
+      border-radius: 6px;
+      padding: 32px 36px;
+      margin: 24px 0;
+    }
+    .kpi-box .kpi-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 10px;
+    }
+    .kpi-box .kpi-value {
+      font-family: 'EB Garamond', serif;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .kpi-box .kpi-def {
+      font-size: 14px;
+      color: var(--olive);
+      line-height: 1.6;
+    }
+
+    /* ── Phase cards ── */
+    .phase-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--cream);
+      border-left: 4px solid var(--forest);
+      border-radius: 0 6px 6px 0;
+      padding: 18px 24px;
+      margin-bottom: 28px;
+    }
+    .phase-badge {
+      background: var(--forest);
+      color: var(--ivory);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 3px;
+      white-space: nowrap;
+    }
+    .phase-title {
+      font-family: 'EB Garamond', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--forest);
+    }
+    .phase-timeline {
+      margin-left: auto;
+      font-size: 12px;
+      color: var(--sage);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    /* ── Lists ── */
+    ul {
+      padding-left: 20px;
+      margin-bottom: 14px;
+    }
+    ul li {
+      margin-bottom: 8px;
+    }
+    ul li strong {
+      color: var(--forest);
+    }
+
+    /* ── Code inline ── */
+    code {
+      background: var(--cream);
+      border: 1px solid var(--olive);
+      border-radius: 3px;
+      padding: 1px 6px;
+      font-size: 13px;
+      font-family: 'Menlo', 'Consolas', monospace;
+      color: var(--forest);
+    }
+
+    /* ── Intake assets grid ── */
+    .assets-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .asset-card {
+      background: var(--cream);
+      border: 1px solid var(--olive);
+      border-radius: 6px;
+      padding: 20px;
+      text-align: center;
+    }
+    .asset-card .asset-icon {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    .asset-card code {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+    .asset-card p {
+      font-size: 13px;
+      color: var(--sage);
+      margin: 0;
+    }
+
+    /* ── Pricing cards ── */
+    .pricing-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .pricing-card {
+      border: 1px solid var(--olive);
+      border-radius: 6px;
+      padding: 20px;
+    }
+    .pricing-card .p-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 8px;
+    }
+    .pricing-card .p-value {
+      font-family: 'EB Garamond', serif;
+      font-size: 22px;
+      color: var(--forest);
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .pricing-card p {
+      font-size: 13px;
+      color: var(--sage);
+      margin: 0;
+    }
+
+    /* ── Security pills ── */
+    .security-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .security-card {
+      background: var(--cream);
+      border-top: 3px solid var(--forest);
+      border-radius: 0 0 6px 6px;
+      padding: 20px;
+    }
+    .security-card .s-title {
+      font-weight: 700;
+      color: var(--forest);
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    .security-card p {
+      font-size: 13px;
+      color: var(--sage);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* ── Personas ── */
+    .persona-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 20px 0;
+    }
+    .persona-card {
+      border: 1px solid var(--olive);
+      border-radius: 6px;
+      padding: 24px;
+    }
+    .persona-card .persona-role {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 8px;
+    }
+    .persona-card .persona-name {
+      font-family: 'EB Garamond', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--forest);
+      margin-bottom: 10px;
+    }
+    .persona-card p {
+      font-size: 14px;
+      color: var(--sage);
+      margin: 0;
+    }
+
+    /* ── Shadow loop steps ── */
+    .steps {
+      counter-reset: step;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .step {
+      display: flex;
+      gap: 20px;
+      padding-bottom: 28px;
+      position: relative;
+    }
+    .step:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      left: 18px;
+      top: 40px;
+      bottom: 0;
+      width: 2px;
+      background: var(--olive);
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--forest);
+      color: var(--ivory);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .step-content strong {
+      display: block;
+      color: var(--forest);
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+    .step-content p {
+      font-size: 14px;
+      color: var(--sage);
+      margin: 0;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--forest);
+      color: var(--olive);
+      text-align: center;
+      padding: 28px;
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 640px) {
+      header { padding: 40px 24px 36px; }
+      main { padding: 40px 24px 80px; }
+      nav { padding: 0 24px; }
+      .assets-grid, .pricing-row, .security-grid { grid-template-columns: 1fr; }
+      .persona-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Product Specification · SimGym</div>
+  <h1>Agent Simulation &amp; CI/CD Platform</h1>
+  <p class="tagline">The simulation engine that ensures developers never merge a broken prompt to production.</p>
+</header>
+
+<nav>
+  <a href="#vision">Vision</a>
+  <a href="#personas">Personas</a>
+  <a href="#kpi">KPI</a>
+  <a href="#phase1">Phase 1</a>
+  <a href="#phase2">Phase 2</a>
+  <a href="#phase3">Phase 3</a>
+  <a href="#security">Security</a>
+</nav>
+
+<main>
+
+  <!-- Vision -->
+  <section id="vision">
+    <div class="section-label">01 · Vision</div>
+    <h2>Product Vision &amp; Summary</h2>
+    <p>Agentic software fails unpredictably in production due to prompt sensitivity, infinite tool loops, and edge-case hallucinations.</p>
+    <p>SimGym provides a <strong>simulation engine (Gym)</strong>, <strong>prompt CI/CD pipeline</strong>, and <strong>trace ingestion flywheel</strong> that protects enterprise production environments. It evolves from a diagnostic testing sandbox into the ultimate system of record for AI agent deployment.</p>
+  </section>
+
+  <!-- Personas -->
+  <section id="personas">
+    <div class="section-label">02 · Audience</div>
+    <h2>Target Personas</h2>
+    <div class="persona-grid">
+      <div class="persona-card">
+        <div class="persona-role">Primary User</div>
+        <div class="persona-name">AI Software Engineer</div>
+        <p>Needs to safely iterate on system prompts without breaking existing agent capabilities in production.</p>
+      </div>
+      <div class="persona-card">
+        <div class="persona-role">Economic Buyer</div>
+        <div class="persona-name">Engineering Leader / CTO</div>
+        <p>Requires SLA-level guarantees that agents will not leak data, wipe databases, or burn thousands of dollars in an infinite loop.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- KPI -->
+  <section id="kpi">
+    <div class="section-label">03 · Success Metric</div>
+    <h2>Core KPI &amp; YC Metric</h2>
+    <div class="kpi-box">
+      <div class="kpi-label">North Star Metric</div>
+      <div class="kpi-value">Critical Production Regressions Intercepted</div>
+      <div class="kpi-def">The number of times the platform catches a breaking change — tool hallucination, schema violation, or infinite loop — in a sandbox before the customer merges the prompt update to production.</div>
+    </div>
+    <p><strong>Goal:</strong> Intercept <strong>20+ critical regressions</strong> across 1–3 design partners in the first 6 weeks.</p>
+  </section>
+
+  <!-- Phase 1 -->
+  <section id="phase1">
+    <div class="section-label">04 · Roadmap</div>
+    <h2>Phase 1: The MVP Sandbox</h2>
+    <div class="phase-header">
+      <span class="phase-badge">Phase 1</span>
+      <span class="phase-title">The MVP Sandbox</span>
+      <span class="phase-timeline">Months 1–3</span>
+    </div>
+    <p><strong>Goal:</strong> Prove core value to 1–3 design partners, secure YC funding, and establish PMF through manual, high-value concierge onboarding.</p>
+
+    <h3>The "Turn Off Your Brain" Intake</h3>
+    <p>Customers provide exactly three static assets — no live database access, no proprietary code exposure:</p>
+    <div class="assets-grid">
+      <div class="asset-card">
+        <div class="asset-icon">📄</div>
+        <code>system_prompt.txt</code>
+        <p>Agent script or system prompt</p>
+      </div>
+      <div class="asset-card">
+        <div class="asset-icon">🔧</div>
+        <code>tools.json</code>
+        <p>MCP tool schemas</p>
+      </div>
+      <div class="asset-card">
+        <div class="asset-icon">📊</div>
+        <code>traces.json</code>
+        <p>100 historical production traces</p>
+      </div>
+    </div>
+
+    <h3>MVP Architecture</h3>
+    <ul>
+      <li><strong>The Engine:</strong> A local runner using the Claude Agent SDK.</li>
+      <li><strong>The Sandbox:</strong> Standard Docker containers (<code>python:3.11-slim</code>) with isolated bind-mounted directories.</li>
+      <li><strong>State Tracker:</strong> Snapshots via fast local directory copies (<code>tar</code> / <code>cp</code>) between execution steps for rollback and resets.</li>
+      <li><strong>Tool Mocking (MCP):</strong> A local MCP server dynamically serves synthetic data or replays historical tool payloads from trace files.</li>
+    </ul>
+
+    <h3>Business Model</h3>
+    <div class="pricing-row">
+      <div class="pricing-card">
+        <div class="p-label">Pilot Fee</div>
+        <div class="p-value">$3k – $6k</div>
+        <p>Flat cost-recovery fee for a 6-month pilot</p>
+      </div>
+      <div class="pricing-card">
+        <div class="p-label">Safety Governor</div>
+        <div class="p-value">BYOK</div>
+        <p>Bring Your Own Key — API costs hit the customer's bill</p>
+      </div>
+      <div class="pricing-card">
+        <div class="p-label">Enterprise SaaS</div>
+        <div class="p-value">$12k / yr</div>
+        <p>Transition pricing upon hitting regression milestones</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Phase 2 -->
+  <section id="phase2">
+    <div class="phase-header">
+      <span class="phase-badge">Phase 2</span>
+      <span class="phase-title">Prompt Registry &amp; CI/CD Integration</span>
+      <span class="phase-timeline">Months 4–7</span>
+    </div>
+    <p><strong>Goal:</strong> Transition from a manual testing tool to an inescapable part of the daily developer workflow.</p>
+
+    <h3>Centralized Prompt Hub</h3>
+    <ul>
+      <li>Prompts are decoupled from application code and stored in a version-controlled API registry.</li>
+      <li>Live production environments fetch the prompt tagged <code>production</code> via API, enabling zero-downtime updates.</li>
+    </ul>
+
+    <h3>GitHub Actions Integration</h3>
+    <ul>
+      <li>The platform listens for Pull Requests modifying prompt files.</li>
+      <li>Upon PR creation, concurrent agent simulations fire across all 100 benchmark traces.</li>
+      <li><strong>PR Bot:</strong> Posts a detailed pass/fail report directly in GitHub comparing the new branch's trajectory to the baseline.</li>
+      <li><strong>Merge Blocking:</strong> Automatically blocks the PR if a critical regression or infinite loop is detected.</li>
+    </ul>
+
+    <h3>Architecture Upgrades</h3>
+    <ul>
+      <li>Migration from local Docker to <strong>Firecracker microVMs</strong> for sub-150ms boot times and secure multi-tenant isolation.</li>
+      <li>Integration of <strong>Temporal</strong> to orchestrate asynchronous agent loops and manage concurrent batch testing reliably.</li>
+    </ul>
+  </section>
+
+  <!-- Phase 3 -->
+  <section id="phase3">
+    <div class="phase-header">
+      <span class="phase-badge">Phase 3</span>
+      <span class="phase-title">Trace Ingestion &amp; The Shadow Loop</span>
+      <span class="phase-timeline">Months 8+</span>
+    </div>
+    <p><strong>Goal:</strong> Own the production data layer and create an automated, self-sustaining simulation flywheel.</p>
+
+    <h3>Zero-Latency Trace SDK</h3>
+    <p>A lightweight, OpenTelemetry-compliant SDK installed in the customer's production environment. Asynchronously streams live agent trajectories — prompt, tool inputs, observations, final output — to the platform's Trace Store without blocking the live user request.</p>
+
+    <h3>The Triage Engine</h3>
+    <p>An LLM-as-a-judge background worker constantly scans incoming production traces to flag anomalies: 10+ steps for a simple task, repeated tool 400 errors, user abandonment.</p>
+
+    <h3>The Shadow Loop</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>Extraction &amp; Expansion</strong>
+          <p>The platform isolates a failed production trace and uses an LLM to generate 5 synthetically mutated edge cases.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>Background Execution</strong>
+          <p>The Gym runs these new scenarios against the current development prompt.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <strong>Auto-Remediation</strong>
+          <p>If the failure persists, the platform generates an optimized prompt fix, verifies it passes the gym, and automatically opens a GitHub PR: <em>"We found an edge case in production at 2 AM. Here is the prompt fix that solves it."</em></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Security -->
+  <section id="security">
+    <div class="section-label">07 · Compliance</div>
+    <h2>Security &amp; Compliance Architecture</h2>
+    <div class="security-grid">
+      <div class="security-card">
+        <div class="s-title">Data Privacy</div>
+        <p>Customer code and live databases are never exposed. Tools are executed via secure MCP endpoints or mocked locally using synthetic schemas.</p>
+      </div>
+      <div class="security-card">
+        <div class="s-title">Data Retention</div>
+        <p>Local sandbox directories and trace payloads for design partners are wiped after 30 days during the MVP phase.</p>
+      </div>
+      <div class="security-card">
+        <div class="s-title">Isolation</div>
+        <p>An agent hallucinating a <code>DROP TABLE</code> command operates strictly inside a stateless, ephemeral container/microVM destroyed immediately after the run.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  SimGym · Agent Simulation &amp; CI/CD Platform · Confidential Product Specification
+</footer>
+
+</body>
+</html>
