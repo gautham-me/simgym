@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SimGym — Design Partner Planning</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --forest:  #2d4a2b;
+      --sage:    #7d8471;
+      --olive:   #a4ac86;
+      --ivory:   #faf9f6;
+      --cream:   #f0ede6;
+      --ink:     #1c2b1b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--ivory);
+      color: var(--ink);
+      font-family: 'Source Sans 3', 'FreeSans', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--forest);
+      color: var(--ivory);
+      padding: 64px 48px 52px;
+      position: relative;
+      overflow: hidden;
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--olive), var(--sage), var(--forest));
+    }
+    header .eyebrow {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 16px;
+    }
+    header h1 {
+      font-family: 'EB Garamond', 'FreeSerif', serif;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 700;
+      line-height: 1.15;
+      max-width: 680px;
+    }
+    header p.tagline {
+      margin-top: 16px;
+      font-size: 17px;
+      color: var(--olive);
+      max-width: 560px;
+    }
+
+    /* ── Nav ── */
+    nav {
+      background: var(--cream);
+      border-bottom: 1px solid var(--olive);
+      padding: 0 48px;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+    }
+    nav a {
+      display: inline-block;
+      padding: 14px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: var(--sage);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    nav a:hover {
+      color: var(--forest);
+      border-bottom-color: var(--forest);
+    }
+
+    /* ── Layout ── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 64px 48px 120px;
+    }
+
+    section {
+      margin-bottom: 80px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-family: 'EB Garamond', 'FreeSerif', serif;
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--forest);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--olive);
+    }
+
+    h3 {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--forest);
+      margin: 28px 0 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    p {
+      margin-bottom: 14px;
+      max-width: 720px;
+    }
+
+    /* ── Tables ── */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 20px 0 28px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    thead tr {
+      background: var(--forest);
+      color: var(--ivory);
+    }
+
+    thead th {
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--cream);
+    }
+
+    tbody tr:nth-child(even) {
+      background: var(--cream);
+    }
+
+    tbody td {
+      padding: 10px 14px;
+      vertical-align: top;
+    }
+
+    /* ── Lists ── */
+    ul, ol {
+      padding-left: 20px;
+      margin-bottom: 16px;
+      max-width: 720px;
+    }
+
+    li {
+      margin-bottom: 7px;
+    }
+
+    /* ── Callout boxes ── */
+    .callout {
+      background: var(--cream);
+      border-left: 4px solid var(--forest);
+      padding: 18px 22px;
+      margin: 20px 0 28px;
+      border-radius: 0 4px 4px 0;
+      max-width: 720px;
+    }
+
+    .callout strong {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--forest);
+      margin-bottom: 6px;
+    }
+
+    .callout p {
+      margin-bottom: 0;
+      font-size: 15px;
+    }
+
+    /* ── Checklist ── */
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+      max-width: 720px;
+    }
+
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--cream);
+      font-size: 15px;
+    }
+
+    .checklist li::before {
+      content: '☐';
+      color: var(--olive);
+      font-size: 16px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── Code / example blocks ── */
+    .example-block {
+      background: #1c2b1b;
+      color: #d8e0d0;
+      border-radius: 6px;
+      padding: 22px 26px;
+      margin: 20px 0 28px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 13.5px;
+      line-height: 1.65;
+      max-width: 720px;
+      white-space: pre-wrap;
+    }
+
+    .example-block .label {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    /* ── Quote ── */
+    blockquote {
+      border-left: 3px solid var(--olive);
+      margin: 20px 0 28px;
+      padding: 4px 20px;
+      color: var(--sage);
+      font-style: italic;
+      font-size: 15px;
+      max-width: 680px;
+    }
+
+    blockquote cite {
+      display: block;
+      margin-top: 8px;
+      font-style: normal;
+      font-size: 13px;
+      color: var(--olive);
+      font-weight: 600;
+    }
+
+    /* ── Tier label ── */
+    .tier {
+      display: inline-block;
+      background: var(--forest);
+      color: var(--ivory);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 3px;
+      margin-bottom: 6px;
+    }
+
+    .tier.warm { background: var(--forest); }
+    .tier.signal { background: var(--sage); }
+    .tier.cold { background: var(--olive); color: var(--ink); }
+
+    /* ── Divider ── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--olive);
+      margin: 40px 0;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--cream);
+      border-top: 1px solid var(--olive);
+      padding: 32px 48px;
+      font-size: 13px;
+      color: var(--sage);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">SimGym · Go-to-Market</div>
+  <h1>Design Partner Planning</h1>
+  <p class="tagline">A playbook for landing 1–3 paying design partners at $4–5k pilot fees, converting to $12k/yr.</p>
+</header>
+
+<nav>
+  <a href="#icp">Part 1 — ICP</a>
+  <a href="#finding">Part 2 — Finding Them</a>
+  <a href="#deal">Part 4 — The Deal</a>
+  <a href="#converting">Part 6 — Converting</a>
+  <a href="#resources">Part 7 — Resources</a>
+  <a href="#patterns">Company Patterns</a>
+</nav>
+
+<main>
+
+  <!-- ───────────────────────── PART 1 ───────────────────────── -->
+  <section id="icp">
+    <div class="section-label">Part 1</div>
+    <h2>ICP: Who Exactly To Target</h2>
+
+    <p>Standard B2B filters — industry, geography, headcount — are necessary but insufficient. The core filter for SimGym is <strong>engineering maturity + active production pain</strong>. Standard B2B ICP frameworks (PostHog, a16z, reo.dev) confirm that for devtools, technographic and behavioral signals matter more than firmographics alone.</p>
+
+    <div class="callout">
+      <strong>ICP in one sentence</strong>
+      <p>An AI-native team (Series A–B, 15–200 engineers) that has already shipped at least one LLM-powered agent to production and has experienced a regression, tool hallucination, or unexpected behavior that reached real users.</p>
+    </div>
+
+    <h3>Hard Filters — All Must Be True</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Filter</th><th>What to look for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Production agents exist</td><td>They've shipped an LLM agent, not just experimented. Meaningful API call volume on OpenAI/Anthropic in production is the signal.</td></tr>
+          <tr><td>Active pain</td><td>At least one incident has reached production — a broken prompt, tool hallucination, infinite loop, or schema violation.</td></tr>
+          <tr><td>AI engineering headcount</td><td>≥2 engineers whose primary job involves building agentic systems, not just using LLMs as a side feature.</td></tr>
+          <tr><td>Budget authority reachable</td><td>CTO, VP Eng, or Head of AI can make a $5k decision without 3-month procurement.</td></tr>
+          <tr><td>Deployment velocity</td><td>They ship agent code at least weekly. Slower cadences mean less urgent need for CI/CD.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Soft Signals — More = Stronger Fit</h3>
+    <ul>
+      <li>"AI engineer" or "ML engineer" hire on LinkedIn (role didn't exist at most companies pre-2023)</li>
+      <li>Job posting for "AI reliability," "LLM Ops," or "model evaluation"</li>
+      <li>Engineering blog post or tweet about debugging agent behavior in production</li>
+      <li>Using Claude Agent SDK, LangGraph, or OpenAI Assistants in a production-grade GitHub repo</li>
+      <li>Already paying for Datadog, LaunchDarkly, or similar infra tools (signals they buy, not just build)</li>
+      <li>Series A raised in the last 90 days — fresh budget, new tool selection window open</li>
+    </ul>
+
+    <h3>Anti-ICP — Disqualify Fast</h3>
+    <ul>
+      <li>Still in "exploring AI" mode — no production agents yet</li>
+      <li>Only 1 AI engineer stretched across 5 other jobs</li>
+      <li>Enterprise with 6-month procurement cycles and no existing relationship</li>
+      <li>AI as a side feature, not the core product</li>
+      <li>Under 5 engineers total (build-it-themselves culture, no budget)</li>
+    </ul>
+
+    <h3>Company Stage</h3>
+    <p><strong>Sweet spot: Series A–B AI-native startups, 10–200 engineers.</strong> Not pre-revenue (can't pay), not 1000+ engineers (procurement kills you). PostHog's ICP research confirms the 15–200 engineer band is where devtools purchases happen fastest and with least friction.</p>
+
+    <h3>The Two People You Need at Every Target Company</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Role</th><th>Who They Are</th><th>Your Relationship</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Champion</strong></td>
+            <td>The AI/ML engineer who feels the pain daily. Will advocate internally, will own the integration.</td>
+            <td>Primary contact. This person makes the pilot succeed or fail.</td>
+          </tr>
+          <tr>
+            <td><strong>Economic Buyer</strong></td>
+            <td>CTO, VP Eng, or Head of AI who signs the contract.</td>
+            <td>At &lt;100-person companies, often the same as the champion. At larger ones, you need both.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>Buying trigger to watch for:</strong> A new CTO or Head of AI in their first 90 days — they conduct tool reviews and are motivated to make their mark with new decisions.</p>
+  </section>
+
+  <!-- ───────────────────────── PART 2 ───────────────────────── -->
+  <section id="finding">
+    <div class="section-label">Part 2</div>
+    <h2>Finding Them</h2>
+
+    <p>Warm channels convert at 10x cold. Work these in order — don't jump to cold outbound until Tier 1 and 2 are exhausted.</p>
+
+    <h3><span class="tier warm">Tier 1</span> Warm — Do First (Weeks 1–2)</h3>
+    <ol>
+      <li><strong>Your personal network:</strong> List every person you know building agentic systems. One Slack message to 30 people beats 500 cold emails. Ask: "Do you know anyone building LLM agents in production who's frustrated by production regressions?"</li>
+      <li><strong>Investor intros:</strong> If you have any angels or advisors, their portfolio is your first call list.</li>
+      <li><strong>YC community:</strong> If you're in YC, post in the internal forum. W24/S24/W25 companies building AI products are perfectly staged — recently funded, actively building agents, no procurement bureaucracy.</li>
+    </ol>
+
+    <h3><span class="tier signal">Tier 2</span> Signal-Triggered Warm (Weeks 2–4)</h3>
+    <ol>
+      <li><strong>GitHub:</strong> Search for repos using Claude Agent SDK, LangGraph, or OpenAI Assistants with real CI/CD setup. Commit history shows they're in production, not prototyping. Find the author.</li>
+      <li><strong>Twitter/X:</strong> Search for "agent broke in production," "prompt regression," "tool hallucination prod." These people are actively feeling your pain. Comment with insight, then DM.</li>
+      <li><strong>AI communities:</strong> Latent Space Discord, AI Engineer World's Fair community, The AI Exchange, MLOps Community Slack. Don't pitch — be helpful first, build context, then reach out.</li>
+      <li><strong>Job postings:</strong> Set an alert for "AI reliability engineer," "LLM evaluation," "agent testing." Companies hiring these roles have the pain and the budget.</li>
+      <li><strong>Engineering blog posts:</strong> Companies writing about AI agent incidents or debugging are self-identifying. The engineer who wrote the post is your champion.</li>
+    </ol>
+
+    <h3><span class="tier cold">Tier 3</span> Cold Outbound (After Tier 1 + 2 Exhausted)</h3>
+    <ol>
+      <li><strong>LinkedIn:</strong> Search <code>"AI engineer" OR "LLM engineer" OR "head of AI"</code> at companies with "AI agent" or "autonomous" in their product description. Filter by Series A–B (Crunchbase for recent rounds).</li>
+      <li><strong>YC company list:</strong> yc.com/companies, filter W24/S24/W25, AI category. Start with companies building agent-facing products (customer support agents, coding agents, research agents).</li>
+      <li><strong>ProductHunt:</strong> Companies that launched AI agent products in the last 6 months. Find the technical co-founder or engineering lead.</li>
+    </ol>
+
+    <div class="callout">
+      <strong>Pre-screen signal</strong>
+      <p>Don't just look at company description. Look for evidence they've shipped — a "we built X" blog post, GitHub activity with real commits, a tweet about a production incident. No evidence of shipping = not ready for SimGym.</p>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── PART 4 ───────────────────────── -->
+  <section id="deal">
+    <div class="section-label">Part 4</div>
+    <h2>The Deal: Pilot Structure</h2>
+
+    <h3>Always Charge. Full Stop.</h3>
+    <p>Free pilots convert to paid at &lt;10% (Heavybit data). Paid pilots convert at 40–70%+ when properly structured. Sierra (First Round, 2025) charged 10–20% of total contract value upfront and achieved 100% pilot-to-paying conversion. Strella ran 12 paid pilots — all 12 converted, yielding $1.6M ARR in year 1.</p>
+
+    <p>Free pilots get deprioritized internally, produce low-quality feedback, and are a leading indicator the prospect won't have budget for the full product. The act of paying — even a small amount — is what separates real prospects from tire-kickers.</p>
+
+    <div class="callout">
+      <strong>If they push back on paying</strong>
+      <p>"We only run paid pilots because it ensures we're both committed enough to make it succeed. Free pilots don't convert — for either of us. The fee goes toward year 1 anyway." If they still refuse, that's signal about their internal authority and urgency — both of which predict non-conversion.</p>
+    </div>
+
+    <h3>SimGym Pilot Terms</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Element</th><th>Amount / Structure</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Pilot fee</td><td><strong>$4,000–5,000, paid upfront</strong></td></tr>
+          <tr><td>Applied toward annual</td><td>Yes — credited 100% against Year 1</td></tr>
+          <tr><td>Annual contract</td><td>$12,000/yr (locked in for life as a design partner)</td></tr>
+          <tr><td>Pilot duration</td><td>60 days</td></tr>
+          <tr><td>Future list price</td><td>Commit in writing: "We plan to price at $24k+/yr. Design partners lock $12k forever."</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The $4–5k pilot fee is 33–42% of the $12k annual — within the 10–30% of ACV range validated by research (SaaStr, DoWhatMatter), and typically below most managers' discretionary spending limit. No executive approval needed to get started.</p>
+
+    <h3>What They Get</h3>
+    <ul>
+      <li>White-glove onboarding: you personally run the integration (~2–3 hours with their team)</li>
+      <li>SimGym running against their agents and production traces</li>
+      <li>Weekly regression reports: what ran, what was caught, severity, what would have happened in prod</li>
+      <li>Private Slack channel with direct founder access — issues resolved in hours, not tickets</li>
+      <li>Roadmap influence: you commit to building at least one thing they specifically need</li>
+      <li>Annual pricing locked at $12k regardless of future price increases</li>
+      <li>Case study or reference rights (anonymized if preferred)</li>
+    </ul>
+
+    <h3>What You Need From Them</h3>
+    <ul>
+      <li>Named champion: one engineer who owns the integration</li>
+      <li>2–3 hours for initial onboarding session</li>
+      <li>Access to agent code and/or historical production traces (sanitized is fine)</li>
+      <li>Bi-weekly 30-min check-in calls, pre-scheduled from Day 1</li>
+      <li>Agreement to give honest negative feedback — not just polite responses</li>
+      <li>Right to use their name or logo (even "a Series B AI company" if they prefer anonymized)</li>
+    </ul>
+
+    <h3>Success Criteria — Agree On This In Writing Before Day 1</h3>
+    <p>This is the single most important thing you'll do. Forrester research (2023): pilots with predefined success criteria convert at <strong>3.2x the rate</strong> of open-ended evaluations. Binary criteria, not qualitative ones.</p>
+
+    <div class="callout">
+      <strong>SimGym standard success criterion</strong>
+      <p>"We consider this pilot a success if SimGym catches at least 1 regression that would have shipped to production. We'll document the catch with: what the change was, what would have broken, and estimated blast radius."</p>
+    </div>
+
+    <p>When you catch it, document it in real-time. Quantify it ("this would have caused X tool calls to fail for Y users for Z hours"). Send it to their Slack the moment it happens. That is the close.</p>
+
+    <h3>The 60-Day Structure</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Period</th><th>Focus</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Week 1–2</td><td>Integration — get traces ingested, first simulation run, baseline established. Fix things manually if needed. Be white-glove.</td></tr>
+          <tr><td>Week 3–4</td><td>First results — present findings. Even a "clean run" report builds trust. Silence is not acceptable.</td></tr>
+          <tr><td>Week 5–6</td><td>Iteration — build the thing they told you they need. Hyper-responsive to specific friction.</td></tr>
+          <tr><td>Week 7 (Day 45)</td><td>Conversion conversation — not a surprise at Day 60. Surface the path to annual contract now.</td></tr>
+          <tr><td>Week 8</td><td>Final report + close, or part cleanly. No indefinite extensions.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Weekly Operating Rhythm</h3>
+    <ul>
+      <li><strong>Monday:</strong> Send weekly regression report — even "all clear" runs. Consistency builds the relationship.</li>
+      <li><strong>Async Slack:</strong> 4-hour response time during business hours.</li>
+      <li><strong>Bi-weekly calls (30 min, pre-scheduled):</strong> What ran, what was caught, what's next, what's not working.</li>
+    </ul>
+
+    <h3>The No-UI Frame</h3>
+    <p>Compensate for no UI with extreme high-touch service. Never apologize for it. Stripe didn't apologize for no dashboard in 2009. Dagster's Nick Schrock's finding applies directly: <em>"If people feel seen, they will tolerate uneven experiences and missing features to get to that core philosophical alignment."</em></p>
+    <ul>
+      <li>You are the UI. Weekly reports, Slack presence, and responsiveness are the product right now.</li>
+      <li>Frame it: "We're developer-first. Results go to your terminal and Slack — where you live anyway. And because we don't have a UI yet, you get something better: direct access to the founders."</li>
+    </ul>
+  </section>
+
+  <!-- ───────────────────────── PART 6 ───────────────────────── -->
+  <section id="converting">
+    <div class="section-label">Part 6</div>
+    <h2>Converting to Annual Contract</h2>
+
+    <h3>The Day 45 Conversation (Not Day 60)</h3>
+    <p>Put this on the calendar from Day 1. At the Day 45 check-in, surface the conversion conversation while you still have time to handle objections:</p>
+
+    <div class="example-block"><span class="label">Script — Day 45</span>"We're two weeks from the end of the pilot. If the value is there, what does the process look like to move to an annual contract at your company? Anyone else we'd need to bring in?"</div>
+
+    <p>This surfaces procurement requirements, budget cycles, and other stakeholders with 2 weeks left to handle them.</p>
+
+    <h3>Identify Your Stakeholders</h3>
+    <ul>
+      <li><strong>Champion</strong> — the engineer who feels the pain and wants to keep it. Your internal advocate.</li>
+      <li><strong>Economic buyer</strong> — the CTO or VP Eng who signs the contract. At small companies, same person as champion.</li>
+      <li><strong>Blockers</strong> — legal review, security review, budget cycle, competing priorities. Surface these at Day 45, not Day 60.</li>
+    </ul>
+
+    <h3>The Close (Day 60)</h3>
+    <p>Binary. No open-ended extensions.</p>
+
+    <div class="example-block"><span class="label">The ask</span>"Based on what we caught in the last 60 days — specifically [the regression you caught] — does the $12k annual feel justified? We'd love to move you to a contract."</div>
+
+    <div class="example-block"><span class="label">If hesitation</span>"What would we need to show you in the next 2 weeks to make this easy?"</div>
+
+    <div class="example-block"><span class="label">Incentive to close by Day 60</span>"The $5k pilot fee is credited toward year 1 if you sign before the end of the pilot. After that it's not applied."</div>
+
+    <h3>No Extensions Without a New Fee</h3>
+    <p>Extensions almost always signal a soft "no" — they're being polite. Force the decision. McKinsey data: 60–90% of enterprise pilots that extend indefinitely never convert. If they can't commit after 60 days of results, they won't commit at day 75.</p>
+
+    <h3>The 4-Step Commitment Ladder</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Step</th><th>What It Is</th><th>How Strong</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1. Say</td><td>Verbal intent to buy</td><td>Weakest — directional only</td></tr>
+          <tr><td>2. LOI</td><td>Written non-binding letter of intent</td><td>Useful for fundraising proof; signals real seriousness</td></tr>
+          <tr><td>3. Contract</td><td>The pilot agreement you signed on Day 1</td><td>Binding — you're already here</td></tr>
+          <tr><td>4. Payment</td><td>Actual money changes hands</td><td>The only truly falsifiable signal</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>10 Things That Kill Design Partner Deals</h3>
+    <ul class="checklist">
+      <li>Not charging upfront — free pilots don't get prioritized and almost never convert</li>
+      <li>No named champion — if no one owns it internally, no one fights for renewal</li>
+      <li>No agreed success criteria on Day 1 — you can't win if you haven't defined winning</li>
+      <li>Waiting until Day 60 — have the conversion conversation at Day 45</li>
+      <li>Apologizing for the MVP — confidence in the value matters more than polish</li>
+      <li>Targeting companies without a production incident — no pain = no urgency = no deal</li>
+      <li>Skipping the bi-weekly calls — async alone isn't enough to build the relationship</li>
+      <li>Not documenting the catch in real-time — quantify it and share it immediately</li>
+      <li>Targeting the wrong person — you need both the champion and the economic buyer</li>
+      <li>Allowing indefinite extensions — extensions without a new fee are soft "no"s</li>
+    </ul>
+  </section>
+
+  <!-- ───────────────────────── PART 7 ───────────────────────── -->
+  <section id="resources">
+    <div class="section-label">Part 7</div>
+    <h2>Key Resources and Templates</h2>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Resource</th><th>What It Is</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Common Paper Design Partner Agreement</strong></td>
+            <td>Open-source, attorney-reviewed 2-page MOU — the standard starting point for any design partner agreement. commonpaper.com/standards/design-partner-agreement</td>
+          </tr>
+          <tr>
+            <td><strong>Common Paper LOI Template</strong></td>
+            <td>Non-binding letter of intent for B2B SaaS — useful for collecting pre-product demand signals and fundraising proof. commonpaper.com/documents/letter-of-intent</td>
+          </tr>
+          <tr>
+            <td><strong>Common Paper Contract Benchmark Q1 2024</strong></td>
+            <td>Real data on how design partner agreements are structured across 1000s of executed contracts (feedback cadence, case study %, reference %, pricing terms). commonpaper.com/resources/contract-benchmark-2024-q1</td>
+          </tr>
+          <tr>
+            <td><strong>a16z Design Partner Framework</strong></td>
+            <td>The UCR selection criteria: Urgency, Capacity, Representativeness. The most widely cited selection framework for choosing the right partners. a16z.com/a-framework-for-finding-a-design-partner</td>
+          </tr>
+          <tr>
+            <td><strong>First Round — Sierra Case Study</strong></td>
+            <td>"Hard mode" design partnership: targeted enterprise strangers, charged 10–20% of ACV upfront, achieved 100% conversion rate. review.firstround.com/sierra-design-partnership</td>
+          </tr>
+          <tr>
+            <td><strong>Bessemer — Pre-Launch Edge</strong></td>
+            <td>Includes the Strella case study: 12 paid design partners, 12/12 converted, $1.6M ARR in year 1, 150% net dollar retention on first renewals. bvp.com/atlas/design-partners-the-pre-launch-edge</td>
+          </tr>
+          <tr>
+            <td><strong>Unusual VC — Design Partners Field Guide</strong></td>
+            <td>How to build a B2B sales motion through design partners, including selection, agreement structure, and conversion. unusual.vc/field-guide/build-a-sales-motion-with-design-partners</td>
+          </tr>
+          <tr>
+            <td><strong>DoWhatMatter — Pilot Pricing Guide</strong></td>
+            <td>How to price seed-stage pilots that convert: the 10–30% of ACV formula, scoping rules, and success criteria frameworks. dowhatmatter.com/guides/pilot-pricing-seed-saas</td>
+          </tr>
+          <tr>
+            <td><strong>Amplify Partners — Technical Founders & Pilots</strong></td>
+            <td>Honest advice on what to expect when running pilots at early stage: doing things that don't scale is expected and right. amplifypartners.com/blog-posts/the-technical-founders-guide-to-pilots-and-pocs</td>
+          </tr>
+          <tr>
+            <td><strong>Heavybit — SaaS POCs That Convert</strong></td>
+            <td>How to run pilot programs that actually close: framing, cadence, conversion triggers. heavybit.com/library/article/saas-poc-paid-pilot-program</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── PATTERNS ───────────────────────── -->
+  <section id="patterns">
+    <div class="section-label">Case Studies</div>
+    <h2>Cross-Company Patterns That Apply Directly to SimGym</h2>
+
+    <p>Five developer infrastructure companies — W&B, Braintrust, Modal, Baseten, Dagster — all navigated the same challenge: getting first paying customers for a technical product with limited polish. The patterns are consistent and directly applicable.</p>
+
+    <h3>Weights &amp; Biases — Embedded with Early Users</h3>
+    <blockquote>
+      "We literally would go to people and we'd beg them to try it. We would set up weekly meetings with them just so we could see them not use it."
+      <cite>— Lukas Biewald, co-founder</cite>
+    </blockquote>
+    <p>Biewald attended OpenAI team social events weekly. He watched users struggle, fixed bugs overnight, and held structured weekly design-partner meetings with OpenAI and Toyota Research before any formal go-to-market. Toyota paid $100k as their first enterprise deal — after starting with customers at $1–2k.</p>
+    <p><strong>SimGym takeaway:</strong> Be physically present in your early users' workflows. Weekly calls aren't overhead — they're the product before the UI exists.</p>
+
+    <h3>Braintrust — The Target List Approach</h3>
+    <blockquote>
+      "Focus on influential early adopters who are already winners; their needs will eventually become the needs of the entire market."
+      <cite>— Ankur Goyal, founder</cite>
+    </blockquote>
+    <p>Goyal built a list of ~50 companies already ahead of the curve in shipping AI products. He and investor Elad Gil identified the person leading AI at each, then ran open-ended user interviews — not demos. First three users: Zapier, Airtable, Coda. By the time they announced their seed round (2 months after founding), they had hundreds of companies signed up including Notion, Stripe, and Replit.</p>
+    <p><strong>SimGym takeaway:</strong> Build a list of 30–50 companies you know are already shipping AI agents in production. Don't pitch — interview. "Tell me about the last time an agent misbehaved in production" is the opening line, not a demo.</p>
+
+    <h3>Baseten — Hyper-Responsive Iteration</h3>
+    <p>In a closed alpha cohort, when a user spent an hour trying to recreate an image they already had (a UX failure), the founders told them to stop and built private registry support the next day. This ethos of overnight response to early user friction was the product.</p>
+    <p><strong>SimGym takeaway:</strong> When a design partner hits a wall during the pilot, fix it within 24 hours and tell them you fixed it. That responsiveness is what converts a pilot customer to a loyal advocate.</p>
+
+    <h3>Dagster — The "Feel Seen" Philosophy</h3>
+    <blockquote>
+      "If the people who are potentially gonna adopt your technology feel seen, they will be willing to tolerate uneven experiences and missing features to get to that core philosophical alignment."
+      <cite>— Nick Schrock, founder</cite>
+    </blockquote>
+    <p>Schrock was opinionated about who Dagster was for and communicating that loudly — which meant people who fit felt immediately understood, even before the product was complete. His GraphQL reputation gave him a built-in audience that trusted his opinions on developer tooling.</p>
+    <p><strong>SimGym takeaway:</strong> Be explicit about who SimGym is for: teams that have already shipped agents and have been burned by production regressions. Engineers who've been burned will feel seen immediately. That's the conversion.</p>
+
+    <h3>Braintrust vs. Modal — Deliberate vs. Accidental First Customers</h3>
+    <p>Modal spent 18 months with zero customers, then Stable Diffusion launched and demand came to them. Braintrust had hundreds of companies signed before their seed announcement — because of a deliberate 50-company outreach strategy. Modal's path is not available to SimGym; Braintrust's is.</p>
+    <p><strong>SimGym takeaway:</strong> Don't wait for a market wave. Build the target list, run the interviews, convert the most urgent ones to paid pilots. The Braintrust pattern — precise targeting, influential early adopters, open-ended discovery before product — is the right model here.</p>
+
+    <hr class="divider" />
+
+    <h3>The Pattern That Applies Most Directly</h3>
+    <div class="callout">
+      <strong>Braintrust's approach, W&B's execution style</strong>
+      <p>Build a list of 30–50 companies you know are already shipping AI agents. Identify the person leading AI at each. Run open-ended discovery calls ("tell me about the last production incident with your agent") — not demos. Convert the 3 most urgent ones to paid pilots with you personally running the integration. Fix things overnight when they break. Document every regression you catch. That's the playbook.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  SimGym · Design Partner Planning · Built for the first 1–3 paying design partners
+</footer>
+
+</body>
+</html>
