@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Incorporation Playbook — SimGym</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --forest: #2d4a2b;
+      --sage:   #7d8471;
+      --olive:  #a4ac86;
+      --ivory:  #faf9f6;
+      --cream:  #f0ede6;
+      --ink:    #1c2b1b;
+      --warn:   #7a4a1e;
+      --warn-bg:#f9f1e8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--ivory);
+      color: var(--ink);
+      font-family: 'Source Sans 3', sans-serif;
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--forest);
+      color: var(--ivory);
+      padding: 56px 48px 44px;
+    }
+    header .label {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 14px;
+    }
+    header h1 {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    header p {
+      font-size: 1rem;
+      color: var(--olive);
+      max-width: 560px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 48px 32px 80px;
+    }
+
+    /* Phase header */
+    .phase {
+      margin-bottom: 52px;
+    }
+    .phase-label {
+      display: inline-block;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      background: var(--forest);
+      color: var(--olive);
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+    .phase h2 {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.75rem;
+      color: var(--forest);
+      margin-bottom: 10px;
+    }
+    .phase .subtitle {
+      font-size: 0.9rem;
+      color: var(--sage);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    /* Steps */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .step {
+      background: var(--cream);
+      border-left: 3px solid var(--olive);
+      border-radius: 6px;
+      padding: 18px 20px;
+    }
+    .step-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .step-num {
+      background: var(--forest);
+      color: var(--ivory);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      border-radius: 3px;
+      padding: 2px 7px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .step p, .step li {
+      font-size: 0.9rem;
+      color: #3a4a39;
+      line-height: 1.65;
+    }
+    .step ul {
+      padding-left: 18px;
+      margin-top: 6px;
+    }
+    .step ul li {
+      margin-bottom: 4px;
+    }
+
+    /* Warning / mistake box */
+    .warn-box {
+      background: var(--warn-bg);
+      border-left: 3px solid var(--warn);
+      border-radius: 6px;
+      padding: 16px 20px;
+      margin-top: 20px;
+    }
+    .warn-box .warn-title {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--warn);
+      margin-bottom: 10px;
+    }
+    .warn-box ul {
+      padding-left: 18px;
+    }
+    .warn-box li {
+      font-size: 0.88rem;
+      color: var(--warn);
+      line-height: 1.65;
+      margin-bottom: 6px;
+    }
+
+    /* Decision box */
+    .decision {
+      background: var(--cream);
+      border: 1px solid var(--olive);
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin-bottom: 28px;
+    }
+    .decision .decision-title {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 12px;
+    }
+    .decision p {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--ink);
+    }
+    .trigger-list {
+      margin-top: 10px;
+      padding-left: 18px;
+    }
+    .trigger-list li {
+      font-size: 0.9rem;
+      color: var(--ink);
+      line-height: 1.65;
+      margin-bottom: 4px;
+    }
+
+    /* Collapsible contract */
+    .contract-toggle {
+      width: 100%;
+      background: var(--forest);
+      color: var(--ivory);
+      border: none;
+      border-radius: 6px;
+      padding: 14px 20px;
+      text-align: left;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+    }
+    .contract-toggle .arrow {
+      font-size: 0.75rem;
+      transition: transform 0.2s;
+    }
+    .contract-toggle.open .arrow {
+      transform: rotate(180deg);
+    }
+    .contract-body {
+      display: none;
+      background: #f4f3ef;
+      border: 1px solid #d4d0c8;
+      border-top: none;
+      border-radius: 0 0 6px 6px;
+      padding: 28px 24px;
+    }
+    .contract-body.visible {
+      display: block;
+    }
+    .contract-body pre {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.88rem;
+      line-height: 1.8;
+      white-space: pre-wrap;
+      color: var(--ink);
+    }
+    .contract-body .clause-title {
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-top: 16px;
+      margin-bottom: 2px;
+      color: var(--forest);
+    }
+
+    /* Cash flow table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      margin-top: 16px;
+    }
+    th {
+      background: var(--forest);
+      color: var(--olive);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+    }
+    td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #ddd9d0;
+      color: var(--ink);
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: var(--cream); }
+    .positive { color: #2d4a2b; font-weight: 600; }
+    .negative { color: var(--warn); }
+
+    /* Divider */
+    .divider {
+      border: none;
+      border-top: 1px solid #ddd9d0;
+      margin: 44px 0;
+    }
+
+    /* TL;DR */
+    .tldr {
+      background: var(--forest);
+      color: var(--ivory);
+      border-radius: 8px;
+      padding: 28px 28px;
+    }
+    .tldr h2 {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      color: var(--olive);
+    }
+    .tldr ol {
+      padding-left: 20px;
+    }
+    .tldr li {
+      font-size: 0.92rem;
+      line-height: 1.7;
+      color: var(--ivory);
+      margin-bottom: 6px;
+    }
+    .tldr li strong {
+      color: var(--olive);
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--sage);
+      padding: 32px 0;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="label">SimGym — Internal Playbook</div>
+  <h1>Incorporation</h1>
+  <p>Zero-to-Delaware. How to go from nothing → LLP → design partner revenue → US C-Corp, in the right order.</p>
+</header>
+
+<div class="container">
+
+  <!-- Phase 0 -->
+  <div class="phase">
+    <div class="phase-label">Phase 0</div>
+    <h2>Starting Point</h2>
+    <p class="subtitle">No entity. No contracts. Just two founders and an idea. This is where we begin.</p>
+
+    <div class="decision">
+      <div class="decision-title">Current State</div>
+      <p>No LLP, no Delaware C-Corp, no design partner signed, no revenue. Goal of this playbook: get to money in bank and a clean legal structure, without burning cash prematurely.</p>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- Phase 1 -->
+  <div class="phase">
+    <div class="phase-label">Phase 1</div>
+    <h2>Register the LLP</h2>
+    <p class="subtitle">Do this first. LLP is the minimum viable legal entity to sign contracts and receive money in India. Cost: ~₹10,000. Time: 1–2 weeks.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-header">
+          <span class="step-num">01</span>
+          <h3>Choose a name and check availability</h3>
+        </div>
+        <p>Go to MCA portal (mca.gov.in). Search for your LLP name. You need to reserve it via RUN-LLP (Reserve Unique Name). Have 2–3 alternatives ready.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-header">
+          <span class="step-num">02</span>
+          <h3>Get a CA to file the incorporation</h3>
+        </div>
+        <p>Hire a CA or use an online service (Razorpay Rize, Vakilsearch, IndiaFilings). They handle Form FiLLiP and get you a Certificate of Incorporation.</p>
+        <ul>
+          <li>Cost: ₹5,000–₹12,000 all-in</li>
+          <li>Documents needed: PAN, Aadhaar, address proof for both founders</li>
+          <li>You'll also need a registered office address (can be home)</li>
+        </ul>
+      </div>
+
+      <div class="step">
+        <div class="step-header">
+          <span class="step-num">03</span>
+          <h3>Open LLP current account</h3>
+        </div>
+        <p>Once COI (Certificate of Incorporation) is in hand, open a current account at any bank (HDFC, ICICI, or Kotak recommended for startup friendliness). This is where design partner money lands.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-header">
+          <span class="step-num">04</span>
+          <h3>Get LLP PAN and GST (if needed)</h3>
+        </div>
+        <p>PAN for the LLP: mandatory for invoicing. GST: register only if revenue crosses ₹20L or if clients require it. Most early design partners won't require GST; skip until needed.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- Phase 2 -->
+  <div class="phase">
+    <div class="phase-label">Phase 2</div>
+    <h2>Close the Design Partner (via LLP)</h2>
+    <p class="subtitle">Before any US entity. Prove the product has paying demand first. This is validation, not just revenue.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-header">
+          <span class="step-num">01</span>
+          <h3>Pick your offer structure</h3>
+        </div>
+        <p>Two clean options — pick one and stick to it:</p>
+        <ul>
+          <li><strong>Option A (recommended):</strong> Paid Design Partner — ₹2L–₹10L for 2–3 months. One-time project fee. Simple.</li>
+          <li><strong>Option B:</strong> Discounted SaaS — ₹50k–₹2L/month. More recurring, harder to close early.</li>
+        </ul>
+        <p style="margin-top:8px;">Do not offer equity. Do not complicate it.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-header">
+          <span class="step-num">02</span>
+          <h3>Sign a Design Partner Agreement</h3>
+        </div>
+        <p>Not a heavy MSA. A simple 1–2 page agreement is enough at this stage.</p>
+
+        <button class="contract-toggle" onclick="toggleContract(this)">
+          View Contract Template
+          <span class="arrow">▼</span>
+        </button>
+        <div class="contract-body">
+          <div class="clause-title">DESIGN PARTNER AGREEMENT</div>
+          <pre>
+This Agreement is entered into on [Date] between:
+
+[Your LLP Name], an LLP registered in India ("Company")
+AND
+[Client Name], [a company / an individual] ("Client")
+          </pre>
+
+          <div class="clause-title">1. Scope</div>
+          <pre>The Company will provide early access to its [product/service], including
+customisations and support, to help the Client evaluate and shape the product.</pre>
+
+          <div class="clause-title">2. Term</div>
+          <pre>This agreement is valid for [3 months], starting from [Start Date].</pre>
+
+          <div class="clause-title">3. Fees</div>
+          <pre>Client agrees to pay:
+  - Total Fee: ₹[Amount]
+  - Payment Terms: [100% upfront] / [50% upfront + 50% after 30 days]</pre>
+
+          <div class="clause-title">4. Deliverables</div>
+          <pre>Company will:
+  - Provide access to the product
+  - Deliver agreed custom workflows / features
+  - Conduct weekly feedback calls</pre>
+
+          <div class="clause-title">5. Design Partnership Nature</div>
+          <pre>Client agrees to:
+  - Provide feedback and usage insights
+  - Act as a reference customer (optional, mutually agreed)</pre>
+
+          <div class="clause-title">6. IP Ownership</div>
+          <pre>All intellectual property developed remains exclusively with the Company.</pre>
+
+          <div class="clause-title">7. Confidentiality</div>
+          <pre>Both parties agree to keep shared information confidential during and
+after the term of this agreement.</pre>
+
+          <div class="clause-title">8. Liability</div>
+          <pre>Company provides the product "as-is" during this pilot phase.
+Liability is limited to fees paid under this agreement.</pre>
+
+          <div class="clause-title">9. Termination</div>
+          <pre>Either party may terminate with 15 days' written notice.</pre>
+
+          <div class="clause-title">10. Governing Law</div>
+          <pre>This agreement is governed by the laws of India.</pre>
+
+          <div class="clause-title">Signatures</div>
+          <pre>
+For [LLP Name]:                     For [Client Name]:
+
+_______________________             _______________________
+[Founder Name]                      [Client Signatory]
+[Title], [LLP Name]                 [Title], [Client Name]
+Date: _______________               Date: _______________
+          </pre>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header">
+          <span class="step-num">03</span>
+          <h3>Send invoice and collect payment</h3>
+        </div>
+        <p>Create invoice under LLP name. Include: LLP name, address, PAN, bank details. Tools: Razorpay, Zoho Invoice, or even a clean PDF. Collect into LLP current account. Record as revenue.</p>
+      </div>
+    </div>
+
+    <div class="warn-box">
+      <div class="warn-title">Common mistakes at this stage</div>
+      <ul>
+        <li><strong>Setting up Delaware C-Corp before closing a deal</strong> — burns ₹43k before you have validation. Don't.</li>
+        <li><strong>Offering equity to design partners</strong> — messy, unnecessary, and complicates the cap table before you even start.</li>
+        <li><strong>Over-engineering the contract</strong> — a 12-page MSA kills momentum. Keep it to 1–2 pages early.</li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- Phase 3 -->
+  <div class="phase">
+    <div class="phase-label">Phase 3</div>
+    <h2>Decide When to Create the Delaware C-Corp</h2>
+    <p class="subtitle">This is a trigger-based decision, not a time-based one. Stay LLP until at least one of these fires.</p>
+
+    <div class="decision">
+      <div class="decision-title">Pull the trigger only when</div>
+      <ul class="trigger-list">
+        <li>Applying to YC or a US accelerator</li>
+        <li>Actively talking to a US investor (term sheet incoming)</li>
+        <li>A US customer explicitly requires a US contracting entity</li>
+        <li>Revenue has crossed ₹10–15L and you're scaling fast</li>
+      </ul>
+    </div>
+
+    <p style="font-size:0.9rem; color: var(--sage); margin-top: 8px;">If none of these apply yet: stay LLP. The structure cost (₹1L+) is real. The compliance overhead is real. Don't pre-optimize.</p>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- Phase 4 -->
+  <div class="phase">
+    <div class="phase-label">Phase 4</div>
+    <h2>Set Up Delaware C-Corp (Stripe Atlas)</h2>
+    <p class="subtitle">When the trigger fires, this is the fastest path. Total cost: ~$500 (~₹43,000). Time: 1 week.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-header">
+          <span class="step-num">01</span>
+          <h3>Go to Stripe Atlas and fill the form</h3>
+        </div>
+        <ul>
+          <li>Company name (check Delaware name availability first)</li>
+          <li>Founder details (name, address, passport or Aadhaar)</li>
+          <li>Equity split — keep it simple: 50/50 or whatever you've agreed</li>
+        </ul>
+      </div>
+
+      <div class="step">
+        <div class="step-header">
+          <span class="step-num">02</span>
+          <h3>Pay $500 and wait</h3>
+        </div>
+        <p>You receive: Delaware C-Corp incorporation documents, EIN (may take 2–4 weeks), and access to US banking setup.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-header">
+          <span class="step-num">03</span>
+          <h3>Open US bank account via Mercury or Brex</h3>
+        </div>
+        <p>Atlas routes you directly. Mercury is free and fully remote-friendly for Indian founders. No US address or SSN required. Takes 1–3 days.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- Phase 5 -->
+  <div class="phase">
+    <div class="phase-label">Phase 5</div>
+    <h2>Clean Up the Structure</h2>
+    <p class="subtitle">After Delaware is set up you'll have two entities running in parallel. That's fine temporarily, but clean it up within 3–6 months.</p>
+
+    <div class="decision">
+      <div class="decision-title">Target structure</div>
+      <p>You → Delaware C-Corp (US parent) → Indian OpCo (LLP or Pvt Ltd subsidiary)</p>
+      <p style="margin-top:8px; font-size:0.85rem; color:var(--sage);">Right now you have: You → LLP (India) and You → Delaware (US), disconnected. That's the mess to fix.</p>
+    </div>
+
+    <div class="steps" style="margin-top: 20px;">
+      <div class="step">
+        <div class="step-header">
+          <span class="step-num">A</span>
+          <h3>Simple path (early stage)</h3>
+        </div>
+        <p>All new contracts get signed under Delaware C-Corp. LLP slowly becomes inactive. No formal IP transfer needed yet. Works fine until you raise.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-header">
+          <span class="step-num">B</span>
+          <h3>Clean path (pre-fundraise)</h3>
+        </div>
+        <p>Assign IP formally from LLP → C-Corp. Convert or wind down LLP. LLP becomes a subsidiary or is dissolved. Needs a CA + lawyer. Budget: ₹50k–₹1.5L.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- Cash Flow -->
+  <div class="phase">
+    <div class="phase-label">Cash Flow</div>
+    <h2>What This Costs</h2>
+    <p class="subtitle">Everything in one table.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Cost</th>
+          <th>When</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>LLP registration (CA fees + MCA)</td>
+          <td class="negative">₹10,000</td>
+          <td>Phase 1</td>
+          <td>One-time</td>
+        </tr>
+        <tr>
+          <td>LLP current account</td>
+          <td class="negative">₹5,000</td>
+          <td>Phase 1</td>
+          <td>Varies by bank</td>
+        </tr>
+        <tr>
+          <td>Design partner contract (legal review)</td>
+          <td class="negative">₹0–₹15,000</td>
+          <td>Phase 2</td>
+          <td>Skip review early; use template</td>
+        </tr>
+        <tr>
+          <td><strong>Design partner revenue</strong></td>
+          <td class="positive">+₹2L–₹10L</td>
+          <td>Phase 2</td>
+          <td>Your first real validation</td>
+        </tr>
+        <tr>
+          <td>Stripe Atlas (Delaware C-Corp)</td>
+          <td class="negative">₹43,000 (~$500)</td>
+          <td>Phase 4</td>
+          <td>Only when trigger fires</td>
+        </tr>
+        <tr>
+          <td>Mercury / Brex US bank</td>
+          <td>₹0</td>
+          <td>Phase 4</td>
+          <td>Free</td>
+        </tr>
+        <tr>
+          <td>Structure cleanup (CA + lawyer)</td>
+          <td class="negative">₹50k–₹1.5L</td>
+          <td>Phase 5</td>
+          <td>Pre-fundraise; not urgent</td>
+        </tr>
+        <tr>
+          <td><strong>Total burn (excluding revenue)</strong></td>
+          <td class="negative"><strong>~₹1.2L–₹1.8L</strong></td>
+          <td>Across all phases</td>
+          <td>Before any outside capital</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- TL;DR -->
+  <div class="tldr">
+    <h2>TL;DR — The Exact Sequence</h2>
+    <ol>
+      <li><strong>Register LLP</strong> — ~₹10k, 1–2 weeks, needed to sign contracts and receive money.</li>
+      <li><strong>Close a design partner</strong> — simple agreement, ₹2L–₹10L, money into LLP account.</li>
+      <li><strong>Validate, don't incorporate yet</strong> — stay LLP until a real US trigger fires.</li>
+      <li><strong>Set up Delaware C-Corp via Stripe Atlas</strong> — $500, 1 week, only when needed.</li>
+      <li><strong>Open Mercury/Brex US bank account</strong> — free, 1–3 days.</li>
+      <li><strong>Move new contracts to Delaware</strong> — simple path first; formal cleanup before fundraise.</li>
+    </ol>
+  </div>
+
+</div>
+
+<footer>
+  SimGym Internal — Last updated June 2026
+</footer>
+
+<script>
+  function toggleContract(btn) {
+    btn.classList.toggle('open');
+    const body = btn.nextElementSibling;
+    body.classList.toggle('visible');
+  }
+</script>
+
+</body>
+</html>
