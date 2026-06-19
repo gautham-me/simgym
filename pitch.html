@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SimGym — Pitch</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --forest: #2d4a2b;
+      --sage:   #7d8471;
+      --olive:  #a4ac86;
+      --ivory:  #faf9f6;
+      --cream:  #f0ede6;
+      --ink:    #1c2b1b;
+      --red:    #b04040;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--ivory);
+      color: var(--ink);
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    /* ── SLIDE SYSTEM ── */
+    .slide {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px clamp(32px, 8vw, 120px);
+      position: relative;
+    }
+
+    .slide-inner {
+      max-width: 960px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      background: rgba(250,249,246,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(20px, 4vw, 48px);
+      height: 52px;
+    }
+    .nav-logo {
+      font-family: 'EB Garamond', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--forest);
+      letter-spacing: 0.5px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 4px;
+    }
+    .nav-links a {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: var(--sage);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--forest);
+      background: var(--cream);
+    }
+
+    /* ── SLIDE 1: HERO ── */
+    #hero {
+      background: var(--forest);
+      color: var(--ivory);
+      padding-top: 120px;
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(164,172,134,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 24px;
+    }
+    .hero-headline {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(44px, 7vw, 84px);
+      font-weight: 700;
+      line-height: 1.05;
+      color: var(--ivory);
+      margin-bottom: 32px;
+      max-width: 780px;
+    }
+    .hero-headline em {
+      font-style: italic;
+      color: var(--olive);
+    }
+    .hero-sub {
+      font-size: clamp(17px, 2.2vw, 21px);
+      color: rgba(250,249,246,0.7);
+      max-width: 560px;
+      line-height: 1.6;
+      margin-bottom: 56px;
+    }
+    .hero-bar {
+      display: flex;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+    .hero-stat {
+      border-left: 2px solid var(--olive);
+      padding-left: 16px;
+    }
+    .hero-stat .stat-num {
+      font-family: 'EB Garamond', serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--ivory);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .hero-stat .stat-label {
+      font-size: 12px;
+      color: var(--olive);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── EYEBROW / SECTION LABEL ── */
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 16px;
+    }
+
+    /* ── SLIDE 2: PROBLEM ── */
+    #problem {
+      background: var(--ink);
+      color: var(--ivory);
+    }
+    #problem .eyebrow { color: var(--olive); }
+    .problem-headline {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(34px, 5vw, 58px);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 48px;
+      max-width: 700px;
+    }
+    .problem-headline span {
+      color: #c47070;
+    }
+    .incident-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      max-width: 720px;
+    }
+    .incident {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 24px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .incident:last-child { border-bottom: none; }
+    .incident-dot {
+      flex-shrink: 0;
+      width: 8px;
+      height: 8px;
+      background: #c47070;
+      border-radius: 50%;
+      margin-top: 8px;
+    }
+    .incident-text {
+      font-size: 17px;
+      color: rgba(250,249,246,0.75);
+      line-height: 1.6;
+    }
+    .incident-text strong {
+      color: var(--ivory);
+      font-weight: 600;
+    }
+    .problem-closer {
+      margin-top: 48px;
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(22px, 3vw, 32px);
+      font-style: italic;
+      color: var(--olive);
+      max-width: 680px;
+      line-height: 1.4;
+    }
+
+    /* ── SLIDE 3: WHAT (product) ── */
+    #what {
+      background: var(--ivory);
+    }
+    .what-headline {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(34px, 5vw, 56px);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--forest);
+      margin-bottom: 20px;
+      max-width: 760px;
+    }
+    .what-sub {
+      font-size: 18px;
+      color: var(--sage);
+      max-width: 620px;
+      margin-bottom: 56px;
+    }
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--olive);
+      border-radius: 8px;
+      overflow: hidden;
+      max-width: 860px;
+    }
+    .pillar {
+      background: var(--ivory);
+      padding: 32px 28px;
+    }
+    .pillar-num {
+      font-family: 'EB Garamond', serif;
+      font-size: 42px;
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+    .pillar-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--forest);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .pillar-body {
+      font-size: 14px;
+      color: var(--sage);
+      line-height: 1.6;
+    }
+    .what-loop {
+      margin-top: 48px;
+      max-width: 860px;
+      background: var(--forest);
+      color: var(--ivory);
+      border-radius: 8px;
+      padding: 32px 36px;
+    }
+    .what-loop .loop-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 12px;
+    }
+    .what-loop .loop-text {
+      font-family: 'EB Garamond', serif;
+      font-size: 22px;
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    /* ── SLIDE 4: WHY US ── */
+    #why-us {
+      background: var(--cream);
+    }
+    .why-headline {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(34px, 5vw, 56px);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--forest);
+      margin-bottom: 48px;
+      max-width: 680px;
+    }
+    .founders {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      max-width: 860px;
+      margin-bottom: 48px;
+    }
+    .founder-card {
+      background: var(--ivory);
+      border: 1px solid var(--olive);
+      border-radius: 8px;
+      padding: 32px 28px;
+    }
+    .founder-role {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 8px;
+    }
+    .founder-name {
+      font-family: 'EB Garamond', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--forest);
+      margin-bottom: 16px;
+    }
+    .founder-bio {
+      font-size: 15px;
+      color: var(--sage);
+      line-height: 1.6;
+    }
+    .founder-bio strong {
+      color: var(--ink);
+    }
+    .moats {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 860px;
+    }
+    .moat {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      background: var(--ivory);
+      border: 1px solid var(--olive);
+      border-left: 4px solid var(--forest);
+      border-radius: 0 8px 8px 0;
+      padding: 20px 24px;
+    }
+    .moat-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+      line-height: 1;
+      margin-top: 2px;
+    }
+    .moat-body strong {
+      display: block;
+      font-size: 15px;
+      color: var(--forest);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .moat-body p {
+      font-size: 14px;
+      color: var(--sage);
+      margin: 0;
+    }
+
+    /* ── SLIDE 5: MARKET ── */
+    #market {
+      background: var(--forest);
+      color: var(--ivory);
+    }
+    #market .eyebrow { color: var(--olive); }
+    .market-headline {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(34px, 5vw, 58px);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 48px;
+      max-width: 780px;
+    }
+    .market-headline em {
+      font-style: italic;
+      color: var(--olive);
+    }
+    .market-tiers {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      overflow: hidden;
+      max-width: 860px;
+      margin-bottom: 48px;
+    }
+    .market-tier {
+      background: rgba(45,74,43,0.7);
+      padding: 32px 24px;
+      border: 1px solid rgba(164,172,134,0.2);
+    }
+    .tier-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 12px;
+    }
+    .tier-num {
+      font-family: 'EB Garamond', serif;
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--ivory);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .tier-desc {
+      font-size: 13px;
+      color: rgba(250,249,246,0.6);
+      line-height: 1.5;
+    }
+    .market-narrative {
+      max-width: 760px;
+    }
+    .market-narrative p {
+      font-size: 17px;
+      color: rgba(250,249,246,0.75);
+      margin-bottom: 16px;
+      line-height: 1.7;
+    }
+    .market-narrative p strong {
+      color: var(--ivory);
+    }
+    .market-narrative p:last-child { margin-bottom: 0; }
+    .comp-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 36px;
+    }
+    .comp-pill {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(164,172,134,0.3);
+      border-radius: 100px;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: rgba(250,249,246,0.7);
+    }
+    .comp-pill span {
+      color: var(--olive);
+      font-weight: 600;
+    }
+
+    /* ── SLIDE 6: PLAN ── */
+    #plan {
+      background: var(--ivory);
+    }
+    .plan-headline {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(34px, 5vw, 56px);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--forest);
+      margin-bottom: 16px;
+      max-width: 720px;
+    }
+    .plan-sub {
+      font-size: 17px;
+      color: var(--sage);
+      margin-bottom: 56px;
+      max-width: 600px;
+    }
+
+    /* MVP section */
+    .mvp-section {
+      max-width: 900px;
+      margin-bottom: 64px;
+    }
+    .phase-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .phase-badge {
+      background: var(--forest);
+      color: var(--ivory);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 3px;
+    }
+    .phase-name {
+      font-family: 'EB Garamond', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--forest);
+    }
+    .phase-timeline {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--sage);
+      margin-left: auto;
+    }
+    .mvp-kpi {
+      background: var(--forest);
+      color: var(--ivory);
+      border-radius: 8px;
+      padding: 28px 32px;
+      margin-bottom: 32px;
+    }
+    .mvp-kpi .kpi-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 10px;
+    }
+    .mvp-kpi .kpi-headline {
+      font-family: 'EB Garamond', serif;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .mvp-kpi .kpi-def {
+      font-size: 14px;
+      color: rgba(250,249,246,0.65);
+      line-height: 1.5;
+    }
+    .mvp-steps {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .mvp-step {
+      background: var(--cream);
+      border: 1px solid var(--olive);
+      border-radius: 8px;
+      padding: 22px 22px;
+    }
+    .mvp-step .step-num {
+      font-family: 'EB Garamond', serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--olive);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .mvp-step .step-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--forest);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .mvp-step .step-body {
+      font-size: 13px;
+      color: var(--sage);
+      line-height: 1.55;
+    }
+    .mvp-pricing {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 0;
+    }
+    .pricing-card {
+      border: 1px solid var(--olive);
+      border-radius: 8px;
+      padding: 22px 22px;
+    }
+    .pricing-card.highlight {
+      background: var(--forest);
+      color: var(--ivory);
+      border-color: var(--forest);
+    }
+    .pricing-card .p-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 8px;
+    }
+    .pricing-card.highlight .p-label { color: var(--olive); }
+    .pricing-card .p-price {
+      font-family: 'EB Garamond', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--forest);
+      margin-bottom: 6px;
+    }
+    .pricing-card.highlight .p-price { color: var(--ivory); }
+    .pricing-card .p-desc {
+      font-size: 13px;
+      color: var(--sage);
+      margin: 0;
+    }
+    .pricing-card.highlight .p-desc { color: rgba(250,249,246,0.65); }
+
+    /* Phases 2 & 3 — deliberately vague */
+    .future-phases {
+      max-width: 900px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .future-phase {
+      background: var(--cream);
+      border: 1px solid var(--olive);
+      border-radius: 8px;
+      padding: 28px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .future-phase::after {
+      content: 'SUBJECT TO MARKET FEEDBACK';
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--olive);
+    }
+    .future-phase .fp-badge {
+      display: inline-block;
+      background: var(--sage);
+      color: var(--ivory);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 3px;
+      margin-bottom: 14px;
+    }
+    .future-phase .fp-title {
+      font-family: 'EB Garamond', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--forest);
+      margin-bottom: 12px;
+    }
+    .future-phase .fp-direction {
+      font-size: 14px;
+      color: var(--sage);
+      line-height: 1.6;
+      margin-bottom: 40px;
+    }
+    .future-phase .fp-signal {
+      font-size: 13px;
+      font-style: italic;
+      color: var(--olive);
+    }
+
+    /* ── CLOSING ── */
+    #closing {
+      background: var(--forest);
+      color: var(--ivory);
+      text-align: center;
+      align-items: center;
+    }
+    #closing .slide-inner {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .closing-headline {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(38px, 6vw, 68px);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      max-width: 720px;
+    }
+    .closing-headline em {
+      font-style: italic;
+      color: var(--olive);
+    }
+    .closing-sub {
+      font-size: 18px;
+      color: rgba(250,249,246,0.65);
+      margin-bottom: 48px;
+      max-width: 480px;
+    }
+    .closing-contact {
+      font-size: 15px;
+      color: var(--olive);
+      letter-spacing: 0.3px;
+    }
+    .slide-divider {
+      width: 48px;
+      height: 3px;
+      background: var(--olive);
+      margin: 32px 0;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 680px) {
+      .pillars, .market-tiers, .founders, .mvp-steps, .mvp-pricing, .future-phases {
+        grid-template-columns: 1fr;
+      }
+      .nav-links { display: none; }
+    }
+
+    /* ── PROGRESS BAR ── */
+    #progress {
+      position: fixed;
+      top: 52px;
+      left: 0;
+      height: 2px;
+      background: var(--olive);
+      width: 0%;
+      z-index: 199;
+      transition: width 0.1s linear;
+    }
+  </style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav>
+  <span class="nav-logo">SimGym</span>
+  <div class="nav-links">
+    <a href="#what">What</a>
+    <a href="#why-us">Why Us</a>
+    <a href="#market">Market</a>
+    <a href="#plan">Plan</a>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════
+     SLIDE 1 — HERO
+════════════════════════════════════════ -->
+<section class="slide" id="hero">
+  <div class="slide-inner">
+    <div class="hero-eyebrow">SimGym · 2025</div>
+    <h1 class="hero-headline">
+      The safety net<br>every AI agent<br><em>needs before it ships.</em>
+    </h1>
+    <p class="hero-sub">
+      A simulation engine and autonomous CI/CD pipeline that intercepts
+      prompt regressions, tool hallucinations, and infinite loops —
+      before they reach your users.
+    </p>
+    <div class="hero-bar">
+      <div class="hero-stat">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">of AI teams have no agent CI</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-num">20+</div>
+        <div class="stat-label">regressions caught in 6 weeks (pilot target)</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-num">$0</div>
+        <div class="stat-label">comparable solutions today</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     SLIDE 2 — PROBLEM
+════════════════════════════════════════ -->
+<section class="slide" id="problem">
+  <div class="slide-inner">
+    <div class="eyebrow">The Problem</div>
+    <h2 class="problem-headline">
+      AI agents are in production.<br>
+      <span>Nothing is testing them.</span>
+    </h2>
+    <div class="incident-list">
+      <div class="incident">
+        <div class="incident-dot"></div>
+        <div class="incident-text">
+          A team ships a prompt tweak on Friday afternoon.
+          <strong>By Monday morning, the agent is looping on a tool call</strong>,
+          burning $800/hour in API costs and timing out every user request.
+        </div>
+      </div>
+      <div class="incident">
+        <div class="incident-dot"></div>
+        <div class="incident-text">
+          An update that fixes one edge case <strong>silently breaks three others</strong>.
+          There are no tests for prompts. No one knew until a customer complained.
+        </div>
+      </div>
+      <div class="incident">
+        <div class="incident-dot"></div>
+        <div class="incident-text">
+          The agent hallucinates a <strong>destructive database command</strong> on a real user's live environment.
+          The sandbox they were testing in never caught it because the sandbox was just a local notebook.
+        </div>
+      </div>
+      <div class="incident">
+        <div class="incident-dot"></div>
+        <div class="incident-text">
+          A perfectly working agent <strong>stops working entirely</strong> after the LLM provider silently
+          updates the model. No regression suite. No alert. Just angry users.
+        </div>
+      </div>
+    </div>
+    <p class="problem-closer">
+      "We merged the prompt change. It worked in our head.
+      It didn't work in production."
+    </p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     SLIDE 3 — WHAT WE'RE BUILDING
+════════════════════════════════════════ -->
+<section class="slide" id="what">
+  <div class="slide-inner">
+    <div class="eyebrow">What We're Building</div>
+    <h2 class="what-headline">
+      A gym for AI agents — where they train before they compete.
+    </h2>
+    <p class="what-sub">
+      SimGym is a simulation engine, prompt CI/CD pipeline, and trace ingestion flywheel
+      that ensures no broken agent ever merges to production.
+    </p>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-num">01</div>
+        <div class="pillar-title">The Gym</div>
+        <div class="pillar-body">
+          A sandboxed simulation environment that replays your real production
+          traces against any prompt change — before you ship it.
+          Isolated. Deterministic. Honest.
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">02</div>
+        <div class="pillar-title">Prompt CI/CD</div>
+        <div class="pillar-body">
+          GitHub-native integration that runs your agent's full benchmark suite
+          on every PR. Blocks merges on regressions.
+          Posts the diff — exactly what broke and why.
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">03</div>
+        <div class="pillar-title">Shadow Loop</div>
+        <div class="pillar-body">
+          Ingests live production traces, flags anomalies overnight,
+          generates a prompt fix, and opens the PR itself.
+          You wake up to a solution, not an incident.
+        </div>
+      </div>
+    </div>
+    <div class="what-loop">
+      <div class="loop-label">The North Star Experience</div>
+      <div class="loop-text">
+        "SimGym found an edge case in your agent at 2 AM.
+        It already wrote the prompt fix. It already verified the fix passes.
+        Here's the PR — you just need to approve it."
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     SLIDE 4 — WHY US
+════════════════════════════════════════ -->
+<section class="slide" id="why-us">
+  <div class="slide-inner">
+    <div class="eyebrow">Why Us</div>
+    <h2 class="why-headline">
+      We've felt this pain from both sides of the table.
+    </h2>
+    <div class="founders">
+      <div class="founder-card">
+        <div class="founder-role">Co-Founder</div>
+        <div class="founder-name">[ Your Name ]</div>
+        <div class="founder-bio">
+          <p>[ Describe your direct experience building or operating AI agents in production. What specific pain did you see? What made you the right person to build this? ]</p>
+          <p><strong>Key signal:</strong> You've been the engineer on the other side of a 2 AM production incident caused by a prompt change.</p>
+        </div>
+      </div>
+      <div class="founder-card">
+        <div class="founder-role">Co-Founder</div>
+        <div class="founder-name">[ Co-Founder Name ]</div>
+        <div class="founder-bio">
+          <p>[ Describe technical depth — infrastructure, AI systems, developer tooling. What have you shipped at scale that is directly relevant? ]</p>
+          <p><strong>Key signal:</strong> You know what it takes to build something engineers will trust with their production pipelines.</p>
+        </div>
+      </div>
+    </div>
+    <div class="moats">
+      <div class="moat">
+        <div class="moat-icon">⚡</div>
+        <div class="moat-body">
+          <strong>Distribution before the product ships</strong>
+          <p>We started with a list of 30–50 AI-native companies we know have agents in production. We ran discovery calls, not demos. The first design partners came from relationships, not marketing.</p>
+        </div>
+      </div>
+      <div class="moat">
+        <div class="moat-icon">🔁</div>
+        <div class="moat-body">
+          <strong>Flywheel that gets stronger with every customer</strong>
+          <p>Each design partner's traces become training signal. The more companies on SimGym, the smarter the anomaly detection and the better the auto-generated prompt fixes become.</p>
+        </div>
+      </div>
+      <div class="moat">
+        <div class="moat-icon">🏗</div>
+        <div class="moat-body">
+          <strong>Built on the right stack at the right moment</strong>
+          <p>Claude Agent SDK, MCP, and Firecracker are infrastructure bets we've made early. By the time competitors understand these primitives, we'll be entrenched in production pipelines.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     SLIDE 5 — MARKET
+════════════════════════════════════════ -->
+<section class="slide" id="market">
+  <div class="slide-inner">
+    <div class="eyebrow">How Big Can This Get</div>
+    <h2 class="market-headline">
+      Every company that ships AI agents<br>
+      <em>will eventually need this.</em>
+    </h2>
+    <div class="market-tiers">
+      <div class="market-tier">
+        <div class="tier-label">Beachhead</div>
+        <div class="tier-num">~5K</div>
+        <div class="tier-desc">AI-native Series A–B companies with agents in production today. The companies feeling the pain right now. Our first 18 months.</div>
+      </div>
+      <div class="market-tier">
+        <div class="tier-label">Serviceable Market</div>
+        <div class="tier-num">~80K</div>
+        <div class="tier-desc">All software companies actively building LLM-powered features on top of major model providers. GitHub shows this cohort doubling annually.</div>
+      </div>
+      <div class="market-tier">
+        <div class="tier-label">Total Addressable</div>
+        <div class="tier-num">$4B+</div>
+        <div class="tier-desc">The emerging AI DevOps and LLMOps tooling category. Currently fragmented. No dominant platform. Infrastructure companies captured this in every prior wave.</div>
+      </div>
+    </div>
+    <div class="market-narrative">
+      <p>
+        <strong>The analogy is Datadog in 2012.</strong> Every company was moving to the cloud
+        but had no production observability. The tooling wave followed the infrastructure wave with a 2–3 year lag.
+      </p>
+      <p>
+        AI agents entered production in 2024. The testing and reliability tooling wave is starting now.
+        The window for a category-defining company is open — and closing.
+      </p>
+      <p>
+        <strong>SimGym's path to scale:</strong> Start with prompt regression testing (specific, urgent, already bought).
+        Expand to become the system of record for every agent deployment decision.
+      </p>
+    </div>
+    <div class="comp-row">
+      <div class="comp-pill">Datadog <span>↔</span> cloud observability</div>
+      <div class="comp-pill">Sentry <span>↔</span> application errors</div>
+      <div class="comp-pill">LaunchDarkly <span>↔</span> feature flags</div>
+      <div class="comp-pill">SimGym <span>↔</span> AI agent reliability</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     SLIDE 6 — THE PLAN
+════════════════════════════════════════ -->
+<section class="slide" id="plan">
+  <div class="slide-inner">
+    <div class="eyebrow">How We're Going to Get There</div>
+    <h2 class="plan-headline">
+      Prove the core loop with three companies. Then scale it.
+    </h2>
+    <p class="plan-sub">
+      The MVP is manual and concierge. We want to be in the room, watching engineers use it.
+      Everything after that is shaped by what we learn.
+    </p>
+
+    <!-- MVP -->
+    <div class="mvp-section">
+      <div class="phase-badge-row">
+        <span class="phase-badge">Phase 1 — MVP</span>
+        <span class="phase-name">The Sandbox</span>
+        <span class="phase-timeline">Months 1–3</span>
+      </div>
+
+      <div class="mvp-kpi">
+        <div class="kpi-label">North Star Metric</div>
+        <div class="kpi-headline">20+ critical regressions intercepted</div>
+        <div class="kpi-def">
+          A breaking change — tool hallucination, schema violation, infinite loop — caught in SimGym
+          before the customer merges it to production. Across 1–3 design partners. In 6 weeks.
+          This is the proof. This is what gets us to YC.
+        </div>
+      </div>
+
+      <div class="mvp-steps">
+        <div class="mvp-step">
+          <div class="step-num">1</div>
+          <div class="step-title">Zero-friction intake</div>
+          <div class="step-body">
+            We ask for exactly three things: a system prompt, a tool schema, and 100 historical
+            traces. No access to their database. No API keys. No code.
+            Low trust required to get started.
+          </div>
+        </div>
+        <div class="mvp-step">
+          <div class="step-num">2</div>
+          <div class="step-title">We build their gym</div>
+          <div class="step-body">
+            We manually configure a sandboxed environment that replays their real workloads
+            against their agent. This is high-touch concierge for the first three partners.
+            We learn what the product needs to do by doing it ourselves.
+          </div>
+        </div>
+        <div class="mvp-step">
+          <div class="step-num">3</div>
+          <div class="step-title">Run simulations, show results</div>
+          <div class="step-body">
+            We run their traces. We surface regressions. We generate prompt improvements
+            they can ship. We document every catch with: what changed, what would have broken,
+            what the blast radius would have been.
+          </div>
+        </div>
+        <div class="mvp-step">
+          <div class="step-num">4</div>
+          <div class="step-title">Weekly design-partner calls</div>
+          <div class="step-body">
+            We treat these as the product before the UI exists.
+            We're in their Slack. We fix things overnight.
+            The responsiveness is what turns a pilot customer into an advocate.
+          </div>
+        </div>
+      </div>
+
+      <div class="mvp-pricing">
+        <div class="pricing-card">
+          <div class="p-label">Pilot Fee</div>
+          <div class="p-price">$3k – $6k</div>
+          <div class="p-desc">Flat cost-recovery fee for 6-month pilot. Covers our time. Not a revenue model — a commitment filter.</div>
+        </div>
+        <div class="pricing-card highlight">
+          <div class="p-label">On Success → Standard SaaS</div>
+          <div class="p-price">$12k / yr</div>
+          <div class="p-desc">Written into the pilot agreement. If we catch the regressions, the transition is pre-agreed. No renegotiation.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phases 2 & 3 — vague by design -->
+    <div class="phase-badge-row" style="margin-bottom: 20px;">
+      <span class="phase-badge" style="background: var(--sage);">Phases 2 & 3</span>
+      <span class="phase-name" style="color: var(--sage);">What comes next</span>
+    </div>
+    <p style="font-size: 15px; color: var(--sage); max-width: 680px; margin-bottom: 24px; font-style: italic;">
+      These phases are directionally defined but intentionally not locked down.
+      What we build after Phase 1 depends on what we learn from real usage.
+    </p>
+    <div class="future-phases">
+      <div class="future-phase">
+        <div class="fp-badge">Phase 2</div>
+        <div class="fp-title">From tool to workflow</div>
+        <div class="fp-direction">
+          Once the core simulation is trusted, the natural next move is embedding SimGym
+          directly into the daily development loop — a GitHub-native integration
+          that runs automatically on every prompt change, without anyone having to ask.
+        </div>
+        <div class="fp-signal">Trigger: design partners start asking "can this run on every PR?"</div>
+      </div>
+      <div class="future-phase">
+        <div class="fp-badge">Phase 3</div>
+        <div class="fp-title">From workflow to system of record</div>
+        <div class="fp-direction">
+          The longer-term direction is owning the production data layer — ingesting live
+          traces, running autonomous quality checks, and surfacing fixes without
+          any human in the loop. The product that finds and fixes its own bugs.
+        </div>
+        <div class="fp-signal">Trigger: customers ask "can SimGym just… watch production for us?"</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     CLOSING
+════════════════════════════════════════ -->
+<section class="slide" id="closing">
+  <div class="slide-inner">
+    <div class="eyebrow" style="color: var(--olive);">SimGym · 2025</div>
+    <div class="slide-divider"></div>
+    <h2 class="closing-headline">
+      AI agents are in production.<br>
+      <em>Now let's make them reliable.</em>
+    </h2>
+    <p class="closing-sub">
+      We're looking for 1–3 design partners who are already shipping AI agents and
+      have already been burned by a production incident.
+      If that's you — let's talk.
+    </p>
+    <div class="closing-contact">[ your@email.com ]</div>
+  </div>
+</section>
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const scrolled = doc.scrollTop || document.body.scrollTop;
+    const total = doc.scrollHeight - doc.clientHeight;
+    document.getElementById('progress').style.width = (scrolled / total * 100) + '%';
+  });
+</script>
+
+</body>
+</html>
