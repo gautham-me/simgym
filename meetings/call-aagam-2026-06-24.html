@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Call with Aagam — June 24, 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --forest: #2d4a2b;
+      --sage:   #7d8471;
+      --olive:  #a4ac86;
+      --ivory:  #faf9f6;
+      --cream:  #f0ede6;
+      --ink:    #1c2b1b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--ivory);
+      color: var(--ink);
+      font-family: 'Source Sans 3', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: var(--forest);
+      color: var(--ivory);
+      padding: 48px 48px 40px;
+      position: relative;
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--olive), var(--sage), var(--forest));
+    }
+    header .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--olive);
+      text-decoration: none;
+      margin-bottom: 20px;
+    }
+    header .back-link:hover { color: var(--ivory); }
+    header .eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 10px;
+    }
+    header h1 {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 700;
+      line-height: 1.15;
+    }
+    header .meta {
+      margin-top: 10px;
+      color: var(--olive);
+      font-size: 14px;
+    }
+
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 56px 48px 100px;
+      flex: 1;
+    }
+
+    .section {
+      margin-bottom: 48px;
+    }
+
+    .section-title {
+      font-family: 'EB Garamond', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--forest);
+      border-bottom: 2px solid var(--olive);
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+    }
+
+    .subsection-title {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin: 24px 0 10px;
+    }
+
+    ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    ul li {
+      position: relative;
+      padding-left: 18px;
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--ink);
+    }
+
+    ul li::before {
+      content: '–';
+      position: absolute;
+      left: 0;
+      color: var(--olive);
+      font-weight: 600;
+    }
+
+    ul li ul {
+      margin-top: 8px;
+    }
+
+    ul li ul li {
+      font-size: 14px;
+      color: var(--sage);
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background: var(--forest);
+      color: var(--ivory);
+      padding: 2px 8px;
+      border-radius: 3px;
+      margin-right: 6px;
+    }
+
+    .next-steps-list li {
+      background: var(--cream);
+      border: 1px solid var(--olive);
+      border-radius: 6px;
+      padding: 14px 18px;
+      padding-left: 36px;
+    }
+
+    .next-steps-list li::before {
+      top: 14px;
+      left: 16px;
+    }
+
+    .next-steps-list li strong {
+      color: var(--forest);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    footer {
+      background: var(--forest);
+      color: var(--olive);
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="back-link" href="../meetings.html">← Meetings</a>
+  <div class="eyebrow">Meeting Notes</div>
+  <h1>Call with Aagam</h1>
+  <div class="meta">June 24, 2026 &nbsp;·&nbsp; Aagam (Fintiv / Five9)</div>
+</header>
+
+<main>
+
+  <div class="section">
+    <div class="section-title">Aagam's Setup at Fintiv (Five9)</div>
+    <ul>
+      <li>Voice contact center focus: 95%+ voice, some live chat/digital</li>
+      <li>Still on bot-flow architecture, not agent SDK — no customer demand for it yet</li>
+      <li>Revenue-first mandate under new CEO: build what customers want, close deals
+        <ul>
+          <li>Already closed ~$11–11.5M in contracts in the last 3 months</li>
+          <li>Target: $50M in contract signings before pivoting to agent/harness work</li>
+          <li>Studio platform (drag-and-drop) closes ~$70M per quarter</li>
+          <li>Delivery team handles customer-specific prompt deployments</li>
+        </ul>
+      </li>
+      <li>Testing via <strong>Cekura</strong> (<a href="https://cekura.ai" style="color:var(--forest)">cekura.ai</a>): simulator that makes outbound calls against test profiles with custom evals
+        <ul>
+          <li>Cheaper than alternatives, gets the job done</li>
+          <li>Only real value: running the multi-turn call pipeline (could be built in-house)</li>
+          <li>In-house prompt testing module also in development</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Agent Harness and Dev Tooling</div>
+    <ul>
+      <li>Full history: started with LiveKit and voice-to-voice models, then pulled back; landed on Yellow's original approach</li>
+      <li><strong>Abhishek</strong> hired specifically to build an internal agent harness
+        <ul>
+          <li>Built on cloud agent SDKs (e.g. Claude), end-to-end: spec, review, multi-agent workflow</li>
+          <li>Outcome: 2× delivery capacity with same headcount (team of 20–30 engineers)</li>
+          <li>Primary use case so far: internal dev productivity, not voice agents yet</li>
+        </ul>
+      </li>
+      <li>Biggest pain point: merge request (MR) reviews are a bottleneck
+        <ul>
+          <li>Tried CodeRabbit and similar tools; none adequate</li>
+          <li>No remedy found yet; reviews piling up</li>
+        </ul>
+      </li>
+      <li>Observability/tracing tools evaluated (15–20 hours across 4–5 vendors): all shallow
+        <ul>
+          <li>Pattern: ingest logs → add traces → run LLM reasoning on top + some clustering</li>
+          <li>No depth beyond that; Aagam would rather build it in-house in 1–2 months</li>
+        </ul>
+      </li>
+      <li>Model strategy: all closed-source (Azure) for now; open-source deployments on Cerebras/Groq slated for Q4
+        <ul>
+          <li>No model training: uplift too low for revenue-focused product companies at this scale</li>
+          <li>Cerebras note: OpenAI has bought ~80% of available Cerebras inventory for inference; limited availability for others</li>
+          <li>Recommendation from Cerebras: stay on Llama 4 (5.4 or 5.5) for best provisioned inventory</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Startup Exploration (Gautham)</div>
+    <ul>
+      <li>Considering starting up in a few months, focused on dev tooling/infra for agent harnesses</li>
+      <li>Key dimensions being explored: durability, tracing, steerability, observability, memory</li>
+      <li>Still in thesis-forming stage, talking to people before deciding</li>
+      <li>Aagam's take: building agents is quick (aggregate prompts + tools); prod-readiness and quality confidence is the hard part</li>
+      <li>Key contacts at Five9 for potential design partnership:
+        <ul>
+          <li><strong>Jonathan</strong> — CTO (AI-focused)</li>
+          <li><strong>Roger Winning</strong> — VP-level, hands-on coder, reviews PRs every sprint</li>
+          <li><strong>Panos</strong> — Executive VP above Jonathan, oversees full portfolio</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Industry and Hiring</div>
+    <ul>
+      <li>Yellow.ai: Kishore reportedly leaving or being pushed out; company likely heading toward private equity acquisition</li>
+      <li>PM hiring market in India: very thin at senior level
+        <ul>
+          <li>Aagam: spent 20+ interviews in a quarter, found no one, ended up hiring in the US</li>
+          <li>Gautham: took 6 months to find one good junior PM at Atomicwork</li>
+        </ul>
+      </li>
+      <li>Shared skepticism about Freshworks PMs: tend to be process-oriented, not strategic</li>
+      <li>Cerebras SF visit: mostly networking, limited commercial value given OpenAI inventory lock-up</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Next Steps</div>
+    <ul class="next-steps-list">
+      <li>
+        <strong>Send Aagam the tracing/observability vendor links (Gautham)</strong>
+        Aagam wants to review all vendors Gautham looked at for monitoring; also forward any use case studies or recordings from those vendors if findable.
+      </li>
+      <li>
+        <strong>Share Abhishek's contact details with Gautham (Aagam)</strong>
+        Abhishek built the internal agent harness and has direct context on dev tooling challenges and MR review bottlenecks.
+      </li>
+    </ul>
+  </div>
+
+</main>
+
+<footer>
+  SimGym · Confidential
+</footer>
+
+</body>
+</html>

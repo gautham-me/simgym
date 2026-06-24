@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meetings — SimGym</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --forest: #2d4a2b;
+      --sage:   #7d8471;
+      --olive:  #a4ac86;
+      --ivory:  #faf9f6;
+      --cream:  #f0ede6;
+      --ink:    #1c2b1b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--ivory);
+      color: var(--ink);
+      font-family: 'Source Sans 3', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: var(--forest);
+      color: var(--ivory);
+      padding: 48px 48px 40px;
+      position: relative;
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--olive), var(--sage), var(--forest));
+    }
+    header .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--olive);
+      text-decoration: none;
+      margin-bottom: 20px;
+    }
+    header .back-link:hover { color: var(--ivory); }
+    header .eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 10px;
+    }
+    header h1 {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(32px, 5vw, 50px);
+      font-weight: 700;
+      line-height: 1.1;
+    }
+    header p {
+      margin-top: 10px;
+      color: var(--olive);
+      font-size: 15px;
+    }
+
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 56px 48px 100px;
+      flex: 1;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 20px;
+    }
+
+    .meeting-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .meeting-card {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: var(--cream);
+      border: 1px solid var(--olive);
+      border-radius: 6px;
+      padding: 20px 24px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .meeting-card:hover {
+      border-color: var(--forest);
+      box-shadow: 0 2px 12px rgba(45,74,43,0.1);
+    }
+    .meeting-icon {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      background: var(--forest);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    .meeting-info { flex: 1; }
+    .meeting-title {
+      font-family: 'EB Garamond', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--forest);
+      margin-bottom: 2px;
+    }
+    .meeting-date {
+      font-size: 13px;
+      color: var(--sage);
+    }
+    .meeting-badge {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background: var(--forest);
+      color: var(--ivory);
+      padding: 3px 8px;
+      border-radius: 3px;
+    }
+
+    footer {
+      background: var(--forest);
+      color: var(--olive);
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="back-link" href="index.html">← Home</a>
+  <div class="eyebrow">SimGym · Notes</div>
+  <h1>Meetings</h1>
+  <p>Call notes and conversation summaries.</p>
+</header>
+
+<main>
+  <div class="section-label">All Meetings</div>
+  <div class="meeting-list">
+
+    <a class="meeting-card" href="meetings/call-aagam-2026-06-24.html">
+      <div class="meeting-icon">📞</div>
+      <div class="meeting-info">
+        <div class="meeting-title">Call with Aagam</div>
+        <div class="meeting-date">June 24, 2026 &nbsp;·&nbsp; Aagam (Fintiv / Five9)</div>
+      </div>
+      <span class="meeting-badge">Notes</span>
+    </a>
+
+  </div>
+</main>
+
+<footer>
+  SimGym · Confidential
+</footer>
+
+</body>
+</html>
