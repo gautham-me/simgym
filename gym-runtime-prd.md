@@ -8,6 +8,8 @@
 
 This is a product requirements doc: what the engine must do and why, from the point of view of the people who use it. It deliberately avoids implementation detail (container runtime, orchestration library, etc.) — those belong in an engineering HLD, written later, constrained by these requirements.
 
+> **MVP note (added in review):** §14 defines how to build a first working version of this engine as a standalone CLI without pushing code into any existing production repo. Inline *MVP:* callouts throughout mark which requirements are in the first prototype cut and which are deferred. No original requirement has been removed — only annotated.
+
 ## 2. Problem statement
 
 An engineer changes a system prompt or a tool schema. Today, the only way to know if that change broke something is to ship it and watch production. By the time you notice — a user complaint, a cost spike, a support ticket — the damage is done: a wrong answer, an infinite tool loop, a destructive action.
@@ -90,8 +92,10 @@ Auto-generation is the default: for every clean historical trace, the engine aut
 ### 8.3 Execution & Isolation
 
 - FR7. Every Run executes in an isolated environment such that nothing the agent does (including destructive actions like deleting files or "dropping a table") can affect anything outside that Run.
+  - *MVP: isolation is achieved by construction. The agent never receives a real tool implementation — every tool call is answered by the Tool Response Layer (replay / synthesis / injection). A "destructive" action is just a mocked response, so no container or sandbox runtime is required for the prototype. Containers become relevant only if real tool execution is ever introduced later.*
 - FR8. The engine can snapshot and roll back state between steps, so a Run can be forked and re-run from any point without re-executing everything before it.
   - *Why this matters:* generating the §8.2 taxonomy means many variants per tool call site. Without snapshotting, testing 10 variants at turn 5 of an 8-turn conversation means re-running turns 1–4 ten times — redundant execution of parts of the conversation that never change. With a snapshot taken right before the call in question, the engine runs the shared prefix once, then forks N cheap branches from that single point, one per injected variant.
+  - *MVP: deferred. Snapshot/rollback is a performance optimization for fan-out, not a correctness requirement. The prototype simply re-runs the trace prefix per injected variant (redundant compute, far simpler to build). Revisit once run counts make prefix re-execution painful.*
 - FR9. A Run that doesn't terminate on its own (the agent loops, or exceeds a reasonable step/time budget) is stopped and reported as its own failure mode — **non-terminating Run** — which is one of the explicit Fail triggers in §8.4a, not a separate side case.
 
 ### 8.4 Verdicts & Regression Detection
@@ -103,8 +107,10 @@ Two separate judgments are produced per Run — an absolute verdict, and (when a
 - FR11. A Run is a **Fail** if the agent: calls a tool not present in `tools.json` (hallucinated tool); calls a real tool with arguments violating its schema; performs an action flagged as destructive/irreversible against mocked data; violates a configured cross-field invariant (below); or fails to terminate within budget (non-terminating Run, FR9).
 - FR11a. **Invariant checks:** the customer can define simple, deterministic cross-field rules per tool — e.g. "`amount` in `issue_refund` must not exceed `total` from the most recent `get_order` call in this Run." This catches semantically-wrong-but-schema-valid actions (a schema-valid refund call for 10x the actual order total is exactly the kind of bug that looks clean but isn't) without requiring open-ended judgment. MVP scope is deterministic invariants only; open-ended "does this action make sense" judgment (LLM-as-judge) is Phase 2+, tied to the Triage Engine in `PLAN.md §6.2`.
 - FR12. A Run is a **Warn** if it reaches a correct/acceptable final outcome via a trajectory containing something suboptimal that doesn't itself trigger a Fail — e.g. an unnecessary-but-harmless extra tool call, an avoidable clarifying question, minor style drift.
+- *MVP: the Fail triggers in FR11/FR11a are fully deterministic and need no LLM — they are the trustworthy core of the prototype. The Pass/Warn distinction (FR12) uses a cheap LLM-as-judge in the MVP; keep it architecturally separated from the deterministic checks so a judge outage or flake can never suppress a hard Fail.*
 
 **8.4b — Comparative Diff** (candidate vs. baseline, a separate operation from the absolute verdict)
+- *MVP: Regression / Improvement / Neutral follow deterministically from comparing the two absolute verdicts. Only "Diverged" (same verdict, different path) needs the cheap LLM-as-judge from FR12.*
 - FR13. For every Run with a baseline, the engine produces a structural diff (tool calls, order, arguments, final verdict) between the candidate's trajectory and the baseline's.
 - FR14. The diff is classified independently of either trajectory's own verdict: **Regression** (candidate's verdict is worse than baseline's), **Improvement** (candidate's verdict is better), **Neutral** (same verdict, trajectory may still differ), or **Diverged** (different path taken, same verdict — flagged for visibility, not treated as bad).
 - FR15. The baseline is always a **fresh run of the current production prompt** on the same Run, generated at test time — not a customer-supplied static baseline. This keeps the comparison point from ever going stale relative to what's actually in production.
@@ -149,6 +155,60 @@ Two separate judgments are produced per Run — an absolute verdict, and (when a
 ## 13. Open questions
 
 1. **Determinism:** should each Run execute once, or as a majority vote over N samples, to smooth out LLM sampling variance? Directly trades off against time-to-verdict and cost — still unresolved.
+   - *MVP: run each Run once. Majority-vote-over-N is deferred; surface the sampling caveat in the report rather than paying the cost up front.*
+
+## 14. MVP prototyping approach (standalone, no production repo)
+
+*Added in review — how to build a first working version of this engine without pushing code into any existing production repo, and exactly which requirements are in the first cut. Nothing above is removed; this section is additive.*
+
+### 14.1 Form factor: a standalone CLI — not a script, not a service
+
+- Build it as its own small, brand-new repo with a single CLI entrypoint (e.g. `simgym run --gym ./mygym --scenarios adversarial,formatting`) — not a script dropped into an existing codebase, and not a deployed service.
+- A fresh repo gives the "no production code" property for free: zero coupling to production dependencies, and nothing that can accidentally ship into a live system.
+- It stays small because **isolation is free** (see FR7 MVP callout): because every tool is mocked, there is no container runtime, orchestration, or infra to stand up. The whole engine runs on a laptop.
+- It is *not* a single script: there are ~6 genuinely distinct responsibilities (validate → build Runs → tool layer → agent loop → verdict → diff/report). One file becomes unwieldy fast; a thin package of small modules does not.
+
+### 14.2 Proposed module layout
+
+```
+simgym/
+  cli.py         # entrypoint: simgym run --gym ./mygym --scenarios adversarial,formatting
+  intake.py      # load + validate the three files            (FR1–FR3)
+  toollayer.py   # replay / synthesize / inject               (FR4–FR6)
+  scenarios.py   # the §8.2 failure-mode mutators, auto-generated per trace
+  runner.py      # agent loop + step/time budget; isolation = mocking   (FR7, FR9)
+  verdict.py     # deterministic fails + invariants; LLM-judge for Warn (FR10–FR12)
+  diff.py        # candidate vs. fresh baseline                (FR13–FR15)
+  report.py      # Gym Report: JSON + rendered HTML, with coverage disclosure (FR16–FR19)
+  gyms/example/  # sample system_prompt.txt, tools.json, traces.json
+```
+
+### 14.3 MVP cut — deferred vs. kept
+
+**Deferred (original requirement preserved above, just not in the first cut):**
+- **Snapshot / rollback (FR8)** — performance optimization for fan-out; the prototype re-runs the trace prefix per variant instead.
+- **Determinism / majority vote (§13)** — run each Run once for now.
+- **CI wiring, PR bots (§4, FR18 CI mode)** — already Phase 2. The CLI's full-Gym mode is exactly the seam CI will later invoke, so nothing has to change shape when that user arrives.
+- **Container / sandbox runtime** — unnecessary while every tool is mocked (FR7 callout).
+
+**Kept — the spine of the prototype:**
+- Three-file intake + validation (FR1–FR3).
+- Tool Response Layer: replay + synthesize + inject (FR4–FR6).
+- Scenario mutators (§8.2), auto-generated per clean trace.
+- Agent loop with a step/time budget → non-terminating detection (FR9).
+- Deterministic absolute verdict: hallucinated tool, schema-invalid args, non-termination, invariant violations (FR10, FR11, FR11a) — no LLM needed for any hard Fail.
+- LLM-as-judge confined to the fuzzy calls only: Warn (FR12) and Diverged (FR14).
+- Fresh-baseline diff + classification (FR13–FR15).
+- A single Gym Report with explicit scenario-coverage disclosure (FR16–FR19).
+
+### 14.4 Why isolation is free in the MVP (the key insight)
+
+The engine's core mechanic is that the agent never touches a real tool — every tool call is answered by the Tool Response Layer. That means the strong isolation guarantee (FR7, edge cases in §12) is satisfied *by construction*, not by infrastructure: a "drop the table" call is simply a mocked response the engine chooses to return. This is what lets the entire first version be a laptop-runnable CLI with no container/orchestration layer — the single biggest scope reduction available, and it costs nothing in fidelity because the tools were always going to be mocked.
+
+### 14.5 Open items to unblock the build
+
+1. **Which SDK the production agents run on** (Anthropic Python? TS? other) — decides the runner's agent-loop implementation and whether the prototype is written in Python or TS.
+2. **A real sample gym** (a system prompt + `tools.json` + a handful of traces) to point it at, or a synthesized toy gym to prove the loop end-to-end on day one.
 
 ---
 *Status: sections 8.1–8.4 have been through detailed review. Remaining before this is fully locked: the determinism question above, and eventually an engineering HLD constrained by these requirements.*
