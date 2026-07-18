@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SimGym</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --forest: #2d4a2b;
+      --sage:   #7d8471;
+      --olive:  #a4ac86;
+      --ivory:  #faf9f6;
+      --cream:  #f0ede6;
+      --ink:    #1c2b1b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--ivory);
+      color: var(--ink);
+      font-family: 'Source Sans 3', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: var(--forest);
+      color: var(--ivory);
+      padding: 56px 48px 48px;
+      position: relative;
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--olive), var(--sage), var(--forest));
+    }
+    header .eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 12px;
+    }
+    header h1 {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 700;
+      line-height: 1.1;
+    }
+    header p {
+      margin-top: 12px;
+      color: var(--olive);
+      font-size: 16px;
+      max-width: 480px;
+    }
+
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 64px 48px 100px;
+      flex: 1;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 20px;
+    }
+
+    .file-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .file-card {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: var(--cream);
+      border: 1px solid var(--olive);
+      border-radius: 6px;
+      padding: 20px 24px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .file-card:hover {
+      border-color: var(--forest);
+      box-shadow: 0 2px 12px rgba(45,74,43,0.1);
+    }
+    .file-icon {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      background: var(--forest);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    .file-info { flex: 1; }
+    .file-name {
+      font-family: 'EB Garamond', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--forest);
+      margin-bottom: 2px;
+    }
+    .file-desc {
+      font-size: 13px;
+      color: var(--sage);
+    }
+    .file-type {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--olive);
+      background: var(--forest);
+      padding: 3px 8px;
+      border-radius: 3px;
+      color: var(--ivory);
+    }
+
+    footer {
+      background: var(--forest);
+      color: var(--olive);
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">SimGym · Docs</div>
+  <h1>SimGym</h1>
+  <p>Agent Simulation &amp; CI/CD Platform — internal documents &amp; specs.</p>
+</header>
+
+<main>
+  <div class="section-label">Documents</div>
+  <div class="file-list" id="file-list">
+
+    <a class="file-card" href="pitch.html">
+      <div class="file-icon">🎯</div>
+      <div class="file-info">
+        <div class="file-name">Pitch Deck</div>
+        <div class="file-desc">Storytelling pitch — what we're building, why us, market size, and the plan.</div>
+      </div>
+      <span class="file-type">HTML</span>
+    </a>
+
+    <a class="file-card" href="product-execution-plan.html">
+      <div class="file-icon">📋</div>
+      <div class="file-info">
+        <div class="file-name">Product Execution Plan</div>
+        <div class="file-desc">Full product spec — vision, phases, architecture, business model &amp; security.</div>
+      </div>
+      <span class="file-type">HTML</span>
+    </a>
+
+    <a class="file-card" href="pricing-framework.html">
+      <div class="file-icon">💰</div>
+      <div class="file-info">
+        <div class="file-name">Pricing Framework</div>
+        <div class="file-desc">Research-grounded pricing model — value metric, tiers, design partner structure, and experiments.</div>
+      </div>
+      <span class="file-type">HTML</span>
+    </a>
+
+    <a class="file-card" href="design-partner-planning.html">
+      <div class="file-icon">🤝</div>
+      <div class="file-info">
+        <div class="file-name">Design Partner Planning</div>
+        <div class="file-desc">Strategy &amp; playbook for design partner recruitment, onboarding &amp; engagement.</div>
+      </div>
+      <span class="file-type">HTML</span>
+    </a>
+
+    <a class="file-card" href="incorporation.html">
+      <div class="file-icon">🏛️</div>
+      <div class="file-info">
+        <div class="file-name">Incorporation</div>
+        <div class="file-desc">Zero-to-Delaware playbook — LLP setup, design partner contracts, and US C-Corp timing.</div>
+      </div>
+      <span class="file-type">HTML</span>
+    </a>
+
+    <a class="file-card" href="PLAN.md">
+      <div class="file-icon">📄</div>
+      <div class="file-info">
+        <div class="file-name">Plan</div>
+        <div class="file-desc">Raw product specification markdown source.</div>
+      </div>
+      <span class="file-type">MD</span>
+    </a>
+
+    <a class="file-card" href="mvp/gym-runtime-prd.md">
+      <div class="file-icon">⚙️</div>
+      <div class="file-info">
+        <div class="file-name">Gym Runtime Engine — PRD</div>
+        <div class="file-desc">Product requirements for the core simulation engine — scenarios, tool mocking, verdicts &amp; regression detection.</div>
+      </div>
+      <span class="file-type">MD</span>
+    </a>
+
+    <a class="file-card" href="mvp/gym-runtime-hld.md">
+      <div class="file-icon">🛠️</div>
+      <div class="file-info">
+        <div class="file-name">Gym Runtime Engine — HLD</div>
+        <div class="file-desc">Engineering design for the MVP runtime — data model, SDK adapters, tool response layer, verdict &amp; diff engines.</div>
+      </div>
+      <span class="file-type">MD</span>
+    </a>
+
+  </div>
+
+  <div class="section-label" style="margin-top: 56px;">Meetings</div>
+  <div class="file-list">
+
+    <a class="file-card" href="meetings.html">
+      <div class="file-icon">📞</div>
+      <div class="file-info">
+        <div class="file-name">Meetings</div>
+        <div class="file-desc">Call notes and conversation summaries — 1 meeting logged.</div>
+      </div>
+      <span class="file-type">HTML</span>
+    </a>
+
+  </div>
+</main>
+
+<footer>
+  SimGym · Confidential
+</footer>
+
+</body>
+</html>
