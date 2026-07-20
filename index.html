@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SimGym — Break it here, not in production.</title>
-<meta name="description" content="SimGym replays your agent's hardest scenarios in a sandbox on every pull request and blocks the merge when a trajectory regresses. Agent CI for production teams.">
+<title>SimGym — Catch your agent's mistakes before your users do.</title>
+<meta name="description" content="SimGym puts your AI agent through its hardest scenarios in a safe copy of your app, and flags what breaks before it ships. So every update makes your agent better, never worse.">
 <style>
 /* Self-hosted Geist (variable, latin subset). SIL Open Font License — see fonts/OFL.txt */
 @font-face{font-family:'Geist';font-style:normal;font-weight:100 900;font-display:swap;src:url(fonts/geist-latin.woff2) format('woff2')}
@@ -12,23 +12,13 @@
 *{box-sizing:border-box}
 body{margin:0;background:#F5F5F7;color:#121218;font-family:"Geist",ui-sans-serif,system-ui,sans-serif;line-height:1.5;letter-spacing:-0.011em;-webkit-font-smoothing:antialiased}
 a{color:#121218;text-decoration:none}a:hover{color:#5E5E69}
-@keyframes beat{0%,100%{box-shadow:0 0 0 0 rgba(196,242,76,.45)}50%{box-shadow:0 0 0 6px rgba(196,242,76,0)}}
 @keyframes cellpulse{0%,100%{opacity:.14}50%{opacity:.85}}
-@keyframes cellhotlight{0%,84%,100%{background:#DDDDE2;box-shadow:none}86%,96%{background:#7BA112;box-shadow:0 0 14px rgba(123,161,18,.4)}}
-@keyframes travelx{0%{transform:translate(0,-50%);opacity:0}18%{opacity:1}82%{opacity:1}100%{transform:translate(24px,-50%);opacity:0}}
 @keyframes softblink{0%,100%{opacity:.5}50%{opacity:1}}
-.gx-cell{transition:background .45s ease,box-shadow .45s ease,opacity .45s ease;cursor:default}
-.gx-cell:hover{background:#7BA112!important;box-shadow:0 0 14px rgba(123,161,18,.4)!important;animation:none!important;opacity:1!important}
+@keyframes travelx{0%{transform:translate(0,-50%);opacity:0}18%{opacity:1}82%{opacity:1}100%{transform:translate(18px,-50%);opacity:0}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-@media (max-width:860px){
-  .hero-split{grid-template-columns:1fr!important;gap:40px!important;padding-top:56px!important}
-  .hero-illo{justify-self:stretch!important;max-width:none!important}
-  .stats-strip{grid-template-columns:1fr!important}
-  .stats-strip>div{border-right:none!important;border-bottom:1px solid #E7E7EC;padding:22px 0!important}
-  .stats-strip>div:last-child{border-bottom:none}
-  .how-steps,.guarantees,.caps{grid-template-columns:1fr!important}
-  .cta-band{flex-direction:column;align-items:flex-start!important;padding:36px!important}
-  .cta-band form{min-width:0!important;width:100%}
+@media (max-width:820px){
+  .fold{grid-template-columns:1fr!important;gap:32px!important;padding:48px 0!important}
+  .hero-h1 span{white-space:normal!important}
 }
 </style>
 </head>
@@ -37,199 +27,187 @@ a{color:#121218;text-decoration:none}a:hover{color:#5E5E69}
 <div style="min-height:100vh">
 
 <!-- NAV -->
-<div style="border-bottom:1px solid #E7E7EC;background:rgba(245,245,247,.9);backdrop-filter:blur(8px);position:sticky;top:0;z-index:10">
-  <div style="max-width:1060px;margin:0 auto;padding:0 30px;display:flex;align-items:center;justify-content:space-between;height:64px">
+<div style="border-bottom:1px solid #E7E7EC;background:rgba(245,245,247,.9);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20">
+  <div style="max-width:1080px;margin:0 auto;padding:0 30px;display:flex;align-items:center;justify-content:space-between;height:64px">
     <span style="font-weight:700;font-size:17px;letter-spacing:-0.02em">Sim<b style="color:#7BA112">Gym</b></span>
     <div style="display:flex;align-items:center;gap:26px">
-      <a href="#how" style="font-size:13.5px;color:#5E5E69">How it works</a>
-      <a href="#gym" style="font-size:13.5px;color:#5E5E69">The Gym</a>
-      <a href="#product" style="font-size:13.5px;color:#5E5E69">Product</a>
+      <a href="#story" style="font-size:13.5px;color:#5E5E69">How it works</a>
+      <a href="#waitlist" style="font-size:13.5px;color:#5E5E69">Product</a>
       <a href="#waitlist" style="background:#C4F24C;color:#0C0C0F;font-weight:600;font-size:13px;padding:9px 16px;border-radius:9px;letter-spacing:-0.01em">Get early access</a>
     </div>
   </div>
 </div>
 
-<!-- HERO: split -->
-<div class="hero-split" style="max-width:1060px;margin:0 auto;padding:88px 30px 72px;display:grid;grid-template-columns:1.1fr 0.9fr;gap:56px;align-items:center">
-  <div>
-    <span style="font-family:'Geist Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:#5E5E69">Agent CI for production teams</span>
-    <h1 style="font-size:clamp(42px,5.4vw,62px);font-weight:700;letter-spacing:-0.045em;line-height:0.98;margin:22px 0 0">Break it here,<br><span style="color:#9A9AA6">not in production.</span></h1>
-    <p style="font-size:17px;color:#5E5E69;max-width:46ch;margin:24px 0 0;line-height:1.6;text-wrap:pretty">SimGym replays your agent's hardest scenarios in a sandbox on every pull request. When a trajectory regresses, it blocks the merge. Your users never see the bug.</p>
-    <form class="waitlist" style="display:flex;gap:10px;margin-top:32px;max-width:440px">
-      <input type="email" required placeholder="you@company.com" style="flex:1;font-family:'Geist',sans-serif;font-size:14.5px;padding:12px 16px;border:1px solid #DADAE2;border-radius:9px;background:#FFFFFF;color:#121218;outline:none;letter-spacing:-0.01em">
-      <button type="submit" style="background:#C4F24C;color:#0C0C0F;font-family:'Geist',sans-serif;font-weight:600;font-size:14.5px;padding:12px 20px;border-radius:9px;border:none;cursor:pointer;letter-spacing:-0.01em;white-space:nowrap">Get early access →</button>
-    </form>
-    <div id="joinedNote" style="display:none;margin-top:14px;font-family:'Geist Mono',monospace;font-size:12px;color:#5E5E69"><span style="color:#C4F24C">◆</span> You're on the list. Early access rolls out in waves.</div>
-    <div id="notJoinedNote" style="margin-top:14px;font-family:'Geist Mono',monospace;font-size:11px;color:#9A9AA6;letter-spacing:0.04em">NO SPAM · EARLY ACCESS IN WAVES</div>
-  </div>
-  <!-- hero illustration: simulation field -->
-  <div class="hero-illo" style="position:relative;justify-self:end;max-width:480px;width:100%">
-    <div style="position:relative">
-      <div id="heroGrid" style="display:grid;grid-template-columns:repeat(13, 1fr);gap:10px"></div>
-      <div style="display:flex;align-items:center;justify-content:flex-end;gap:22px;margin-top:18px;font-family:'Geist Mono',monospace;font-size:9.5px;letter-spacing:0.1em;text-transform:uppercase">
-        <span style="display:flex;align-items:center;gap:7px;color:#9A9AA3"><span style="width:9px;height:9px;border-radius:2px;background:#3A3A44;display:inline-block"></span>750 scenarios</span>
-        <span style="display:flex;align-items:center;gap:7px;color:#7BA112"><span style="width:9px;height:9px;border-radius:2px;background:#7BA112;display:inline-block"></span>regressions intercepted</span>
-      </div>
-    </div>
+<!-- HERO -->
+<div style="max-width:1080px;margin:0 auto;padding:104px 30px 72px;text-align:center">
+  <span style="font-family:'Geist Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:#5E5E69">SIMULATION TESTING FOR AI AGENTS</span>
+  <h1 class="hero-h1" style="font-size:clamp(38px,5.6vw,72px);font-weight:700;letter-spacing:-0.045em;line-height:1.0;margin:22px auto 0"><span style="display:block;white-space:nowrap">Catch your agent's mistakes</span><span style="display:block;white-space:nowrap;color:#9A9AA6">before your users do.</span></h1>
+  <p style="font-size:18px;color:#5E5E69;max-width:52ch;margin:26px auto 0;line-height:1.6;text-wrap:pretty">SimGym puts your AI agent through its hardest scenarios in a safe copy of your app, and flags what breaks before it ships. So every update makes your agent better, never worse.</p>
+  <form class="waitlist" style="display:flex;gap:10px;margin:34px auto 0;max-width:440px">
+    <input type="email" required placeholder="you@company.com" style="flex:1;font-family:'Geist',sans-serif;font-size:14.5px;padding:12px 16px;border:1px solid #DADAE2;border-radius:9px;background:#FFFFFF;color:#121218;outline:none;letter-spacing:-0.01em">
+    <button type="submit" style="background:#C4F24C;color:#0C0C0F;font-family:'Geist',sans-serif;font-weight:600;font-size:14.5px;padding:12px 20px;border-radius:9px;border:none;cursor:pointer;letter-spacing:-0.01em;white-space:nowrap">Get early access →</button>
+  </form>
+  <div id="heroNote" style="margin-top:14px;font-family:'Geist Mono',monospace;font-size:11px;color:#9A9AA6;letter-spacing:0.04em">NO SPAM · EARLY ACCESS IN WAVES</div>
+</div>
+
+<!-- STORY INTRO -->
+<div id="story" style="border-top:1px solid #E7E7EC;background:#FFFFFF">
+  <div style="max-width:1080px;margin:0 auto;padding:88px 30px 20px;text-align:center">
+    <span style="font-family:'Geist Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:#5E5E69">How it works</span>
+    <h2 style="font-size:clamp(28px,3.6vw,42px);font-weight:600;letter-spacing:-0.034em;line-height:1.08;margin:16px auto 0;max-width:24ch;text-wrap:balance">Four steps to an agent that won't break in front of your users.</h2>
   </div>
 </div>
 
-<!-- STATS STRIP -->
-<div style="border-top:1px solid #E7E7EC;border-bottom:1px solid #E7E7EC;background:#FFFFFF">
-  <div class="stats-strip" style="max-width:1060px;margin:0 auto;padding:0 30px;display:grid;grid-template-columns:1fr 1fr 1fr">
-    <div style="padding:28px 30px 28px 0;border-right:1px solid #E7E7EC">
-      <div style="font-family:'Geist Mono',monospace;font-weight:600;font-size:34px;letter-spacing:-0.04em;color:#121218;font-variant-numeric:tabular-nums">3 files</div>
-      <div style="font-size:13px;color:#5E5E69;margin-top:4px">to build your Gym: prompt, tools, traces</div>
-    </div>
-    <div style="padding:28px 30px;border-right:1px solid #E7E7EC">
-      <div style="font-family:'Geist Mono',monospace;font-weight:600;font-size:34px;letter-spacing:-0.04em;font-variant-numeric:tabular-nums">0</div>
-      <div style="font-size:13px;color:#5E5E69;margin-top:4px">real-world side effects per run</div>
-    </div>
-    <div style="padding:28px 0 28px 30px">
-      <div style="font-family:'Geist Mono',monospace;font-weight:600;font-size:34px;letter-spacing:-0.04em;font-variant-numeric:tabular-nums">100%</div>
-      <div style="font-size:13px;color:#5E5E69;margin-top:4px">of merges gated before production</div>
-    </div>
-  </div>
-</div>
+<!-- STORY FOLDS -->
+<div style="background:#FFFFFF">
+  <div style="max-width:1080px;margin:0 auto;padding:0 30px 40px">
 
-<!-- HOW IT WORKS -->
-<div id="how">
-  <div style="max-width:1060px;margin:0 auto;padding:104px 30px">
-    <span style="font-family:'Geist Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:#5E5E69">01 — How it works</span>
-    <h2 style="font-size:clamp(26px,3.4vw,38px);font-weight:600;letter-spacing:-0.032em;line-height:1.05;margin:16px 0 0">We embed. We build your Gym.<br>We gate your merges.</h2>
-    <p style="color:#5E5E69;max-width:54ch;margin:18px 0 0;font-size:16px;line-height:1.6">This isn't a self-serve dashboard you're left alone with. <b style="color:#121218;font-weight:500">It's an embedded engagement</b> that ends with a merge gate wired into your pipeline.</p>
-    <div class="how-steps" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:42px">
-      <div style="border:1px solid #E7E7EC;border-radius:13px;padding:26px;background:#FFFFFF">
-        <div style="font-family:'Geist Mono',monospace;font-size:12px;color:#9A9AA6">01</div>
-        <div style="font-weight:600;font-size:16px;letter-spacing:-0.02em;margin-top:12px">We embed with your team</div>
-        <div style="color:#5E5E69;font-size:13.5px;line-height:1.6;margin-top:8px;text-wrap:pretty">Two Applied AI engineers embed in your org to learn your agent inside out: its tools, context, prompts, and observability.</div>
-      </div>
-      <div style="border:1px solid #E7E7EC;border-radius:13px;padding:26px;background:#FFFFFF">
-        <div style="font-family:'Geist Mono',monospace;font-size:12px;color:#9A9AA6">02</div>
-        <div style="font-weight:600;font-size:16px;letter-spacing:-0.02em;margin-top:12px">We build your bespoke Gym</div>
-        <div style="color:#5E5E69;font-size:13.5px;line-height:1.6;margin-top:8px;text-wrap:pretty">A scenario dataset purpose-built for your agent, covering the success and failure modes that actually matter to your product.</div>
-      </div>
-      <div style="border:1px solid #E7E7EC;border-radius:13px;padding:26px;background:#FFFFFF">
-        <div style="font-family:'Geist Mono',monospace;font-size:12px;color:#9A9AA6">03</div>
-        <div style="font-weight:600;font-size:16px;letter-spacing:-0.02em;margin-top:12px">We wire it into your CI/CD</div>
-        <div style="color:#5E5E69;font-size:13.5px;line-height:1.6;margin-top:8px;text-wrap:pretty">A simulation environment spins up for safe testing, then gates every merge. Regressions block before production.</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- SIMULATION ENVIRONMENT -->
-<div id="gym" style="border-top:1px solid #E7E7EC">
-  <div style="max-width:1060px;margin:0 auto;padding:104px 30px">
-    <span style="font-family:'Geist Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:#5E5E69">02 — The simulation environment</span>
-    <h2 style="font-size:clamp(26px,3.4vw,38px);font-weight:600;letter-spacing:-0.032em;line-height:1.05;margin:16px 0 0">A parallel universe<br>for your agent.</h2>
-    <p style="color:#5E5E69;max-width:54ch;margin:18px 0 0;font-size:16px;line-height:1.6">Your agent can't tell it's in the gym. <b style="color:#121218;font-weight:500">Every tool it calls is mocked, every run is sandboxed, every scenario is replayable.</b> So it can fail catastrophically and deterministically, without a single side effect.</p>
-
-    <!-- dark inset: the environment, anatomically -->
-    <div style="margin-top:42px;border:1px solid #23232C;border-radius:18px;background:radial-gradient(120% 130% at 50% -20%, rgba(196,242,76,0.06), transparent 58%),#0B0B0E;color:#EAEAEE;overflow:hidden">
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid #23232C;font-family:'Geist Mono',monospace;font-size:10.5px;color:#8C8C97;letter-spacing:0.1em;text-transform:uppercase">
-        <span>anatomy of a gym run</span>
-        <span style="display:flex;align-items:center;gap:8px;color:#C4F24C"><span style="width:6px;height:6px;border-radius:50%;background:#C4F24C;box-shadow:0 0 8px #C4F24C;animation:softblink 1.4s ease-in-out infinite"></span><span id="runVerdict">SIMULATING…</span></span>
-      </div>
-      <div style="overflow-x:auto">
-      <div style="display:grid;grid-template-columns:1fr 34px 1.15fr 34px 1fr;align-items:stretch;padding:28px 24px;gap:0;min-width:640px">
-        <!-- simulation field -->
-        <div style="border:1px solid #23232C;border-radius:12px;background:#101015;padding:18px;display:flex;flex-direction:column;gap:12px">
-          <div style="display:flex;justify-content:space-between;align-items:baseline">
-            <div style="font-family:'Geist Mono',monospace;font-size:10px;color:#8C8C97;letter-spacing:0.12em;text-transform:uppercase">Simulations</div>
-            <div style="font-family:'Geist Mono',monospace;font-size:9.5px;color:#55555F">749 running</div>
-          </div>
-          <div id="simField" style="display:grid;grid-template-columns:repeat(9,1fr);gap:4px"></div>
-        </div>
-        <!-- connector: scenarios -> sandbox -->
-        <div style="position:relative;display:flex;align-items:center;justify-content:center">
-          <div style="position:absolute;left:4px;right:4px;top:50%;height:1px;transform:translateY(-50%);background:linear-gradient(90deg,transparent,#2C2C35 30%,#2C2C35 70%,transparent)"></div>
-          <div style="position:absolute;left:5px;top:50%;width:6px;height:6px;border-radius:50%;background:#C4F24C;box-shadow:0 0 8px #C4F24C;animation:travelx 1.6s linear infinite"></div>
-        </div>
-        <!-- sandbox -->
-        <div style="border:1px solid rgba(196,242,76,.35);border-radius:12px;background:#101015;padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 0 24px rgba(196,242,76,.06)">
-          <div style="display:flex;justify-content:space-between;align-items:baseline">
-            <div id="runScenarioName" style="font-family:'Geist Mono',monospace;font-size:10px;color:#C4F24C;letter-spacing:0.12em;text-transform:uppercase">double_refund_loop</div>
-          </div>
-          <div style="flex:1;border:1px dashed #2C2C35;border-radius:9px;padding:12px 14px;font-family:'Geist Mono',monospace;font-size:11.5px;line-height:1.9;min-height:118px">
-            <div id="trajLines"></div>
-            <div id="errorBox" style="opacity:0;margin-top:9px;padding:7px 9px;border:1px solid rgba(224,115,106,.32);border-radius:7px;background:rgba(224,115,106,.08);color:#E0736A;font-size:11px;line-height:1.4;transition:opacity .35s ease"></div>
-          </div>
-          <div style="font-size:11.5px;color:#55555F;line-height:1.5">Your real agent code, unmodified. It never knows the difference.</div>
-        </div>
-        <!-- connector: sandbox -> analysis -->
-        <div style="position:relative;display:flex;align-items:center;justify-content:center">
-          <div style="position:absolute;left:4px;right:4px;top:50%;height:1px;transform:translateY(-50%);background:linear-gradient(90deg,transparent,#2C2C35 30%,#2C2C35 70%,transparent)"></div>
-          <div style="position:absolute;left:5px;top:50%;width:6px;height:6px;border-radius:50%;background:#C4F24C;box-shadow:0 0 8px #C4F24C;animation:travelx 1.6s linear infinite;animation-delay:-.8s"></div>
-        </div>
-        <!-- analysis -->
-        <div style="border:1px solid #23232C;border-radius:12px;background:#101015;padding:18px 18px 14px;display:flex;flex-direction:column;gap:8px">
-          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px">
-            <div style="font-family:'Geist Mono',monospace;font-size:10px;color:#8C8C97;letter-spacing:0.12em;text-transform:uppercase">Analysis</div>
-            <div id="analysisStatus" style="font-family:'Geist Mono',monospace;font-size:9.5px;color:#C4F24C">aggregating</div>
-          </div>
-          <div id="patterns"></div>
-        </div>
-      </div>
-      </div>
-    </div>
-
-    <!-- environment guarantees -->
-    <div class="guarantees" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px">
-      <div style="border:1px solid #E7E7EC;border-radius:13px;padding:22px 24px;background:#FFFFFF">
-        <div style="font-weight:600;font-size:15px;letter-spacing:-0.015em">Deterministic replays</div>
-        <div style="color:#5E5E69;font-size:13.5px;line-height:1.6;margin-top:6px;text-wrap:pretty">Same scenario, same mocks, same seed. When a run fails, you can replay it step-for-step until you know why.</div>
-      </div>
-      <div style="border:1px solid #E7E7EC;border-radius:13px;padding:22px 24px;background:#FFFFFF">
-        <div style="font-weight:600;font-size:15px;letter-spacing:-0.015em">Zero blast radius</div>
-        <div style="color:#5E5E69;font-size:13.5px;line-height:1.6;margin-top:6px;text-wrap:pretty">No real emails sent, refunds issued, or rows deleted. The agent runs flat-out against mocks in an ephemeral container.</div>
-      </div>
-      <div style="border:1px solid #E7E7EC;border-radius:13px;padding:22px 24px;background:#FFFFFF">
-        <div style="font-weight:600;font-size:15px;letter-spacing:-0.015em">Failure on demand</div>
-        <div style="color:#5E5E69;font-size:13.5px;line-height:1.6;margin-top:6px;text-wrap:pretty">Timeouts, 400s, malformed payloads, hostile users. Inject the conditions production only shows you at 3am.</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- CAPABILITIES -->
-<div id="product" style="max-width:1060px;margin:0 auto;padding:104px 30px">
-  <span style="font-family:'Geist Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:#5E5E69">03 — The platform</span>
-  <h2 style="font-size:clamp(26px,3.4vw,38px);font-weight:600;letter-spacing:-0.032em;line-height:1.05;margin:16px 0 0">One loop: dataset, simulation,<br>gate, flywheel.</h2>
-  <p style="color:#5E5E69;max-width:54ch;margin:18px 0 0;font-size:16px;line-height:1.6">The Gym holds the scenarios. The Simulation runs them safely. <b style="color:#121218;font-weight:500">CI/CD decides what reaches production</b>, and trace analysis feeds what production learns back into the Gym.</p>
-  <div class="caps" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:42px">
-    <div style="border:1px solid #E7E7EC;border-radius:13px;padding:26px;background:#FFFFFF">
-      <div style="font-family:'Geist Mono',monospace;font-size:10.5px;color:#9A9AA6;letter-spacing:0.12em;text-transform:uppercase">The dataset</div>
-      <div style="font-weight:600;font-size:17px;letter-spacing:-0.02em;margin-top:10px">The Gym</div>
-      <div style="color:#5E5E69;font-size:14px;line-height:1.6;margin-top:8px;text-wrap:pretty">Every permutation of success and failure your agent can hit. A scenario dataset purpose-built for your agent, not a generic benchmark.</div>
-    </div>
-    <div style="border:1px solid #E7E7EC;border-radius:13px;padding:26px;background:#FFFFFF">
-      <div style="font-family:'Geist Mono',monospace;font-size:10.5px;color:#9A9AA6;letter-spacing:0.12em;text-transform:uppercase">The environment</div>
-      <div style="font-weight:600;font-size:17px;letter-spacing:-0.02em;margin-top:10px">The Simulation</div>
-      <div style="color:#5E5E69;font-size:14px;line-height:1.6;margin-top:8px;text-wrap:pretty">A sandboxed environment where every tool call is mocked. Your agent runs the Gym at full aggression and production is never compromised.</div>
-    </div>
-    <div style="border:1px solid #E7E7EC;border-radius:13px;padding:26px;background:#FFFFFF">
-      <div style="font-family:'Geist Mono',monospace;font-size:10.5px;color:#9A9AA6;letter-spacing:0.12em;text-transform:uppercase">The gate</div>
-      <div style="font-weight:600;font-size:17px;letter-spacing:-0.02em;margin-top:10px">CI/CD</div>
-      <div style="color:#5E5E69;font-size:14px;line-height:1.6;margin-top:8px;text-wrap:pretty">Every prompt change is intercepted, measured against the Gym, and only then allowed to pass through to production.</div>
-    </div>
-    <div style="border:1px solid #E7E7EC;border-radius:13px;padding:26px;background:#FFFFFF">
-      <div style="font-family:'Geist Mono',monospace;font-size:10.5px;color:#9A9AA6;letter-spacing:0.12em;text-transform:uppercase">The flywheel</div>
-      <div style="font-weight:600;font-size:17px;letter-spacing:-0.02em;margin-top:10px">Trace analysis</div>
-      <div style="color:#5E5E69;font-size:14px;line-height:1.6;margin-top:8px;text-wrap:pretty">Niche production scenarios flow back in as new Gym scenarios. The dataset gets sharper with every real-world run.</div>
-    </div>
-  </div>
-</div>
-
-<!-- CTA BAND: dark inset -->
-<div id="waitlist" style="border-top:1px solid #E7E7EC">
-  <div style="max-width:1060px;margin:0 auto;padding:104px 30px">
-    <div class="cta-band" style="border:1px solid #23232C;border-radius:18px;background:radial-gradient(120% 130% at 12% -20%, rgba(196,242,76,0.08), transparent 58%),#0B0B0E;color:#EAEAEE;padding:56px;display:flex;justify-content:space-between;align-items:center;gap:40px;flex-wrap:wrap">
+    <!-- FOLD 01 -->
+    <div class="fold" style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;padding:72px 0;border-top:1px solid #EFEFF2">
       <div>
-        <h2 style="font-size:clamp(26px,3.2vw,36px);font-weight:600;letter-spacing:-0.032em;line-height:1.05;margin:0">Spot the regression<br>before your users do.</h2>
-        <p style="color:#8C8C97;font-size:15px;margin:16px 0 0;max-width:42ch;line-height:1.6">Early access is rolling out in waves to teams running agents in production.</p>
+        <div><span style="font-family:'Geist Mono',monospace;font-size:clamp(44px,5vw,64px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:#DCDCE2;font-variant-numeric:tabular-nums">01</span></div>
+        <h3 style="font-size:clamp(26px,3vw,34px);font-weight:600;letter-spacing:-0.03em;line-height:1.08;margin:18px 0 0;text-wrap:balance">We set up your bespoke Gym.</h3>
+        <p style="color:#5E5E69;font-size:16.5px;line-height:1.62;margin:16px 0 0;max-width:46ch;text-wrap:pretty">We turn your agent's real conversations into test cases: the tricky moments where it has to get things right. You hand us three files; we build the rest.</p>
       </div>
-      <form class="waitlist" style="display:flex;gap:10px;min-width:340px">
+      <div style="min-width:0">
+        <!-- StoryVisual: gym -->
+        <div style="width:100%;border:1px solid #23232C;border-radius:16px;background:radial-gradient(120% 130% at 50% -20%, rgba(196,242,76,0.055), transparent 58%),#0B0B0E;color:#EAEAEE;overflow:hidden">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 20px;border-bottom:1px solid #23232C;font-family:'Geist Mono',monospace;font-size:10px;color:#8C8C97;letter-spacing:0.1em;text-transform:uppercase">
+            <span>your test cases</span>
+            <span style="display:flex;align-items:center;gap:7px;color:#C4F24C"><span style="width:6px;height:6px;border-radius:50%;background:#C4F24C;box-shadow:0 0 8px #C4F24C;animation:softblink 1.5s ease-in-out infinite"></span>1000 ready</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 40px 1.2fr;align-items:center;padding:24px 20px;gap:0">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="border:1px solid #23232C;border-radius:9px;background:#101015;padding:11px 13px;display:flex;align-items:center;gap:9px"><span style="width:7px;height:7px;border-radius:2px;background:#7BA112;flex:none"></span><span style="font-family:'Geist Mono',monospace;font-size:11.5px;color:#EAEAEE">prompt.md</span></div>
+              <div style="border:1px solid #23232C;border-radius:9px;background:#101015;padding:11px 13px;display:flex;align-items:center;gap:9px"><span style="width:7px;height:7px;border-radius:2px;background:#7BA112;flex:none"></span><span style="font-family:'Geist Mono',monospace;font-size:11.5px;color:#EAEAEE">tools.json</span></div>
+              <div style="border:1px solid #23232C;border-radius:9px;background:#101015;padding:11px 13px;display:flex;align-items:center;gap:9px"><span style="width:7px;height:7px;border-radius:2px;background:#7BA112;flex:none"></span><span style="font-family:'Geist Mono',monospace;font-size:11.5px;color:#EAEAEE">traces.jsonl</span></div>
+            </div>
+            <div style="position:relative;display:flex;align-items:center;justify-content:center;height:100%">
+              <div style="position:absolute;left:4px;right:4px;top:50%;height:1px;transform:translateY(-50%);background:linear-gradient(90deg,transparent,#2C2C35 30%,#2C2C35 70%,transparent)"></div>
+              <div style="position:absolute;left:5px;top:50%;width:6px;height:6px;border-radius:50%;background:#C4F24C;box-shadow:0 0 8px #C4F24C;animation:travelx 1.6s linear infinite"></div>
+            </div>
+            <div style="border:1px solid #23232C;border-radius:11px;background:#101015;padding:16px">
+              <div style="font-family:'Geist Mono',monospace;font-size:9.5px;color:#8C8C97;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:11px">Your Gym · 1000 test cases</div>
+              <div id="gymGrid" style="display:grid;grid-template-columns:repeat(10,1fr);gap:4px"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOLD 02 -->
+    <div class="fold" style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;padding:72px 0;border-top:1px solid #EFEFF2">
+      <div>
+        <div><span style="font-family:'Geist Mono',monospace;font-size:clamp(44px,5vw,64px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:#DCDCE2;font-variant-numeric:tabular-nums">02</span></div>
+        <h3 style="font-size:clamp(26px,3vw,34px);font-weight:600;letter-spacing:-0.03em;line-height:1.08;margin:18px 0 0;text-wrap:balance">We run your agent, safely.</h3>
+        <p style="color:#5E5E69;font-size:16.5px;line-height:1.62;margin:16px 0 0;max-width:46ch;text-wrap:pretty">Every test case replays inside a private copy of your app. Nothing real gets touched: no live emails, no real charges. Your agent is free to fail as many times as it takes.</p>
+      </div>
+      <div style="min-width:0">
+        <!-- StoryVisual: sandbox -->
+        <div style="width:100%;border:1px solid #23232C;border-radius:16px;background:radial-gradient(120% 130% at 50% -20%, rgba(196,242,76,0.055), transparent 58%),#0B0B0E;color:#EAEAEE;overflow:hidden">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 20px;border-bottom:1px solid #23232C;font-family:'Geist Mono',monospace;font-size:10px;color:#8C8C97;letter-spacing:0.1em;text-transform:uppercase">
+            <span>one test, running safely</span>
+            <span style="display:flex;align-items:center;gap:7px;color:#C4F24C"><span style="width:6px;height:6px;border-radius:50%;background:#C4F24C;box-shadow:0 0 8px #C4F24C;animation:softblink 1.5s ease-in-out infinite"></span>sandbox</span>
+          </div>
+          <div style="padding:22px 20px">
+            <div style="border:1px solid rgba(196,242,76,.32);border-radius:11px;background:#101015;padding:16px 18px;box-shadow:0 0 24px rgba(196,242,76,.05)">
+              <div style="font-family:'Geist Mono',monospace;font-size:10px;color:#C4F24C;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:12px">Test: customer asks for a refund</div>
+              <div style="font-family:'Geist Mono',monospace;font-size:12px;line-height:2;">
+                <div style="color:#EAEAEE">Your agent takes over</div>
+                <div style="color:#8C8C97"> ├ reads the request</div>
+                <div style="color:#C4F24C"> ├ issues the refund<span style="color:#8C8C97"> (pretend, not real)</span></div>
+                <div style="color:#8C8C97"> └ every step recorded</div>
+              </div>
+              <div style="margin-top:11px;padding:8px 10px;border:1px solid rgba(224,115,106,.32);border-radius:7px;background:rgba(224,115,106,.08);color:#E0736A;font-family:'Geist Mono',monospace;font-size:11px;line-height:1.4">✕ It refunded twice — a $240 mistake</div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px">
+              <span style="font-family:'Geist Mono',monospace;font-size:10px;color:#8C8C97;border:1px solid #23232C;border-radius:6px;padding:5px 8px">Emails: faked</span>
+              <span style="font-family:'Geist Mono',monospace;font-size:10px;color:#8C8C97;border:1px solid #23232C;border-radius:6px;padding:5px 8px">Payments: faked</span>
+              <span style="font-family:'Geist Mono',monospace;font-size:10px;color:#8C8C97;border:1px solid #23232C;border-radius:6px;padding:5px 8px">Database: faked</span>
+              <span style="font-family:'Geist Mono',monospace;font-size:10px;color:#8C8C97;border:1px solid #23232C;border-radius:6px;padding:5px 8px">Nothing real touched</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOLD 03 -->
+    <div class="fold" style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;padding:72px 0;border-top:1px solid #EFEFF2">
+      <div>
+        <div><span style="font-family:'Geist Mono',monospace;font-size:clamp(44px,5vw,64px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:#DCDCE2;font-variant-numeric:tabular-nums">03</span></div>
+        <h3 style="font-size:clamp(26px,3vw,34px);font-weight:600;letter-spacing:-0.03em;line-height:1.08;margin:18px 0 0;text-wrap:balance">You see what broke.</h3>
+        <p style="color:#5E5E69;font-size:16.5px;line-height:1.62;margin:16px 0 0;max-width:46ch;text-wrap:pretty">Every failure lands in one clear list: what went wrong, and how often. You catch it here, on your screen, not from an angry user.</p>
+      </div>
+      <div style="min-width:0">
+        <!-- StoryVisual: analysis -->
+        <div style="width:100%;border:1px solid #23232C;border-radius:16px;background:radial-gradient(120% 130% at 50% -20%, rgba(196,242,76,0.055), transparent 58%),#0B0B0E;color:#EAEAEE;overflow:hidden">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 20px;border-bottom:1px solid #23232C;font-family:'Geist Mono',monospace;font-size:10px;color:#8C8C97;letter-spacing:0.1em;text-transform:uppercase">
+            <span>what broke</span>
+            <span style="display:flex;align-items:center;gap:7px;color:#C4F24C"><span style="width:6px;height:6px;border-radius:50%;background:#C4F24C;box-shadow:0 0 8px #C4F24C;animation:softblink 1.5s ease-in-out infinite"></span>1 new</span>
+          </div>
+          <div style="padding:20px 20px 16px">
+            <div style="display:flex;flex-direction:column;gap:2px">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px;color:#EAEAEE;background:rgba(196,242,76,.08);border-radius:7px;padding:9px 10px"><span style="display:flex;align-items:center;gap:9px"><span style="width:6px;height:6px;border-radius:2px;background:#C4F24C;flex:none"></span>Refunded the same order twice</span><span style="font-family:'Geist Mono',monospace;font-size:11px;color:#C4F24C">×14</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px;color:#8C8C97;background:transparent;border-radius:7px;padding:9px 10px"><span style="display:flex;align-items:center;gap:9px"><span style="width:6px;height:6px;border-radius:2px;background:#3A3A44;flex:none"></span>Kept retrying a failing call</span><span style="font-family:'Geist Mono',monospace;font-size:11px;color:#55555F">×6</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px;color:#8C8C97;background:transparent;border-radius:7px;padding:9px 10px"><span style="display:flex;align-items:center;gap:9px"><span style="width:6px;height:6px;border-radius:2px;background:#3A3A44;flex:none"></span>Leaked personal info in an email</span><span style="font-family:'Geist Mono',monospace;font-size:11px;color:#55555F">×3</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px;color:#8C8C97;background:transparent;border-radius:7px;padding:9px 10px"><span style="display:flex;align-items:center;gap:9px"><span style="width:6px;height:6px;border-radius:2px;background:#3A3A44;flex:none"></span>Refunded before checking who was asking</span><span style="font-family:'Geist Mono',monospace;font-size:11px;color:#55555F">×9</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px;color:#8C8C97;background:transparent;border-radius:7px;padding:9px 10px"><span style="display:flex;align-items:center;gap:9px"><span style="width:6px;height:6px;border-radius:2px;background:#3A3A44;flex:none"></span>Made up an order number</span><span style="font-family:'Geist Mono',monospace;font-size:11px;color:#55555F">×5</span></div>
+            </div>
+            <div style="margin-top:14px;padding-top:14px;border-top:1px solid #23232C;display:flex;justify-content:space-between;align-items:center;font-family:'Geist Mono',monospace;font-size:11px">
+              <span style="color:#8C8C97">result</span>
+              <span style="color:#E0736A;font-weight:600">1 PROBLEM FOUND · UPDATE BLOCKED</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOLD 04 -->
+    <div class="fold" style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;padding:72px 0;border-top:1px solid #EFEFF2">
+      <div>
+        <div><span style="font-family:'Geist Mono',monospace;font-size:clamp(44px,5vw,64px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:#DCDCE2;font-variant-numeric:tabular-nums">04</span></div>
+        <h3 style="font-size:clamp(26px,3vw,34px);font-weight:600;letter-spacing:-0.03em;line-height:1.08;margin:18px 0 0;text-wrap:balance">It checks every change for you.</h3>
+        <p style="color:#5E5E69;font-size:16.5px;line-height:1.62;margin:16px 0 0;max-width:46ch;text-wrap:pretty">SimGym runs automatically each time your team ships an update, and blocks anything that would make your agent worse. Or run it yourself anytime, from Claude Code or the command line.</p>
+      </div>
+      <div style="min-width:0">
+        <!-- StoryVisual: cicd -->
+        <div style="width:100%;border:1px solid #23232C;border-radius:16px;background:radial-gradient(120% 130% at 50% -20%, rgba(196,242,76,0.055), transparent 58%),#0B0B0E;color:#EAEAEE;overflow:hidden">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 20px;border-bottom:1px solid #23232C;font-family:'Geist Mono',monospace;font-size:10px;color:#8C8C97;letter-spacing:0.1em;text-transform:uppercase">
+            <span>checking this update</span>
+            <span style="display:flex;align-items:center;gap:7px;color:#C4F24C"><span style="width:6px;height:6px;border-radius:50%;background:#C4F24C;box-shadow:0 0 8px #C4F24C;animation:softblink 1.5s ease-in-out infinite"></span>blocked</span>
+          </div>
+          <div style="padding:22px 20px">
+            <div style="border:1px solid #23232C;border-radius:11px;background:#101015;overflow:hidden">
+              <div style="display:flex;align-items:center;gap:11px;padding:12px 15px;border-bottom:1px solid #1A1A21"><span style="font-size:12px;line-height:1;color:#7BA112">✓</span><span style="font-family:'Geist Mono',monospace;font-size:11.5px;color:#EAEAEE;flex:1">build</span><span style="font-family:'Geist Mono',monospace;font-size:10.5px;color:#7BA112">passed</span></div>
+              <div style="display:flex;align-items:center;gap:11px;padding:12px 15px;border-bottom:1px solid #1A1A21"><span style="font-size:12px;line-height:1;color:#7BA112">✓</span><span style="font-family:'Geist Mono',monospace;font-size:11.5px;color:#EAEAEE;flex:1">your tests</span><span style="font-family:'Geist Mono',monospace;font-size:10.5px;color:#7BA112">passed</span></div>
+              <div style="display:flex;align-items:center;gap:11px;padding:12px 15px;border-bottom:1px solid #1A1A21"><span style="font-size:12px;line-height:1;color:#E0736A">✕</span><span style="font-family:'Geist Mono',monospace;font-size:11.5px;color:#EAEAEE;flex:1">SimGym check</span><span style="font-family:'Geist Mono',monospace;font-size:10.5px;color:#E0736A">problem found</span></div>
+            </div>
+            <div style="margin-top:12px;border:1px solid #23232C;border-radius:11px;background:#101015;padding:14px 15px;font-family:'Geist Mono',monospace;font-size:12px;line-height:1.8">
+              <div style="color:#8C8C97">$ <span style="color:#C4F24C">simgym</span> test refund-flow</div>
+              <div style="color:#E0736A">✕ problem found — update blocked</div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px">
+              <span style="font-family:'Geist Mono',monospace;font-size:10px;color:#8C8C97;border:1px solid #23232C;border-radius:6px;padding:5px 8px">Runs on every update</span>
+              <span style="font-family:'Geist Mono',monospace;font-size:10px;color:#8C8C97;border:1px solid #23232C;border-radius:6px;padding:5px 8px">Claude Code</span>
+              <span style="font-family:'Geist Mono',monospace;font-size:10px;color:#8C8C97;border:1px solid #23232C;border-radius:6px;padding:5px 8px">Command line</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- CTA BAND -->
+<div id="waitlist" style="border-top:1px solid #E7E7EC;background:#FFFFFF">
+  <div style="max-width:1080px;margin:0 auto;padding:96px 30px">
+    <div style="border:1px solid #23232C;border-radius:18px;background:radial-gradient(120% 120% at 50% -30%, rgba(196,242,76,0.10), transparent 60%),#0B0B0E;color:#EAEAEE;padding:64px 56px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:28px">
+      <div style="max-width:40ch">
+        <h2 style="font-size:clamp(26px,3.2vw,36px);font-weight:600;letter-spacing:-0.032em;line-height:1.08;margin:0;text-wrap:balance">Ship agent updates with confidence.</h2>
+        <p style="color:#8C8C97;font-size:15px;margin:16px auto 0;max-width:44ch;line-height:1.6;text-wrap:pretty">Early access is rolling out in waves to teams running AI agents with real users.</p>
+      </div>
+      <form class="waitlist" style="display:flex;gap:10px;width:100%;max-width:440px">
         <input type="email" required placeholder="you@company.com" style="flex:1;font-family:'Geist',sans-serif;font-size:14.5px;padding:12px 16px;border:1px solid #23232C;border-radius:9px;background:#101015;color:#EAEAEE;outline:none">
         <button type="submit" style="background:#C4F24C;color:#0C0C0F;font-family:'Geist',sans-serif;font-weight:600;font-size:14.5px;padding:12px 20px;border-radius:9px;border:none;cursor:pointer;white-space:nowrap">Get early access →</button>
       </form>
@@ -238,10 +216,10 @@ a{color:#121218;text-decoration:none}a:hover{color:#5E5E69}
 </div>
 
 <!-- FOOTER -->
-<div style="border-top:1px solid #E7E7EC;padding:38px 0 60px">
-  <div style="max-width:1060px;margin:0 auto;padding:0 30px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;color:#9A9AA6;font-family:'Geist Mono',monospace;font-size:11.5px;letter-spacing:0.06em">
+<div style="border-top:1px solid #E7E7EC;padding:38px 0 60px;background:#FFFFFF">
+  <div style="max-width:1080px;margin:0 auto;padding:0 30px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;color:#9A9AA6;font-family:'Geist Mono',monospace;font-size:11.5px;letter-spacing:0.06em">
     <span>SIMGYM · THE PROVING GROUND</span>
-    <span>© 2026 · BREAK IT HERE, NOT IN PRODUCTION</span>
+    <span>© 2026 · CATCH IT BEFORE YOUR USERS DO</span>
   </div>
 </div>
 
@@ -249,145 +227,26 @@ a{color:#121218;text-decoration:none}a:hover{color:#5E5E69}
 
 <script>
 (function(){
-  var BEATS=7;
-  var LIME="#C4F24C",DIM="#55555F",MUTE="#8C8C97",WHITE="#EAEAEE";
-  var runs=[
-    {name:"double_refund_loop",    tile:31, tile2:47, tool:"issue_refund(order_9312)", error:"issue_refund() fired twice · $240 double refund", pattern:"Double refund on retry"},
-    {name:"api_degraded_retry",    tile:58, tile2:20, tool:"fetch_order(order_4471)",   error:"no backoff after 4× 500 · retry storm",          pattern:"No backoff on 5xx"},
-    {name:"angry_user_escalation", tile:12, tile2:73, tool:"send_email(user_88)",       error:"PII leaked in escalation email · policy breach",  pattern:"PII in escalation email"},
-    {name:"refund_full_flow",      tile:66, tile2:39, tool:"issue_refund(order_2205)",  error:"refund issued before auth check",                 pattern:"Refund before auth check"}
-  ];
-  var patternDefs=[
-    {name:"Double refund on retry",   base:14},
-    {name:"No backoff on 5xx",        base:6},
-    {name:"PII in escalation email",  base:3},
-    {name:"Refund before auth check", base:9},
-    {name:"Hallucinated order ID",    base:5},
-    {name:"Infinite tool-call loop",  base:2},
-    {name:"Ignored rate limit",       base:8}
-  ];
-
-  // hero grid (static CSS animation)
-  var heroGrid=document.getElementById('heroGrid');
-  var hotSet=[21,47,83,112];
-  for(var i=0;i<130;i++){
-    var seed=(i*2654435761)%1000/1000;
-    var hotIdx=hotSet.indexOf(i);
-    var d=document.createElement('div');
-    d.className='gx-cell';
-    if(hotIdx>=0){
-      d.style.cssText="aspect-ratio:1;border-radius:3px;background:#DDDDE2;animation:cellhotlight 5s linear infinite;animation-delay:-"+(hotIdx*1.25).toFixed(2)+"s";
-    }else{
-      d.style.cssText="aspect-ratio:1;border-radius:3px;background:#3A3A44;animation:cellpulse "+(2.6+seed*3).toFixed(2)+"s ease-in-out infinite;animation-delay:-"+(seed*6).toFixed(2)+"s";
+  // gym visual: 60-cell field, 4 caught (green)
+  var gg=document.getElementById('gymGrid');
+  if(gg){
+    var caught=[7,19,33,48];
+    for(var i=0;i<60;i++){
+      var seed=(i*2654435761)%1000/1000;
+      var isC=caught.indexOf(i)>=0;
+      var d=document.createElement('div');
+      d.style.cssText="aspect-ratio:1;border-radius:2px;background:"+(isC?"#C4F24C":"#2C2C36")
+        +";box-shadow:"+(isC?"0 0 8px rgba(196,242,76,.6)":"none")
+        +";animation:"+(isC?"none":"cellpulse "+(2.2+seed*2.6).toFixed(2)+"s ease-in-out infinite")
+        +";animation-delay:-"+(seed*5).toFixed(2)+"s";
+      gg.appendChild(d);
     }
-    heroGrid.appendChild(d);
   }
-
-  // sim field (81) built once, updated per beat
-  var simField=document.getElementById('simField');
-  var simCells=[], simColdAnim=[];
-  for(var j=0;j<81;j++){
-    var s2=(j*2654435761)%1000/1000;
-    var anim="cellpulse "+(2.2+s2*2.6).toFixed(2)+"s ease-in-out infinite";
-    simColdAnim.push(anim);
-    var c=document.createElement('div');
-    c.style.cssText="aspect-ratio:1;border-radius:2px;background:#2C2C36;box-shadow:none;animation:"+anim+";animation-delay:-"+(s2*5).toFixed(2)+"s;transition:background .3s ease,box-shadow .3s ease";
-    simField.appendChild(c);
-    simCells.push(c);
-  }
-
-  // trajectory lines (4) built once
-  var trajWrap=document.getElementById('trajLines');
-  var trajEls=[];
-  for(var t=0;t<4;t++){
-    var line=document.createElement('div');
-    line.style.cssText="transition:color .35s ease";
-    var mainSpan=document.createElement('span');
-    var sufSpan=document.createElement('span');
-    line.appendChild(mainSpan);line.appendChild(sufSpan);
-    trajWrap.appendChild(line);
-    trajEls.push({main:mainSpan,suf:sufSpan});
-  }
-  trajEls[0].main.textContent="your_agent()";        trajEls[0].main.style.color=WHITE;
-  trajEls[1].main.textContent=" ├ reason → act → observe"; trajEls[1].main.style.color=MUTE;
-  trajEls[3].main.textContent=" └ trajectory recorded"; trajEls[3].main.style.color=MUTE;
-
-  // patterns (7) built once
-  var patWrap=document.getElementById('patterns');
-  var patEls=[];
-  patternDefs.forEach(function(p){
-    var row=document.createElement('div');
-    row.style.cssText="display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:11.5px;border-radius:6px;padding:4px 7px;margin:0 -7px;transition:background .3s ease,color .3s ease";
-    var left=document.createElement('span');
-    left.style.cssText="display:flex;align-items:center;gap:8px";
-    var dot=document.createElement('span');
-    dot.style.cssText="width:6px;height:6px;border-radius:2px;flex:none;transition:background .3s ease";
-    var nameSpan=document.createElement('span');
-    nameSpan.textContent=p.name;
-    left.appendChild(dot);left.appendChild(nameSpan);
-    var count=document.createElement('span');
-    count.style.cssText="font-family:'Geist Mono',monospace;font-size:10.5px;transition:color .3s ease";
-    row.appendChild(left);row.appendChild(count);
-    patWrap.appendChild(row);
-    patEls.push({row:row,dot:dot,count:count});
-  });
-
-  var runVerdictEl=document.getElementById('runVerdict');
-  var scenNameEl=document.getElementById('runScenarioName');
-  var errorEl=document.getElementById('errorBox');
-  var analysisStatusEl=document.getElementById('analysisStatus');
-
-  var tick=0;
-  function frame(){
-    var runIdx=Math.floor(tick/BEATS)%runs.length;
-    var beat=tick%BEATS;
-    var run=runs[runIdx];
-    for(var i=0;i<81;i++){
-      var caught=(i===run.tile&&beat<=3)||(i===run.tile2&&beat>=2&&beat<=5);
-      var cell=simCells[i];
-      if(caught){
-        cell.style.background=LIME;
-        cell.style.boxShadow="0 0 9px rgba(196,242,76,.7)";
-        cell.style.animation="none";
-      }else{
-        cell.style.background="#2C2C36";
-        cell.style.boxShadow="none";
-        cell.style.animation=simColdAnim[i];
-      }
-    }
-    runVerdictEl.textContent=beat<4?"SIMULATING…":"REGRESSION INTERCEPTED";
-    var inSandbox=beat>=2;
-    scenNameEl.textContent=run.name;
-    trajEls[2].main.textContent=" ├ "+run.tool;
-    trajEls[2].main.style.color=inSandbox?LIME:MUTE;
-    trajEls[2].suf.textContent=" → mocked";
-    trajEls[2].suf.style.color=inSandbox?LIME:DIM;
-    errorEl.style.opacity=beat>=3?1:0;
-    errorEl.textContent="✕ "+run.error;
-    var cycles=Math.floor(tick/(BEATS*runs.length));
-    var analysisLive=beat>=4;
-    patternDefs.forEach(function(p,idx){
-      var active=p.name===run.pattern&&analysisLive;
-      var el=patEls[idx];
-      el.count.textContent="×"+(p.base+cycles+(active?1:0));
-      el.row.style.background=active?"rgba(196,242,76,.08)":"transparent";
-      el.row.style.color=active?WHITE:MUTE;
-      el.dot.style.background=active?LIME:"#3A3A44";
-      el.count.style.color=active?LIME:DIM;
-    });
-    analysisStatusEl.textContent=analysisLive?"1 new":"aggregating";
-    tick++;
-  }
-  frame();
-  setInterval(frame,700);
-
   // waitlist forms
   function joinHandler(e){
     e.preventDefault();
-    var note=document.getElementById('joinedNote');
-    var nonote=document.getElementById('notJoinedNote');
-    if(note)note.style.display='block';
-    if(nonote)nonote.style.display='none';
+    var n=document.getElementById('heroNote');
+    if(n)n.textContent="◆ You're on the list. Early access rolls out in waves.";
   }
   Array.prototype.forEach.call(document.querySelectorAll('form.waitlist'),function(f){
     f.addEventListener('submit',joinHandler);
