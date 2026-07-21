@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Call with Anirudh — July 21, 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --forest: #2d4a2b;
+      --sage:   #7d8471;
+      --olive:  #a4ac86;
+      --ivory:  #faf9f6;
+      --cream:  #f0ede6;
+      --ink:    #1c2b1b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--ivory);
+      color: var(--ink);
+      font-family: 'Source Sans 3', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: var(--forest);
+      color: var(--ivory);
+      padding: 48px 48px 40px;
+      position: relative;
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--olive), var(--sage), var(--forest));
+    }
+    header .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--olive);
+      text-decoration: none;
+      margin-bottom: 20px;
+    }
+    header .back-link:hover { color: var(--ivory); }
+    header .eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 10px;
+    }
+    header h1 {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 700;
+      line-height: 1.15;
+    }
+    header .meta {
+      margin-top: 10px;
+      color: var(--olive);
+      font-size: 14px;
+    }
+
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 56px 48px 100px;
+      flex: 1;
+    }
+
+    .section {
+      margin-bottom: 48px;
+    }
+
+    .section-title {
+      font-family: 'EB Garamond', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--forest);
+      border-bottom: 2px solid var(--olive);
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+    }
+
+    .subsection-title {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin: 24px 0 10px;
+    }
+
+    ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    ul li {
+      position: relative;
+      padding-left: 18px;
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--ink);
+    }
+
+    ul li::before {
+      content: '–';
+      position: absolute;
+      left: 0;
+      color: var(--olive);
+      font-weight: 600;
+    }
+
+    ul li ul {
+      margin-top: 8px;
+    }
+
+    ul li ul li {
+      font-size: 14px;
+      color: var(--sage);
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background: var(--forest);
+      color: var(--ivory);
+      padding: 2px 8px;
+      border-radius: 3px;
+      margin-right: 6px;
+    }
+
+    .callout {
+      background: var(--cream);
+      border-left: 3px solid var(--forest);
+      border-radius: 4px;
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+    .callout strong { color: var(--forest); }
+
+    .next-steps-list li {
+      background: var(--cream);
+      border: 1px solid var(--olive);
+      border-radius: 6px;
+      padding: 14px 18px;
+      padding-left: 36px;
+    }
+
+    .next-steps-list li::before {
+      top: 14px;
+      left: 16px;
+    }
+
+    .next-steps-list li strong {
+      color: var(--forest);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    footer {
+      background: var(--forest);
+      color: var(--olive);
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="back-link" href="../meetings.html">← Meetings</a>
+  <div class="eyebrow">Meeting Notes</div>
+  <h1>Call with Anirudh</h1>
+  <div class="meta">July 21, 2026 &nbsp;·&nbsp; Anirudh (DevRev)</div>
+</header>
+
+<main>
+
+  <div class="section">
+    <div class="section-title">Reaction to the Core Idea (Sim Environments &amp; Gyms)</div>
+    <ul>
+      <li>DevRev does have a tough time creating simulation environments for <strong>third-party systems</strong></li>
+      <li>But DevRev itself is very in-house and self-contained — they could just clone their own infrastructure into an alternative sandbox and test their agents there</li>
+      <li>As they scale up and have to talk to more third-party systems, they <strong>do see value in a co-simulation environment</strong></li>
+      <li>They flagged <strong>Arga Labs</strong> (spelled "arga", from YC) as one such alternative for those environments</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Biggest Input — Simulate the User, Not the Trajectory</div>
+    <div class="callout">
+      Gym creation as currently proposed = building the ideal trajectories, which is essentially <strong>"monkey work."</strong> The more scalable, more productized move is: <strong>how well can you simulate the actual user?</strong> That sits one abstraction <em>before</em> the trajectory itself.
+    </div>
+    <ul>
+      <li>The pitch becomes: "I have a catalog of users specific to your domain — exactly what you need to test with"</li>
+      <li>By domain, the profiles are knowable up front:
+        <ul>
+          <li><strong>CX</strong> — you know the different profiles of users likely to show up</li>
+          <li><strong>BFSI</strong> — same; you can enumerate persona types and test against them</li>
+        </ul>
+      </li>
+      <li>Advantage: a lot easier to package and market than hand-built trajectories</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Impact of Memory in Testing (Internal Agent Flows)</div>
+    <ul>
+      <li>Today Anirudh has <strong>no way of testing</strong> a lot of his internal agent flows</li>
+      <li>Examples of internal flows with no coverage:
+        <ul>
+          <li>Flows for <strong>curating</strong> memory</li>
+          <li>Flows for <strong>utilizing</strong> memory</li>
+          <li>Agent loops for curating knowledge articles</li>
+          <li>Agent flows for routing tickets</li>
+        </ul>
+      </li>
+      <li>These are internal, not consumer-facing — so there is <strong>no user to simulate, but there are scenarios to simulate</strong></li>
+      <li>No standardized benches exist for any of this — these scenarios could be folded into the agent construct</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">On the Framework / Harness Question</div>
+    <ul>
+      <li>DevRev uses their own agent framework / harness</li>
+      <li>A lot of mature agent teams will just build it themselves</li>
+      <li>To sell to those teams: give them a way to <strong>create user personas on their system of record</strong> and let them figure out how to call their own endpoint</li>
+      <li>Caveat from Anirudh: that alone is "not really as much a solution"</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Who to Talk To / GTM</div>
+    <ul>
+      <li>Talk to people who really have things going on with agents and need to actually go for evals — e.g. <strong>Haiku</strong>, <strong>ClearTax</strong> <span style="color:var(--sage)">(names per dictation — confirm spelling/scope)</span></li>
+      <li>Look at <strong>Galileo's customer base</strong> and go sell into that</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Takeaways</div>
+    <ul class="next-steps-list">
+      <li><strong>Reframe the wedge around user simulation</strong>Position SimGym's differentiator as a domain-specific catalog of simulated users (CX, BFSI, …), one abstraction above hand-authored trajectories — more scalable and easier to market.</li>
+      <li><strong>Add "scenario" gyms for internal / memory flows</strong>Extend beyond consumer-facing agents: memory curation, memory utilization, knowledge-article curation, ticket routing — scenarios to simulate where there's no user and no standardized bench.</li>
+      <li><strong>Personas-on-your-system-of-record for mature teams</strong>For teams with their own harness, offer persona generation + a callable endpoint — but recognize it's a partial solution, not the whole product.</li>
+      <li><strong>Build the design-partner list off Galileo's base</strong>Prioritize agent-heavy teams doing real evals (Haiku, ClearTax as leads to validate).</li>
+    </ul>
+  </div>
+
+</main>
+
+<footer>
+  SimGym · Confidential
+</footer>
+
+</body>
+</html>
