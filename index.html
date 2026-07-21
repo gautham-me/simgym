@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SimGym — Catch and fix your agent's mistakes before your users do.</title>
+<title>SimGym — Catch your agent's mistakes before your users do.</title>
 <meta name="description" content="SimGym puts your AI agent through its hardest scenarios in a safe copy of your app, and flags what breaks before it ships. So every update makes your agent better, never worse.">
 <style>
 /* Self-hosted Geist (variable, latin subset). SIL Open Font License — see fonts/OFL.txt */
@@ -12,6 +12,7 @@
 *{box-sizing:border-box}
 body{margin:0;background:#F5F5F7;color:#121218;font-family:"Geist",ui-sans-serif,system-ui,sans-serif;line-height:1.5;letter-spacing:-0.011em;-webkit-font-smoothing:antialiased}
 a{color:#121218;text-decoration:none}a:hover{color:#5E5E69}
+form.waitlist input{min-width:0}
 @keyframes cellpulse{0%,100%{opacity:.14}50%{opacity:.85}}
 @keyframes softblink{0%,100%{opacity:.5}50%{opacity:1}}
 @keyframes travelx{0%{transform:translate(0,-50%);opacity:0}18%{opacity:1}82%{opacity:1}100%{transform:translate(18px,-50%);opacity:0}}
@@ -19,6 +20,11 @@ a{color:#121218;text-decoration:none}a:hover{color:#5E5E69}
 @media (max-width:820px){
   .fold{grid-template-columns:1fr!important;gap:32px!important;padding:48px 0!important}
   .hero-h1 span{white-space:normal!important}
+}
+@media (max-width:620px){
+  .cta-card{padding:40px 24px!important}
+  form.waitlist{flex-direction:column!important}
+  form.waitlist input,form.waitlist button{width:100%}
 }
 </style>
 </head>
@@ -39,7 +45,7 @@ a{color:#121218;text-decoration:none}a:hover{color:#5E5E69}
 <!-- HERO -->
 <div style="max-width:1080px;margin:0 auto;padding:104px 30px 72px;text-align:center">
   <span style="font-family:'Geist Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:#5E5E69">SIMULATION TESTING FOR AI AGENTS</span>
-  <h1 class="hero-h1" style="font-size:clamp(38px,5.6vw,72px);font-weight:700;letter-spacing:-0.045em;line-height:1.0;margin:22px auto 0"><span style="display:block;white-space:nowrap">Catch and fix your agent's mistakes</span><span style="display:block;white-space:nowrap;color:#9A9AA6">before your users do.</span></h1>
+  <h1 class="hero-h1" style="font-size:clamp(38px,5.6vw,72px);font-weight:700;letter-spacing:-0.045em;line-height:1.0;margin:22px auto 0"><span style="display:block;white-space:nowrap">Catch your agent's mistakes</span><span style="display:block;white-space:nowrap;color:#9A9AA6">before your users do.</span></h1>
   <p style="font-size:18px;color:#5E5E69;max-width:52ch;margin:26px auto 0;line-height:1.6;text-wrap:pretty">SimGym puts your AI agent through its hardest scenarios in a safe copy of your app, and flags what breaks before it ships. So every update makes your agent better, never worse.</p>
   <form class="waitlist" style="display:flex;gap:10px;margin:34px auto 0;max-width:440px">
     <input type="email" required placeholder="you@company.com" style="flex:1;font-family:'Geist',sans-serif;font-size:14.5px;padding:12px 16px;border:1px solid #DADAE2;border-radius:9px;background:#FFFFFF;color:#121218;outline:none;letter-spacing:-0.01em">
@@ -199,7 +205,7 @@ a{color:#121218;text-decoration:none}a:hover{color:#5E5E69}
 <!-- CTA BAND -->
 <div id="waitlist" style="border-top:1px solid #E7E7EC;background:#FFFFFF">
   <div style="max-width:1080px;margin:0 auto;padding:96px 30px">
-    <div style="border:1px solid #23232C;border-radius:18px;background:radial-gradient(120% 120% at 50% -30%, rgba(196,242,76,0.10), transparent 60%),#0B0B0E;color:#EAEAEE;padding:64px 56px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:28px">
+    <div class="cta-card" style="border:1px solid #23232C;border-radius:18px;background:radial-gradient(120% 120% at 50% -30%, rgba(196,242,76,0.10), transparent 60%),#0B0B0E;color:#EAEAEE;padding:64px 56px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:28px">
       <div style="max-width:40ch">
         <h2 style="font-size:clamp(26px,3.2vw,36px);font-weight:600;letter-spacing:-0.032em;line-height:1.08;margin:0;text-wrap:balance">Ship agents with confidence.</h2>
         <p style="color:#8C8C97;font-size:15px;margin:16px auto 0;max-width:44ch;line-height:1.6;text-wrap:pretty">Early access is rolling out in waves to teams running AI agents with real users.</p>
