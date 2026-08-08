@@ -63,9 +63,9 @@ export default function Home() {
         <h1 className="text-3xl font-bold tracking-tight">Design System</h1>
         <p className="text-muted-foreground max-w-2xl">
           Tokens and components built on shadcn/ui. This page is the source
-          of truth for what SimGym&apos;s UI looks like — served at{" "}
-          <code className="rounded bg-muted px-1.5 py-0.5 text-sm">/DS</code>.
-          Colors below are neutral placeholders; swap the values in{" "}
+          of truth for what SimGym&apos;s UI looks like, and the foundation
+          the product itself is built on. Colors below are neutral
+          placeholders; swap the values in{" "}
           <code className="rounded bg-muted px-1.5 py-0.5 text-sm">
             app/globals.css
           </code>{" "}

@@ -10,10 +10,10 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 # SimGym Design System — rules for AI-assisted UI work
 
-This app is SimGym's design system: tokens + shadcn components, deployed
-static to GitHub Pages at `/DS`. It's also the reference other SimGym repos
-should copy components from. These rules exist so backend devs using AI
-coding assistants stay on-system without every PR needing a design review.
+This app is SimGym's design system — tokens + shadcn components — and the
+foundation the actual product is built on top of, deployed on Vercel. These
+rules exist so backend devs using AI coding assistants stay on-system
+without every PR needing a design review.
 
 ## Always
 
@@ -31,7 +31,7 @@ coding assistants stay on-system without every PR needing a design review.
 - New shadcn components get added the same way the existing ones in this
   repo were built: same file shape (`data-slot`, `cva` variants, `cn()`
   for class merging), same aliases (`@/components/ui`, `@/lib/utils`).
-- After changing a component, update `app/page.tsx` (the `/DS` showcase)
+- After changing a component, update `app/page.tsx` (the showcase page)
   so the change is visible without reading the diff.
 
 ## Never
@@ -40,9 +40,6 @@ coding assistants stay on-system without every PR needing a design review.
   If a button looks wrong somewhere, fix `components/ui/button.tsx`, not
   the call site — that's the one rule that keeps this from rotting into
   40 slightly-different buttons.
-- Never hardcode `/DS` into an internal link — this app is served under
-  `basePath: "/DS"` (see `next.config.ts`), so `next/link` and root-
-  relative paths already resolve correctly without it.
 - Never add a new npm UI library (Radix is already the primitive layer
   under shadcn) without checking whether an existing `components/ui/*`
   component already covers the need.
