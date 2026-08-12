@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SimGym — Design Partner Prospecting: Indian AI Agent Startups</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --forest:  #2d4a2b;
+      --sage:    #7d8471;
+      --olive:   #a4ac86;
+      --ivory:   #faf9f6;
+      --cream:   #f0ede6;
+      --ink:     #1c2b1b;
+      --rust:    #8c4a32;
+      --amber:   #9a7b2f;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--ivory);
+      color: var(--ink);
+      font-family: 'Source Sans 3', 'FreeSans', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    header {
+      background: var(--forest);
+      color: var(--ivory);
+      padding: 64px 48px 52px;
+      position: relative;
+      overflow: hidden;
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--olive), var(--sage), var(--forest));
+    }
+    header .eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 16px;
+    }
+    header h1 {
+      font-family: 'EB Garamond', 'FreeSerif', serif;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 700;
+      line-height: 1.15;
+      max-width: 680px;
+    }
+    header p.tagline {
+      margin-top: 16px;
+      font-size: 17px;
+      color: var(--olive);
+      max-width: 620px;
+    }
+
+    nav {
+      background: var(--cream);
+      border-bottom: 1px solid var(--olive);
+      padding: 0 48px;
+      display: flex;
+      overflow-x: auto;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    nav a {
+      display: inline-block;
+      padding: 14px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: var(--sage);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    nav a:hover { color: var(--forest); border-bottom-color: var(--forest); }
+
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 56px 48px 120px;
+    }
+
+    section { margin-bottom: 72px; }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-family: 'EB Garamond', 'FreeSerif', serif;
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--forest);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--olive);
+    }
+
+    h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--forest);
+      margin: 32px 0 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    h3 .meta {
+      display: block;
+      text-transform: none;
+      letter-spacing: 0;
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--sage);
+      margin-top: 2px;
+    }
+
+    p { margin-bottom: 14px; max-width: 760px; }
+
+    .table-wrap { overflow-x: auto; margin: 16px 0 24px; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+
+    thead tr { background: var(--forest); color: var(--ivory); }
+    thead th { padding: 10px 14px; text-align: left; font-weight: 600; letter-spacing: 0.4px; }
+    tbody tr { border-bottom: 1px solid var(--cream); }
+    tbody tr:nth-child(even) { background: var(--cream); }
+    tbody td { padding: 10px 14px; vertical-align: top; }
+
+    a { color: var(--forest); }
+    a:hover { color: var(--rust); }
+
+    ul, ol { padding-left: 20px; margin-bottom: 16px; max-width: 760px; }
+    li { margin-bottom: 7px; }
+
+    .callout {
+      background: var(--cream);
+      border-left: 4px solid var(--forest);
+      padding: 18px 22px;
+      margin: 20px 0 28px;
+      border-radius: 0 4px 4px 0;
+      max-width: 760px;
+    }
+    .callout.warn { border-left-color: var(--rust); }
+    .callout strong.label {
+      display: block;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 6px;
+    }
+    .callout p:last-child { margin-bottom: 0; }
+
+    .tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 3px;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+    .tag.ok   { background: var(--olive); color: var(--forest); }
+    .tag.soft { background: #e4dcc0; color: var(--amber); }
+    .tag.none { background: #e8d5cd; color: var(--rust); }
+    .tag.stop { background: var(--rust); color: var(--ivory); }
+    .tag.pick { background: var(--forest); color: var(--ivory); }
+
+    .rank {
+      font-family: 'EB Garamond', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--olive);
+    }
+
+    .hook {
+      font-size: 13px;
+      color: var(--sage);
+      display: block;
+      margin-top: 3px;
+    }
+
+    footer {
+      background: var(--forest);
+      color: var(--olive);
+      padding: 32px 48px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 700px) {
+      header, nav, main, footer { padding-left: 24px; padding-right: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">SimGym · Design Partner Prospecting</div>
+  <h1>Who to talk to inside India's AI agent startups</h1>
+  <p class="tagline">~100 named technical AI leaders across 30 seed-to-growth companies. Built for first-conversation outreach, not for a CRM import.</p>
+</header>
+
+<nav>
+  <a href="#start">Start here</a>
+  <a href="#legend">How to read this</a>
+  <a href="#blr">Bengaluru</a>
+  <a href="#ncr">Delhi NCR</a>
+  <a href="#mum">Mumbai</a>
+  <a href="#other">Pune &amp; other</a>
+  <a href="#corrections">Corrections</a>
+  <a href="#donotcontact">Do not contact</a>
+  <a href="#gaps">Gaps</a>
+</nav>
+
+<main>
+
+<section id="start">
+  <div class="section-label">The short list</div>
+  <h2>Fifteen people, in the order I'd contact them</h2>
+
+  <p>Ranked on one thing: <strong>how unambiguously this person owns the "does our agent actually behave correctly" question.</strong> Not company size, not funding. A Head of AI at a 30-person company beats a VP Eng at a 300-person one, because there's nobody to route you to.</p>
+
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr><th>#</th><th>Person</th><th>Company</th><th>Title</th><th>Why them / timing</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="rank">1</td>
+        <td><a href="https://www.linkedin.com/in/amitverma26">Amit Verma</a> <span class="tag ok">URL seen</span></td>
+        <td>Neuron7</td>
+        <td>Founding Head of Engineering <em>and</em> AI Labs</td>
+        <td>Title combines both. Zero ambiguity about ownership. Writes for Forbes Tech Council — content-led opener works.</td>
+      </tr>
+      <tr>
+        <td class="rank">2</td>
+        <td><a href="https://www.linkedin.com/in/utkarsh-shukla-8b834b112/">Utkarsh Shukla</a> <span class="tag ok">URL seen</span></td>
+        <td>Ringg AI</td>
+        <td>Co-founder &amp; Head of AI</td>
+        <td>Best title-to-need match in the whole list. $5.5M Series A (Jan 2026) earmarked for engineering — fresh budget.</td>
+      </tr>
+      <tr>
+        <td class="rank">3</td>
+        <td><a href="https://in.linkedin.com/in/mayankzuppit">Mayank Goyal</a> <span class="tag ok">URL seen</span></td>
+        <td>Leena AI</td>
+        <td>Co-founder, Chief Scientist &amp; Head of AI</td>
+        <td>Explicitly owns agentic AI direction. Active angel investor — used to being pitched, replies to cold DMs.</td>
+      </tr>
+      <tr>
+        <td class="rank">4</td>
+        <td><a href="https://www.linkedin.com/in/sen-souvik/">Souvik Sen</a> <span class="tag ok">URL seen</span></td>
+        <td>Ema</td>
+        <td>Co-founder &amp; CTO</td>
+        <td>Ex-Google ML at scale (built TrustGraph), then VP Eng at Okta. <strong>Ema publicly markets an internal agent-evaluation engine</strong> — they already believe the problem is real.</td>
+      </tr>
+      <tr>
+        <td class="rank">5</td>
+        <td><a href="https://in.linkedin.com/in/arnavsharma93">Arnav Sharma</a> <span class="tag ok">URL seen</span></td>
+        <td>Enterpret</td>
+        <td>Co-founder &amp; CTO</td>
+        <td>MS Computational Linguistics (IIIT-H), ex-Uber, Forbes 30U30. <strong>Hiring an AI Tech Lead Manager in Bengaluru right now</strong> — that's exactly when eval tooling gets decided.</td>
+      </tr>
+      <tr>
+        <td class="rank">6</td>
+        <td><a href="https://www.linkedin.com/in/prathameshjuvatkar/">Prathamesh Juvatkar</a> <span class="tag ok">URL seen</span></td>
+        <td>Nanonets</td>
+        <td>Co-founder &amp; CTO</td>
+        <td><strong>They already run a public eval benchmark</strong> (idp-leaderboard.org) and ship models to Hugging Face. Easiest credibility hook on the list — you're not explaining why eval matters.</td>
+      </tr>
+      <tr>
+        <td class="rank">7</td>
+        <td><a href="https://www.linkedin.com/in/bharatshekhawat">Bharat Singh Shekhawat</a> <span class="tag soft">slug from post URL</span></td>
+        <td>Entropik</td>
+        <td>Co-founder &amp; Head of Engineering</td>
+        <td>Owns multimodal behavior systems (face/voice/gaze). Notoriously hard to regression-test. Posts publicly about Entropik engineering.</td>
+      </tr>
+      <tr>
+        <td class="rank">8</td>
+        <td><a href="https://www.linkedin.com/in/prateek-sachan/">Prateek Sachan</a> <span class="tag ok">URL seen</span></td>
+        <td>Bolna</td>
+        <td>Co-founder &amp; CTO</td>
+        <td>Open-source maintainer, publicly active. <strong>Hiring their first Founding ML Engineer.</strong> Multilingual mid-call language switching on 20-min calls = brutal test surface.</td>
+      </tr>
+      <tr>
+        <td class="rank">9</td>
+        <td><a href="https://www.linkedin.com/in/dloker/">David Loker</a> <span class="tag ok">URL seen</span></td>
+        <td>CodeRabbit</td>
+        <td>VP of AI</td>
+        <td>Ex-Netflix, ex-Amazon ML. Title maps directly to benchmarking ownership. Pair with Rohit Khanna for the India-timezone pilot.</td>
+      </tr>
+      <tr>
+        <td class="rank">10</td>
+        <td><a href="https://www.linkedin.com/in/ananth-nagaraj-gnani/">Ananth Nagaraj</a> <span class="tag ok">URL seen</span></td>
+        <td>Gnani.ai</td>
+        <td>Co-founder &amp; CTO</td>
+        <td>Shipping a 5B voice-to-voice model under IndiaAI Mission, 14B planned, 30M daily calls. Publicly arguing SLM-vs-LLM trade-offs — already speaking in eval terms.</td>
+      </tr>
+      <tr>
+        <td class="rank">11</td>
+        <td><a href="https://in.linkedin.com/in/vikas-gulati">Vikas Gulati</a> <span class="tag ok">URL seen</span></td>
+        <td>SquadStack</td>
+        <td>Co-founder &amp; CTO</td>
+        <td>12 years in seat. Owns two in-house voice models trained on 5M+ hours of Indian voice data. Only person who can approve buying an eval layer.</td>
+      </tr>
+      <tr>
+        <td class="rank">12</td>
+        <td><a href="https://www.linkedin.com/in/vengadanathan-srinivasan-82564b33/">Vengadanathan Srinivasan</a> <span class="tag ok">URL seen</span></td>
+        <td>Arrowhead AI</td>
+        <td>Co-founder &amp; CTO</td>
+        <td>Sole technical founder — decisions land on him by default. Ex-AWS, Rippling, Uber, Airbnb. 20-min BFSI calls, 7 languages, regulated sector.</td>
+      </tr>
+      <tr>
+        <td class="rank">13</td>
+        <td>Jatin Jain <span class="tag none">no URL found</span></td>
+        <td>Spyne</td>
+        <td>Head of Technology &amp; AI</td>
+        <td><strong>Highest raw fit, worst contactability.</strong> Joined Dec 2025, reports to CEO, leads 90+ engineers. Ex-Instacart LLM contact-centre, ex-Amazon Prime Video CV. New-in-seat with a mandate. Find his profile manually.</td>
+      </tr>
+      <tr>
+        <td class="rank">14</td>
+        <td><a href="https://www.linkedin.com/in/abhayaagarwal/">Abhaya Agarwal</a> <span class="tag ok">URL seen</span></td>
+        <td>Sprinto</td>
+        <td>Principal Engineer</td>
+        <td>CMU MS in Language Technologies. Sprinto's "AI Playground" literally lets customers <em>design, test and deploy</em> compliance agents — testing is already their vocabulary.</td>
+      </tr>
+      <tr>
+        <td class="rank">15</td>
+        <td><a href="https://www.linkedin.com/in/saravana-kumar-siva/">Saravana Kumar</a> <span class="tag ok">URL seen</span></td>
+        <td>Freehand</td>
+        <td>CTO</td>
+        <td>Fresh $75M Series B, visibly hiring. Their agents autonomously decide which invoices Fortune 500s pay — highest blast radius on the list.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout">
+    <strong class="label">Pattern worth acting on</strong>
+    <p>Only <strong>five</strong> of the 30 companies have a person whose title actually says "Head of AI" or equivalent: Ringg, Leena, Spyne, CodeRabbit (VP of AI), Neuron7. Everywhere else the technical authority is a founder. <strong>Stop hunting for a VP who doesn't exist — pitch founders directly.</strong></p>
+  </div>
+</section>
+
+<section id="legend">
+  <div class="section-label">Ground rules</div>
+  <h2>How to read this — and the LinkedIn caveat</h2>
+
+  <div class="callout warn">
+    <strong class="label">The honest limitation</strong>
+    <p>LinkedIn blocks automated access. Nothing here was scraped from LinkedIn itself. Every URL below was <em>literally seen in a public search result or page</em> — none were constructed from a name. That means coverage is good but not complete, and <strong>titles can lag reality by 6–12 months.</strong> Check the profile before you send anything that states someone's title.</p>
+  </div>
+
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>Tag</th><th>Means</th><th>What to do</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tag ok">URL seen</span></td><td>The exact profile URL appeared in a search result.</td><td>Click it. Confidence high.</td></tr>
+      <tr><td><span class="tag soft">slug from post URL</span></td><td>The handle came from one of their own LinkedIn post URLs, not a profile hit.</td><td>Reliable, but eyeball it once.</td></tr>
+      <tr><td><span class="tag soft">title unconfirmed</span></td><td>Company affiliation confirmed; role is not.</td><td>Don't state their title in the email.</td></tr>
+      <tr><td><span class="tag none">no URL found</span></td><td>Person is real and named in press; no profile URL surfaced.</td><td>60-second manual lookup.</td></tr>
+      <tr><td><span class="tag stop">left</span></td><td>Has moved on. Stale in contact databases.</td><td>Do not contact for this company.</td></tr>
+      <tr><td><span class="tag pick">start here</span></td><td>Best first contact at this company.</td><td>—</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="blr">
+  <div class="section-label">Cluster 1</div>
+  <h2>Bengaluru &amp; Bengaluru-engineered</h2>
+
+  <p>Note: several of these are US-headquartered with Bengaluru engineering. That matters for timezone framing — see <a href="#corrections">Corrections</a>.</p>
+
+  <h3>Ema <span class="meta">Series B · Mountain View HQ, Bengaluru engineering · multi-agent "AI employees"</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://www.linkedin.com/in/sen-souvik/">Souvik Sen</a> — Co-founder &amp; CTO, Head of Engineering <span class="tag ok">URL seen</span><span class="hook">Ex-Google ML lead (TrustGraph), ex-VP Eng Okta. Spoke at Inc42 GenAI Summit, Bengaluru.</span></li>
+    <li><a href="https://www.linkedin.com/in/surojitchatterjee/">Surojit Chatterjee</a> — Founder &amp; CEO <span class="tag ok">URL seen</span><span class="hook">IIT KGP, ~40 patents, ex-CPO Coinbase, ex-VP Product Google. Product-led; heavy podcast presence.</span></li>
+  </ul>
+  <div class="callout">
+    <strong class="label">Best hook on the list</strong>
+    <p>Ema publishes an engineering post titled <em>"The Science of Evaluating AI Work: Measuring the performance of AI agents"</em> describing an internal eval engine that graduated into a per-AI-Employee "Evaluation Tab." <strong>The author byline is the exact person you want and I couldn't fetch it</strong> — the domain was blocked. Open <code>ema.co/blog/engineering-in-ai/</code> manually and read the byline. That's a 2-minute job with high payoff.</p>
+  </div>
+
+  <h3>Gnani.ai <span class="meta">Series B · Bengaluru · BFSI voice agents, 100+ enterprises</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://www.linkedin.com/in/ananth-nagaraj-gnani/">Ananth Nagaraj</a> — Co-founder &amp; CTO <span class="tag ok">URL seen</span><span class="hook">Ex-Texas Instruments (led Signal Processing / 4G). Chaired an IndiaAI Mission working group. On record Feb 2026 on SLM-vs-LLM trade-offs.</span></li>
+    <li><a href="https://www.linkedin.com/in/bharath-shankar-143b1914/">Bharath Shankar</a> — VP Engineering &amp; Chief Technical Architect <span class="tag soft">title unconfirmed</span><span class="hook">Ex-IBM. Owns ASR / NLP / speech analytics infra. Some sources call him a co-founder — don't repeat that until verified.</span></li>
+    <li><a href="https://www.linkedin.com/in/ganesh-gopalan/">Ganesh Gopalan</a> — Co-founder &amp; CEO <span class="tag ok">URL seen</span><span class="hook">Technical CEO, ex-TI/IBM. Currently speaking everywhere on "production-ready voice AI, not flashy demos" — that framing <em>is</em> your pitch.</span></li>
+    <li><a href="https://in.linkedin.com/in/avinash-benki">Avinash Benki</a> — Lead NLP Engineer <span class="tag ok">URL seen</span><span class="hook">There since 2019. Owns NLU pipelines, dialog management, Agent Assist, TTS, domain fine-tuning. Hands-on champion.</span></li>
+  </ul>
+  <p><strong>Timing:</strong> launched Inya VoiceOS at the India AI Impact Summit (Feb 2026) — India's first 5B voice-to-voice model, 14M+ hours of speech, 14B flagship planned. Hiring Senior Staff ASR Engineers.</p>
+
+  <h3>Sprinto <span class="meta">Series B · Bengaluru · compliance agents</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://www.linkedin.com/in/abhayaagarwal/">Abhaya Agarwal</a> — Principal Engineer <span class="tag ok">URL seen</span><span class="hook">CMU MS Language Technologies / Machine Translation. 18 yrs. At Sprinto since 2021. The most AI-native profile there.</span></li>
+    <li><a href="https://www.linkedin.com/in/prabodhenumula/">Prabodh Kumar (Enumula)</a> — VP Engineering <span class="tag ok">URL seen</span><span class="hook">Owns the eng org — the actual budget holder. Ex-Recruiterbox EM, so a long-timer with the founders.</span></li>
+    <li><a href="https://www.linkedin.com/in/raghuveerkancherla">Raghuveer Kancherla</a> — Co-founder (ex-CTO, Recruiterbox) <span class="tag soft">slug from post URL</span><span class="hook">IIT Madras. The more technical of the two co-founders.</span></li>
+    <li><a href="https://www.linkedin.com/in/girishredekar/">Girish Redekar</a> — Co-founder &amp; CEO <span class="tag ok">URL seen</span></li>
+  </ul>
+  <p><strong>Hook:</strong> Sprinto AI (Nov 2025) ships an "AI Playground" to <em>design, test and deploy</em> compliance agents. No Head of AI exists yet.</p>
+
+  <h3>Freehand <span class="meta">Series B ($75M, Jul 2026) · SF HQ, Chennai team · supply-chain spend agents</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://www.linkedin.com/in/saravana-kumar-siva/">Saravana Kumar (Siva)</a> — CTO <span class="tag ok">URL seen</span><span class="hook">Ex-Pando. Actively posting about new eng hires — visibly in build mode post-raise.</span></li>
+    <li><a href="https://www.linkedin.com/in/abhijeet-manohar-12769310/">Abhijeet Manohar</a> — Co-founder &amp; CPTO <span class="tag ok">URL seen</span><span class="hook">Was co-founder &amp; CTO at Pando. Owns the Category Context Graph — their core IP. Gets you product + tech in one meeting.</span></li>
+    <li><a href="https://www.linkedin.com/in/nitinjayakrishnan/">Nitin Jayakrishnan</a> — Co-founder &amp; CEO <span class="tag ok">URL seen</span></li>
+  </ul>
+  <p><strong>Stakes angle:</strong> their agents autonomously decide which invoices Fortune 500s pay — billions of dollars, 60–70 countries, customers include Meta and Pfizer.</p>
+
+  <h3>Neuron7 <span class="meta">Growth · Santa Clara HQ, Bengaluru eng + AI Labs · service resolution agents</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://www.linkedin.com/in/amitverma26">Amit Verma</a> — Founding Head of Engineering and AI Labs <span class="tag ok">URL seen</span><span class="hook">ACM Senior Member. Ex-Orchestra Networks (TIBCO), Trilogy, Oracle. Writes for Forbes Tech Council.</span></li>
+    <li><a href="https://www.linkedin.com/in/abinaya-govindan-59088311a/">Abinaya Govindan</a> — Founding Engineer &amp; ML Architect <span class="tag ok">URL seen</span><span class="hook">Bengaluru-based. Publishes papers (Google Scholar, ResearchGate). Your India-timezone technical champion under Amit.</span></li>
+    <li><a href="https://www.linkedin.com/in/gyan7611/">Gyan Ranjan</a> — Founding Engineer, NLP <span class="tag ok">URL seen</span><span class="hook">MSc Maths IIT Madras. Joined 2020 as their first data scientist.</span></li>
+    <li><a href="https://www.linkedin.com/in/nikenpatel/">Niken Patel</a> — Founder &amp; CEO <span class="tag ok">URL seen</span><span class="hook">Exec-sponsor path only.</span></li>
+  </ul>
+
+  <h3>Jiffy.ai <span class="meta">Series B (~$71.4M) · Milpitas HQ, Bengaluru + Kochi eng · enterprise workflow agents</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://in.linkedin.com/in/subin-perumbidy-951b5410">Subin Perumbidy</a> — Founder &amp; Head of Engineering <span class="tag ok">URL seen</span></li>
+    <li><a href="https://in.linkedin.com/in/rajmohanh">Rajmohan Harindranath</a> — Co-founder &amp; VP R&amp;D <span class="tag ok">URL seen</span><span class="hook">Bengaluru-based. Likely budget holder for testing tooling.</span></li>
+    <li><a href="https://www.linkedin.com/in/harindranath/">Harindranath Nair</a> — Co-founder &amp; Chief Architect <span class="tag ok">URL seen</span><span class="hook">Different person from Rajmohan despite the name overlap.</span></li>
+    <li><a href="https://www.linkedin.com/in/sekhar-prakash-97789a/">Sekhar Prakash</a> — VP Cloud Engineering · <a href="https://www.linkedin.com/in/anoop-vk/">Anoop VK</a> — AVP Cloud Eng &amp; CISO <span class="tag ok">URL seen</span></li>
+  </ul>
+  <p><strong>Caution:</strong> no Head of AI. AI is folded under R&amp;D + engineering, so expect a longer path than the smaller companies.</p>
+
+  <h3>Avaamo <span class="meta">Growth · Los Altos HQ, Bengaluru eng center · domain assistants (BFSI, health, HR)</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://www.linkedin.com/in/madhav-vodnala-5423691/">Madhav Vodnala</a> — VP Engineering <span class="tag ok">URL seen</span><span class="hook">"Responsible for the global development teams and support for the Avaamo AI platform" — owns the Bengaluru org, so spend lands with him.</span></li>
+    <li><a href="https://in.linkedin.com/in/famfaheem">M Faheem</a> — Agentic AI Architect <span class="tag ok">URL seen</span><span class="hook">Title literally says agentic AI architecture. Lead with him as the technical champion.</span></li>
+    <li><a href="https://www.linkedin.com/in/sriramvc/">Sriram Chakravarthy</a> — Co-founder &amp; CTO <span class="tag soft">two profiles seen</span><span class="hook">Ex-VP Products TIBCO. A second URL also surfaced (<code>sriram-chakravarthy-11b730268</code>); <code>sriramvc</code> is the one carrying his authored posts. Eyeball before sending.</span></li>
+    <li><a href="https://www.linkedin.com/in/menonram/">Ram Menon</a> — Co-founder &amp; CEO <span class="tag ok">URL seen</span><span class="hook">Non-technical.</span></li>
+  </ul>
+  <p><strong>Scale angle:</strong> 2B+ interactions, 114 languages. Regression risk is measured in real money.</p>
+
+  <h3>Nektar.ai <span class="meta">~$8.15M raised · Singapore HQ, India eng · revenue agents</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://sg.linkedin.com/in/aravind-rs">Aravind Ravi Sulekha</a> — Co-founder &amp; CTO <span class="tag ok">URL seen</span><span class="hook">Second-time CTO (prev. Scrollback), IIT KGP. Small company — he personally owns the buy decision.</span></li>
+    <li><a href="https://in.linkedin.com/in/bibhuty">Bibhuti Bhusan Panda</a> — Founding Engineer <span class="tag ok">URL seen</span><span class="hook">India-based. At ~30 people, a founding engineer has real influence on tooling.</span></li>
+    <li><a href="https://www.linkedin.com/in/nitish-k-599a4012a/">Nitish K.</a> — Nektar.ai <span class="tag soft">title unconfirmed</span><span class="hook">Affiliation confirmed only. Don't title him in an email.</span></li>
+  </ul>
+  <p>No Head of AI or VP Eng layer exists — the CTO <em>is</em> the layer.</p>
+
+  <h3>Enterpret <span class="meta">Series A ($20.8M) · SF HQ, Bengaluru eng · customer feedback agents</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://in.linkedin.com/in/arnavsharma93">Arnav Sharma</a> — Co-founder &amp; CTO <span class="tag ok">URL seen</span><span class="hook">MS Computational Linguistics IIIT-H, researcher at LTRC, ex-Uber Sr SWE, Forbes 30U30 Asia 2023. Owns their adaptive-taxonomy ML system.</span></li>
+    <li><a href="https://www.linkedin.com/in/vsharma11/">Varun Sharma</a> — Co-founder &amp; CEO <span class="tag ok">URL seen</span><span class="hook">Arnav's brother. Two-founder company, so he's in the room regardless.</span></li>
+    <li><a href="https://in.linkedin.com/in/amand33p">Amandeep Singh</a> — Software Engineer <span class="tag ok">URL seen</span><span class="hook">Bengaluru IC. Bottom-up champion.</span></li>
+  </ul>
+  <p><strong>Use this line:</strong> they have open reqs for "AI Tech Lead Manager" and "Senior Applied NLP Engineer" in Bengaluru. Referencing an unfilled AI leadership req is a legitimate, non-creepy opener.</p>
+
+  <h3>Nanonets <span class="meta">Series B ($29M Accel, YC W17) · SF HQ, Bengaluru + Mumbai eng · document agents</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://www.linkedin.com/in/prathameshjuvatkar/">Prathamesh Juvatkar</a> — Co-founder &amp; CTO <span class="tag ok">URL seen</span><span class="hook">Owns the OCR/VLM model line (OCR-3 shipped Apr 2026, positioned "for the agentic stack").</span></li>
+    <li><a href="https://www.linkedin.com/in/jainsarthak/">Sarthak Jain</a> — Co-founder &amp; CEO <span class="tag ok">URL seen</span><span class="hook">Gold medalist IIT Gandhinagar, research at Caltech. Technical CEO who writes publicly about ML.</span></li>
+    <li><a href="https://www.linkedin.com/in/karankalra97/">Karan Kalra</a> — Product, Bengaluru <span class="tag ok">URL seen</span><span class="hook">Writes their technical blog. Good warm entry.</span></li>
+  </ul>
+  <div class="callout">
+    <strong class="label">Warmest credibility hook in the deck</strong>
+    <p>Nanonets already maintains <strong>a public benchmark leaderboard</strong> (idp-leaderboard.org) plus an open-source eval repo. You don't have to sell them on why evaluation matters — you open on what their leaderboard doesn't cover.</p>
+  </div>
+
+  <h3>Vahan.ai <span class="meta">Growth · Bengaluru · WhatsApp + voice recruiting agents · OpenAI-backed</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://in.linkedin.com/in/madhavkrishna">Madhav Krishna</a> — Founder &amp; CEO <span class="tag ok">URL seen</span><span class="hook">MS CS/AI Columbia, WEF Technology Pioneer. No CTO and no Head of AI beneath him, so the decision is his.</span></li>
+    <li><a href="https://hk.linkedin.com/in/mohammed-abdoolcarim-48669613b">Mohammed Abdoolcarim</a> — Co-founder, Head of Product <span class="tag ok">URL seen</span><span class="hook">Ex-Lead PM on Siri at Apple. Owns the conversational quality bar. Profile sits on the HK LinkedIn subdomain.</span></li>
+  </ul>
+  <div class="callout">
+    <strong class="label">Strongest single opener</strong>
+    <p>Vahan has an <strong>open, unfilled "Head of AI" req</strong>. They work with OpenAI at the pre-training level on Indian dialects and tonality, and drive ~40k monthly placements across Swiggy, Zomato, Blinkit and Zepto in 10 languages. They have publicly admitted the gap you fill.</p>
+  </div>
+
+  <h3>CoRover.ai <span class="meta">Growth · Bengaluru · BharatGPT agents, IRCTC AskDISHA</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://in.linkedin.com/in/ankushsabharwal">Ankush Sabharwal</a> — Co-founder, CEO <em>and</em> CTO <span class="tag ok">URL seen</span><span class="hook">Holds both titles. 15+ yrs as engineer/architect/EM before founding. Nobody to route to.</span></li>
+    <li><a href="https://in.linkedin.com/in/kunal-bhakhri-64208a1b9">Kunal Bhakhri</a> — Co-founder <span class="tag soft">title unconfirmed</span></li>
+    <li><a href="https://www.linkedin.com/in/onkar-nath-150376154/">Onkar Nath</a> — Data Science Engineer <span class="tag ok">URL seen</span><span class="hook">IC. Champion-to-CEO path, not a first touch.</span></li>
+  </ul>
+  <p><strong>Timing:</strong> just announced "CoRover Agentic AI Studio" — they are mid-transition from chatbots to agents, at 1B+ user scale. NVIDIA Inception member.</p>
+
+  <h3>Entropik <span class="meta">Series B (~$35M) · Bengaluru · consumer research agents</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://www.linkedin.com/in/bharatshekhawat">Bharat Singh Shekhawat</a> — Co-founder &amp; Head of Engineering <span class="tag soft">slug from post URL</span><span class="hook">Ex-VP Technology Redcastle. Builds "systems to quantify human behavior using multimodal AI." Posts about Entropik engineering and hiring.</span></li>
+    <li><a href="https://in.linkedin.com/in/lava-kumar">Lava Kumar</a> — Co-founder &amp; CPO <span class="tag soft">slug from post URL</span><span class="hook">Owns Decode, their research-agent product; shipped Decode 2.0. Take him if you want the product-outcome angle.</span></li>
+    <li><a href="https://in.linkedin.com/in/ranjan-kumar-ba89a2250">Ranjan Kumar</a> — Founder &amp; CEO <span class="tag soft">verify slug</span><span class="hook">IIT KGP, 17 global patents in multimodal Emotion AI. Generic slug — confirm it's him. Do <em>not</em> confuse with the <code>ranjan-kr</code> account, which is an investor who wrote a "why we invested" post.</span></li>
+  </ul>
+
+  <h3>Nurix AI <span class="meta">Series A ($27.5M, Accel) · Bengaluru + Mountain View · voice + support agents</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://www.linkedin.com/in/anirudh-murali/">Anirudh Murali</a> — data science / AI <span class="tag soft">title unconfirmed</span><span class="hook">Publicly posted "Consistency in LLM outputs is a major…" — that is almost verbatim the problem you solve. Best warm-open in the entire list.</span></li>
+    <li><a href="https://www.linkedin.com/in/anujkrmodi/">Anuj Modi</a> — "Builder" <span class="tag ok">URL seen</span><span class="hook">Ex-CTO sugar.fit, ex-Eng Lead Cure.fit, ex-Tech Lead Myntra, IIT Bombay. De facto engineering leadership and the one who can approve.</span></li>
+    <li><a href="https://www.linkedin.com/in/abhiasawa/">Abhishek Asawa</a> — Co-founder <span class="tag ok">URL seen</span><span class="hook">IIM Calcutta. A router, not the technical buyer.</span></li>
+    <li>Mukesh Bansal — Founder &amp; CEO <span class="tag none">no URL found</span><span class="hook">Myntra + Cult.fit founder. On record Nov 2025: "AI hype is ahead of reality" — a skeptic's framing that pairs well with a measurement pitch. High profile, low reply rate.</span></li>
+  </ul>
+  <p><strong>Careful:</strong> Nurix uses deliberately flat titles. Don't address anyone by a title you inferred. 250k+ customer conversations/month on proprietary low-latency voice.</p>
+
+  <h3>Ringg AI <span class="meta">Series A ($5.5M, Arkam, Jan 2026) · Bengaluru · no-code voice agents</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://www.linkedin.com/in/utkarsh-shukla-8b834b112/">Utkarsh Shukla</a> — Co-founder &amp; Head of AI <span class="tag ok">URL seen</span><span class="hook">Ex-Blinkit, ex-Atlan. Their agents run loan collections, lead qualification and candidate screening — regulated, high-stakes flows that demand pre-deploy simulation.</span></li>
+    <li><a href="https://in.linkedin.com/in/kali-charan-vemuru">Kali Charan Vemuru</a> — Co-founder &amp; Head of Engineering <span class="tag ok">URL seen</span><span class="hook">IIT Hyderabad. Ex-Byju's, Flipkart, Reforge. Actively posting hiring content — reachable and in build-out mode.</span></li>
+    <li><a href="https://in.linkedin.com/in/sidsst">Siddharth Shankar Tripathi</a> — Co-founder &amp; CEO <span class="tag ok">URL seen</span><span class="hook">BITS Pilani, ex-Groww PM. Non-engineering.</span></li>
+  </ul>
+
+  <h3>Alltius <span class="meta">Seed ($2.4M — see corrections) · Bengaluru · financial-services agents</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://www.linkedin.com/in/vibs-abhishek/">Vibhanshu Abhishek</a> — Co-founder &amp; CEO, also Associate Professor at UC Irvine <span class="tag ok">URL seen</span><span class="hook">Publishing AI/NLP academic. Alltius markets "near-zero hallucinations" — he personally owns that claim. Based SF.</span></li>
+    <li><a href="https://www.linkedin.com/in/rajesh-singh-2b65b94/">Rajesh Singh</a> — Lead Data Scientist, Bengaluru <span class="tag soft">verify currency</span><span class="hook">Likely owns model quality day to day.</span></li>
+    <li><a href="https://www.linkedin.com/in/sethideepak/">Deepak Sethi</a> — Engineering lead, Bengaluru <span class="tag soft">verify currency</span></li>
+    <li><a href="https://www.linkedin.com/in/lalithabhupalam/">Lalitha Priya Bhupalam</a> — Software Engineer, FastAPI Backend &amp; <strong>LLM Testing</strong> <span class="tag ok">URL seen</span><span class="hook">Not leadership — but her literal job title is LLM testing. That's proof the budget line already exists.</span></li>
+  </ul>
+
+  <h3>OrbitShift <span class="meta">Series A ($7M, Peak XV Surge + Stellaris) · Bengaluru · GTM agents</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://in.linkedin.com/in/deepak-sharma-iitr">Deepak Sharma</a> — Founding Engineer, ML <span class="tag ok">URL seen</span><span class="hook">IIT Roorkee. First ML hire (Nov 2022), owns the model layer. Closest to agent quality.</span></li>
+    <li><a href="https://www.linkedin.com/in/swapnilsaykar/">Swapnil Saykar</a> — Co-founder &amp; CTO <span class="tag ok">URL seen</span><span class="hook">Ex-Amazon 2013–21 (Head of Product, Ads and AWS), Stanford GSB. Escalate here for budget.</span></li>
+    <li><a href="https://www.linkedin.com/in/rohith-vh/">Rohith V H</a> — AI Product Manager <span class="tag soft">title unconfirmed</span></li>
+    <li>Saurabh Mishra — Co-founder &amp; CEO <span class="tag none">no URL found</span><span class="hook">Ex-McKinsey Partner. Commercial, not the technical buyer.</span></li>
+  </ul>
+
+  <h3>Runable <span class="meta">Early (founded 2025, ~10–20 people) · Bengaluru · general-purpose agents</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://in.linkedin.com/in/saksham-s-25b7b1356">Saksham Sarda</a> — Co-founder &amp; CTO <span class="tag ok">URL seen</span><span class="hook">Displays as "Saksham S." Owns the agent stack. Evaluating an agent that does <em>arbitrary</em> digital tasks is an unsolved problem for them — that's the conversation.</span></li>
+    <li><a href="https://www.linkedin.com/in/umesh-k-iitr/">Umesh Kumar</a> — Co-founder &amp; CEO <span class="tag ok">URL seen</span><span class="hook">IIT Roorkee CS 2023, three-time founder, very active on X as @itsumeshk. Public-content-led approach works well here.</span></li>
+  </ul>
+  <p>No layer below the founders — too young.</p>
+
+  <h3>Kily <span class="meta">Seed (~₹30 Cr, Sorin) · Bengaluru · ecommerce ops agents</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://www.linkedin.com/in/sharad-chitlangia/">Sharad Chitlangia</a> — Co-founder / Founding Scientist <span class="tag ok">URL seen</span><span class="hook">Published researcher with a Google Scholar profile — will want rigorous eval methodology, not vibes. His LinkedIn headline still reads "Stealth AI Startup," so confirm the Kily role before you reference it.</span></li>
+    <li><a href="https://in.linkedin.com/in/sankalpmehrotra">Sankalp Mehrotra</a> — Co-founder &amp; CEO <span class="tag ok">URL seen</span><span class="hook">Ex-VP Monetization at Flipkart. Commercial.</span></li>
+    <li>Anurag Singh — Co-founder <span class="tag none">no URL found</span></li>
+  </ul>
+
+  <h3>Arrowhead AI <span class="meta">Seed ($3M, Stellaris) · Bengaluru · BFSI voice agents</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://www.linkedin.com/in/vengadanathan-srinivasan-82564b33/">Vengadanathan Srinivasan</a> — Co-founder &amp; CTO <span class="tag ok">URL seen</span><span class="hook">10+ yrs at AWS, Rippling, Uber, Airbnb. Sole technical founder.</span></li>
+    <li><a href="https://www.linkedin.com/in/devyani-gupta-57644ba8/">Devyani Gupta</a> — Co-founder &amp; CEO <span class="tag ok">URL seen</span><span class="hook">Wharton, ex-BCG. At seed stage the CEO is in the loop on tooling.</span></li>
+  </ul>
+  <p><strong>Sharpest use case on the list:</strong> 20-minute end-to-end BFSI sales and service calls, 7 languages with mid-call switching, regulated sector. Regression risk there is a real compliance exposure, not a nice-to-have.</p>
+</section>
+
+<section id="ncr">
+  <div class="section-label">Cluster 2</div>
+  <h2>Delhi NCR</h2>
+
+  <h3>UnifyApps <span class="meta">Series B (~$84M total) · Gurgaon · agent orchestration</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://in.linkedin.com/in/abhinavsingi">Abhinav Singi</a> — Co-founder &amp; VP Engineering <span class="tag ok">URL seen</span><span class="hook">IIIT Hyderabad, ex-VP Eng Lyearn. Gurgaon-based — best India-timezone contact, with co-founder-level authority.</span></li>
+    <li><a href="https://ae.linkedin.com/in/rachitm27">Rachit Mittal</a> — Co-founder &amp; CTO <span class="tag ok">URL seen</span><span class="hook">Ex-Sprinklr SVP Product Engineering. Based Dubai. Go here for the platform-wide decision.</span></li>
+    <li><a href="https://www.linkedin.com/in/pavitar">Pavitar Singh</a> — Co-founder &amp; Co-CEO <span class="tag ok">URL seen</span><span class="hook">Was CTO of Sprinklr (NYSE) for 12 years. A genuinely technical CEO — counts as a technical persona.</span></li>
+    <li><a href="https://www.linkedin.com/in/rahulanishetty/">Rahul Anishetty</a> — VP Engineering <span class="tag ok">URL seen</span> · Kavish Manubolu — VP Engineering <span class="tag none">no URL found</span></li>
+  </ul>
+
+  <h3>Leena AI <span class="meta">Series B (~$40M; YC, Bessemer, Greycroft) · Delhi NCR + NYC · autonomous HR/IT agents</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://in.linkedin.com/in/mayankzuppit">Mayank Goyal</a> — Co-founder, Chief Scientist &amp; Head of AI <span class="tag ok">URL seen</span><span class="hook">Forbes 30U30 Enterprise Tech, IIT Delhi, YC 2018. Active angel investor — comfortable being pitched.</span></li>
+    <li><a href="https://www.linkedin.com/in/anand-prajapati/">Anand Prajapati</a> — Co-founder &amp; CTO <span class="tag ok">URL seen</span><span class="hook">IIT Delhi. Does public technical interviews — easy referenceable hook.</span></li>
+    <li><a href="https://www.linkedin.com/in/adit-jain-leena-ai/">Adit Jain</a> — Co-founder &amp; CEO <span class="tag ok">URL seen</span><span class="hook">Speaks at Gartner CIO summits on "Scalable Agentic AI Architecture for the Enterprise."</span></li>
+  </ul>
+
+  <h3>SquadStack <span class="meta">Series B · Noida · voice sales agents</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://in.linkedin.com/in/vikas-gulati">Vikas Gulati</a> — Co-founder &amp; CTO <span class="tag ok">URL seen</span><span class="hook">CTO since 2014. Owns two proprietary in-house voice models trained on 5M+ hours of Indian voice data.</span></li>
+    <li><a href="https://in.linkedin.com/in/apurvagrawal">Apurv Agrawal</a> — Co-founder &amp; CEO <span class="tag ok">URL seen</span><span class="hook">Will route you to Vikas — useful if you want a top-down intro.</span></li>
+    <li><a href="https://in.linkedin.com/in/kanikajainsquadstack">Kanika Jain</a> — Co-founder &amp; Product Lead <span class="tag soft">two profiles seen</span><span class="hook">Publicly frames SquadStack as "human-centric, not AI-centric" — she owns the behavioral quality bar.</span></li>
+    <li>Shreyash Asthana — <strong>AI Agent Product Manager</strong> <span class="tag none">no URL found</span><span class="hook">Title is the literal day-to-day owner of agent behavior and testing. Worth the manual lookup — best bottom-up champion here.</span></li>
+    <li><a href="https://www.linkedin.com/in/bhargava-tatavarthi/">Bhargava Tatavarthi</a> — Product Manager, AI <span class="tag soft">may have left</span><span class="hook">A record also lists him at Wisemonk. Verify first.</span></li>
+  </ul>
+
+  <h3>Spyne <span class="meta">Series B · Gurugram · auto-retail agents</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> Jatin Jain — Head of Technology &amp; AI <span class="tag none">no URL found</span><span class="hook">Joined Dec 2025, reports directly to CEO, leads 90+ engineers, AI researchers and platform specialists. Ex-Amazon Prime Video (computer-vision quality systems) and ex-Instacart (<strong>LLM-powered contact centre at consumer scale</strong>) — he has personally watched conversational agents fail in production.</span></li>
+    <li><a href="https://www.linkedin.com/in/sanjaykv/">Sanjay Varnwal</a> — Co-founder &amp; CEO <span class="tag ok">URL seen</span><span class="hook">IIT KGP, 15+ yrs Amazon/OYO/Yatra. Gives AI interviews — a legitimate technical contact, and Jatin's direct manager.</span></li>
+    <li><a href="https://www.linkedin.com/in/sahil-rupani-527762130/">Sahil Rupani</a> — Engineering Manager <span class="tag ok">URL seen</span><span class="hook">Grew intern → EM internally. Long-tenured insider, good technical champion.</span></li>
+  </ul>
+  <div class="callout">
+    <strong class="label">Worth 10 minutes of your time</strong>
+    <p>Jatin Jain is the highest-fit individual in this entire research set — new in seat, explicit mandate to build an "AI-first technology organization," 90+ engineers to standardize, and a background where agent failure modes were his day job. His LinkedIn URL didn't surface publicly. <strong>Go via the Spyne company page → People tab.</strong> Alternatively, ask Sanjay Varnwal for the intro.</p>
+  </div>
+</section>
+
+<section id="mum">
+  <div class="section-label">Cluster 3</div>
+  <h2>Mumbai</h2>
+
+  <h3>Fluid AI <span class="meta">Growth · Mumbai · banking agents (KYC, support, voice)</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://in.linkedin.com/in/abhinav-fluidai">Abhinav Aggarwal</a> — Founder &amp; CEO <span class="tag ok">URL seen</span><span class="hook">Technical founder-CEO. Built Warren Buffett's AI avatar; Forbes cover, Fortune 40u40. Deployed into Bank of America, RBC, Barclays, Emirates NBD, ICICI, HDFC, Axis.</span></li>
+    <li><a href="https://in.linkedin.com/in/trutech">Raghav Aggarwal</a> — Co-founder <span class="tag soft">title conflicts</span><span class="hook">Listed as COO in some sources, Managing Director in others. His vanity slug is literally <code>trutech</code>.</span></li>
+  </ul>
+  <p><strong>No CTO, Head of AI, or VP Engineering surfaced.</strong> Multiple searches found only the two founder brothers plus a marketing head. Treat as "not found," not "doesn't exist" — their site was blocked. Regulated-BFSI deployment is the single best wedge here: the cost of an agent misbehaving with a bank customer is not a bug ticket.</p>
+
+  <h3>Prismforce <span class="meta">Growth (Sequoia/Peak XV) · Mumbai · talent supply-chain agents</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://in.linkedin.com/in/thussu">Dr. Rishi Thussu</a> — BU Head, Agentic AI / Business Head, SelectPrism <span class="tag ok">URL seen</span><span class="hook">Runs SelectPrism — autonomous agents that <em>conduct technical interviews</em>. Proving an agent behaves consistently and fairly before it touches a real candidate is a legal-grade requirement, not a preference. Strongest buying motive at this company.</span></li>
+    <li><a href="https://in.linkedin.com/in/somc">Somnath Chatterjee</a> — Founder &amp; CEO <span class="tag ok">URL seen</span><span class="hook">14 years a McKinsey partner. Top-down only; not a technical persona.</span></li>
+    <li><a href="https://in.linkedin.com/in/mohdqasim">Mohd Qasim</a> — Co-founder <span class="tag ok">URL seen</span><span class="hook">Ex-McKinsey. <strong>No source gives him a CTO title</strong> — don't assume he's the technical co-founder.</span></li>
+    <li><a href="https://in.linkedin.com/in/deepankar-gehlot">Deepankar Gehlot</a> — Senior Software Engineer <span class="tag ok">URL seen</span><span class="hook">The only named engineer that surfaced.</span></li>
+  </ul>
+  <p><strong>Caveat:</strong> no CTO / VP Eng / Head of Engineering surfaced anywhere, including press releases. Both founders are ex-McKinsey. The technical layer is genuinely opaque from open sources.</p>
+
+  <h3>SiftHub <span class="meta">Seed ($5.5M, Matrix/Peak XV + Blume — see corrections) · SF HQ, Mumbai R&amp;D · sales-engineering agents</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://www.linkedin.com/in/manisha-raisinghani">Manisha Raisinghani</a> — Founder &amp; CEO <span class="tag ok">URL seen</span><span class="hook"><strong>Counts as a technical persona</strong> — she was co-founder and CTO of LogiNext ($50M+ raised, Tiger Global). A former CTO engages on eval methodology directly rather than delegating. Based SF.</span></li>
+    <li><a href="https://in.linkedin.com/in/ronastlelobo">Ron Astle Lobo</a> — Founding Team <span class="tag soft">title unconfirmed</span></li>
+    <li><a href="https://in.linkedin.com/in/harsh-vakharia-92a06443">Harsh Vakharia</a> — Founding Team / Senior PM <span class="tag ok">URL seen</span><span class="hook">Writes publicly on AI sales engineers and "agentic deal orchestration." Strong content-led entry point.</span></li>
+    <li>Darshit Modi — Founding Team, cloud infra/DevOps <span class="tag none">no URL found</span> · Ronak Bhandari — Founding Team, ex-Technical Lead Times Internet <span class="tag none">no URL found</span></li>
+  </ul>
+  <p><strong>Angle:</strong> their agents answer technical buyer questions in RFPs — a wrong answer goes straight into a customer-facing document. Clean, concrete simulation story.</p>
+</section>
+
+<section id="other">
+  <div class="section-label">Cluster 4</div>
+  <h2>Pune, Surat &amp; elsewhere</h2>
+
+  <h3>CodeRabbit <span class="meta">Growth · SF HQ, Bengaluru R&amp;D (not Pune) · code-review agents</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://www.linkedin.com/in/dloker/">David Loker</a> — VP of AI <span class="tag ok">URL seen</span><span class="hook">Ex-Netflix, ex-Amazon ML. The title maps directly to eval and benchmarking ownership.</span></li>
+    <li><a href="https://in.linkedin.com/in/rrkhanna">Rohit Khanna</a> — VP Engineering &amp; R&amp;D Site Leader, India <span class="tag ok">URL seen</span><span class="hook">Joined Nov 2024. Ex-co-founder Toplyne, ex-CleverTap. Owns the India org and the budget — better entry if you want a pilot in your timezone.</span></li>
+    <li><a href="https://www.linkedin.com/in/harjotsgill/">Harjot Gill</a> — Founder &amp; CEO <span class="tag ok">URL seen</span><span class="hook">Does podcasts on retrieval and review quality (Software Engineering Daily, Jun 2025). Prior founder of Nirmata.</span></li>
+    <li><a href="https://in.linkedin.com/in/prashanthpai">Prashanth Pai</a> — Principal Engineer, India <span class="tag ok">URL seen</span><span class="hook">Hired specifically to set up engineering practice and architecture. Ex-Plivo.</span></li>
+    <li><a href="https://in.linkedin.com/in/tejas-venugopal-65741598">Tejas Venugopal</a> — Principal Engineer, Bengaluru <span class="tag ok">URL seen</span> · <a href="https://www.linkedin.com/in/guritfaq-singh-510175280/">Guritfaq Singh</a> — Co-founder <span class="tag ok">URL seen</span></li>
+  </ul>
+
+  <h3>Rocket.new / DhiWise <span class="meta">$15M seed (Sep 2025) · Surat + Palo Alto · app-build agents</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://in.linkedin.com/in/rahul-shingala-a70619a3">Rahul Shingala</a> — Co-founder &amp; CTO <span class="tag ok">URL seen</span><span class="hook">Was CTO through the DhiWise → Rocket pivot. Owns codegen quality — validating generated apps at 400k-user scale is his daily problem.</span></li>
+    <li><a href="https://in.linkedin.com/in/vishalvirani">Vishal Virani</a> — Co-founder &amp; CEO <span class="tag ok">URL seen</span><span class="hook">Technical background, extremely publicly active (podcasts, X @Vishalvirani91). ~400k users, 10k paid, ~$4.5M ARR.</span></li>
+    <li><a href="https://in.linkedin.com/in/ddhanak">Deepak Dhanak</a> — Co-founder &amp; COO <span class="tag ok">URL seen</span><span class="hook">Ex-CFO CleverTap, BrowserStack. Not a technical buyer.</span></li>
+  </ul>
+
+  <h3>Bolna <span class="meta">Seed+ ($6.3M, General Catalyst; YC F25) · Bengaluru (not Mumbai) · voice agent orchestration</span></h3>
+  <ul>
+    <li><span class="tag pick">start here</span> <a href="https://www.linkedin.com/in/prateek-sachan/">Prateek Sachan</a> — Co-founder &amp; CTO <span class="tag ok">URL seen</span><span class="hook">Ex-Zomato, Tata 1MG, BrowserStack, Atlassian. Maintains the open-source repo. Posts regularly; X @xan_ps.</span></li>
+    <li><a href="https://www.linkedin.com/in/maitreya-wagh/">Maitreya Wagh</a> — Co-founder &amp; CEO <span class="tag ok">URL seen</span><span class="hook">IIT Delhi, ex-Bain, Forbes 30U30. Engineer-turned-consultant-turned-founder — technical enough to engage.</span></li>
+    <li><a href="https://in.linkedin.com/in/pavankapoor31">Pavan Kapoor</a> — Founding Engineer <span class="tag ok">URL seen</span> · <a href="https://in.linkedin.com/in/mujeerahmed">Mujeer Ahmed</a> — Founding Engineer <span class="tag ok">URL seen</span><span class="hook">Both hands-on with the agent stack and visible in the GitHub org.</span></li>
+  </ul>
+  <div class="callout">
+    <strong class="label">Best-timed opener in the set</strong>
+    <p>Bolna is <strong>hiring its first Founding ML Engineer right now.</strong> A team hiring its first ML engineer is exactly the moment eval and simulation tooling gets decided — before habits harden. Their surface is genuinely hard to test: multilingual with mid-call language switching, on calls up to 20 minutes. And the codebase is open source, so you can be specific.</p>
+  </div>
+</section>
+
+<section id="corrections">
+  <div class="section-label">Data hygiene</div>
+  <h2>Corrections to the original list</h2>
+
+  <p>Worth fixing before this becomes a CRM. Several entries are mislocated or mis-staged, which changes both your timezone assumptions and your "how much budget do they have" read.</p>
+
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>Company</th><th>Your list said</th><th>Actually</th></tr></thead>
+    <tbody>
+      <tr><td>Bolna</td><td>Mumbai</td><td><strong>Bengaluru</strong> (per YC, YourStory, their own careers page)</td></tr>
+      <tr><td>CodeRabbit</td><td>Pune</td><td><strong>Bengaluru</strong> R&amp;D centre; SF HQ</td></tr>
+      <tr><td>Freehand</td><td>Bengaluru</td><td>SF HQ, India team in <strong>Chennai</strong> (ex-Pando)</td></tr>
+      <tr><td>Ema</td><td>Bengaluru</td><td>Mountain View HQ, Bengaluru engineering office</td></tr>
+      <tr><td>Neuron7</td><td>Bengaluru</td><td>Santa Clara HQ, Bengaluru eng + AI Labs</td></tr>
+      <tr><td>Enterpret</td><td>Bengaluru</td><td>SF HQ, Bengaluru engineering. CTO is US-based.</td></tr>
+      <tr><td>Nanonets</td><td>Bengaluru</td><td>SF HQ, Bengaluru + Mumbai eng. CTO in Mountain View.</td></tr>
+      <tr><td>Nektar.ai</td><td>Bengaluru</td><td><strong>Singapore</strong> HQ, India engineering</td></tr>
+      <tr><td>Jiffy.ai</td><td>Bengaluru</td><td>Milpitas HQ, Bengaluru + <strong>Kochi</strong> engineering</td></tr>
+      <tr><td>Avaamo</td><td>Bengaluru</td><td>Los Altos HQ, Bengaluru engineering centre</td></tr>
+      <tr><td>SiftHub</td><td>Mumbai, Series A</td><td>SF HQ, Mumbai R&amp;D. <strong>$5.5M seed</strong>, not Series A.</td></tr>
+      <tr><td>Alltius</td><td>Series A</td><td>Only a <strong>$2.4M pre-seed/seed</strong> (2023) found in public records</td></tr>
+      <tr><td>Runable</td><td>Series A</td><td>Founded 2025, ~10–20 people. <strong>No Series A found.</strong></td></tr>
+      <tr><td>SquadStack</td><td>Growth</td><td>Series B per Tracxn</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout">
+    <strong class="label">What this changes for you</strong>
+    <p>Nine of the "Bengaluru" companies are US-headquartered with Indian engineering below. <strong>Don't lead with "fellow Bengaluru founder" framing to a CTO sitting in Mountain View.</strong> Where the CTO is abroad, the India engineering lead is usually the faster path to a pilot — Rohit Khanna at CodeRabbit and Abinaya Govindan at Neuron7 are the clearest examples.</p>
+  </div>
+</section>
+
+<section id="donotcontact">
+  <div class="section-label">Suppression list</div>
+  <h2>Do not contact — these people have left</h2>
+
+  <p>All four still appear at these companies in contact databases like Apollo, ZoomInfo and RocketReach. Emailing them costs you the account.</p>
+
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>Person</th><th>Stale record says</th><th>Reality</th></tr></thead>
+    <tbody>
+      <tr><td>Ketan Patil</td><td>Head of Engineering, Vahan.ai</td><td>Left Apr 2024 <span class="tag stop">left</span> — now at CoverSure</td></tr>
+      <tr><td>Chetan Kalyan</td><td>Director of Engineering, Neuron7</td><td>Left Apr 2025 <span class="tag stop">left</span> — now CTO at Inflection.io</td></tr>
+      <tr><td>Chinmay Misra</td><td>Prismforce</td><td>Left <span class="tag stop">left</span> — now Chief AI Officer at Ness Digital Engineering</td></tr>
+      <tr><td>Siddhant Mishra</td><td>Co-founder, Alltius</td><td>Listed as <strong>former</strong> co-founder in 2025–26 sources <span class="tag stop">left</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Also excluded deliberately: Rishabh Ladha (former SquadStack co-founder, and a business role) and Deepti Prasad (Spyne co-founder &amp; CMO — out of persona scope).</p>
+</section>
+
+<section id="gaps">
+  <div class="section-label">Honest accounting</div>
+  <h2>What's missing, and what it would take to close</h2>
+
+  <h3>The five gaps worth closing manually</h3>
+  <ol>
+    <li><strong>Jatin Jain's LinkedIn URL (Spyne).</strong> Highest-fit person found; no public URL. Go via the Spyne company page → People. ~2 minutes.</li>
+    <li><strong>The byline on Ema's agent-evaluation blog post.</strong> Their domain was blocked to me. Whoever wrote it is the exact persona you want and isn't otherwise indexed. ~2 minutes.</li>
+    <li><strong>Shreyash Asthana (SquadStack).</strong> Title is literally "AI Agent Product Manager." No URL surfaced.</li>
+    <li><strong>Whether Fluid AI and Prismforce have any AI/engineering leadership layer at all.</strong> Neither surfaced one. Both look founder-led on the technical side, but their sites were blocked — I can't distinguish "doesn't exist" from "not indexed."</li>
+    <li><strong>Second-tier engineering leadership at Enterpret, Nanonets and Nektar.</strong> Those roles show up only as <em>open job reqs</em>. Either the seats are unfilled — which is itself a great outreach angle — or the holders aren't publicly indexed.</li>
+  </ol>
+
+  <h3>Why coverage stops where it does</h3>
+  <ul>
+    <li><strong>LinkedIn can't be queried directly.</strong> Everything here came from public search results that happened to surface a profile. That systematically over-represents founders and under-represents ICs and mid-level leadership.</li>
+    <li><strong>Most enrichment sites were blocked</strong> by the network proxy — TheOrg, Wellfound, RocketReach, Tracxn, Crunchbase, plus nearly every company's own site. Team pages would have closed several of the gaps above.</li>
+    <li><strong>Titles lag.</strong> Aggregator data can be a year stale. Four confirmed departures are listed above; assume there are more I didn't catch.</li>
+  </ul>
+
+  <h3>If you want to go deeper</h3>
+  <p>The single highest-leverage upgrade is <strong>LinkedIn Sales Navigator</strong> (~₹5–6k/month). It would close every "no URL found" above, surface the IC layer that search engines never index, and let you filter by "joined in the last 90 days" — which is the strongest buying signal in this whole exercise. Everything in this document is the free-tier ceiling.</p>
+
+  <div class="callout">
+    <strong class="label">One structural finding to carry into the pitch</strong>
+    <p>Across 30 companies, <strong>only five have a dedicated Head of AI</strong>. In the other 25, the person who would own "does our agent behave correctly" is a founder who is also doing six other jobs. That is not a gap in your prospect list — <strong>it is the reason the product exists</strong>, and it belongs in your opening line.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  SimGym · Design partner prospecting · Compiled 12 Aug 2026 from public sources only. No LinkedIn URL in this document was constructed from a name — every one was observed in a public search result or page. Verify titles before outreach.
+</footer>
+
+</body>
+</html>
